@@ -5,41 +5,67 @@ package com.example.aurora.moviesineedtowatch1;
  */
 
 public class MovieResult {
-    private final String backdropPath;
-    private final String originalTitle;
     private final int id;
-    private final String popularity;
+    private final String imdbID;
+    private final String title;
+    private final String originalTitle;
+    private final String originalLanguage;
+    private final String overview;
     private final String posterPath;
     private final String releaseDate;
-    private final String title;
+    private final String tagline;
+    private final int runtime;
+    private final float voteAverage;
+    private final int voteCount;
 
-    private MovieResult(Builder builder) {
-        backdropPath = builder.backdropPath;
-        originalTitle = builder.originalTitle;
+
+    public MovieResult(Builder builder) {
         id = builder.id;
-        popularity = builder.popularity;
+        imdbID = builder.imdbID;
+        title = builder.title;
+        originalTitle = builder.originalTitle;
+        originalLanguage = builder.originalLanguage;
+        overview = builder.overview;
         posterPath = builder.posterPath;
         releaseDate = builder.releaseDate;
-        title = builder.title;
+        tagline = builder.tagline;
+        runtime = builder.runtime;
+        voteAverage = builder.voteAverage;
+        voteCount = builder.voteCount;
     }
 
 
     public static class Builder {
-        private String backdropPath;
-        private String originalTitle;
         private int id;
-        private String popularity;
+        private String imdbID;
+        private String title;
+        private String originalTitle;
+        private String originalLanguage;
+        private String overview;
         private String posterPath;
         private String releaseDate;
-        private String title;
+        private String tagline;
+        private int runtime;
+        private float voteAverage;
+        private int voteCount;
 
         public Builder(int id, String title) {
             this.id = id;
             this.title = title;
         }
 
-        public Builder setBackdropPath(String backdropPath) {
-            this.backdropPath = backdropPath;
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setImdbID(String imdbID) {
+            this.imdbID = imdbID;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
             return this;
         }
 
@@ -48,13 +74,13 @@ public class MovieResult {
             return this;
         }
 
-        public Builder setId(int id) {
-            this.id = id;
+        public Builder setOriginalLanguage(String originalLanguage) {
+            this.originalLanguage = originalLanguage;
             return this;
         }
 
-        public Builder setPopularity(String popularity) {
-            this.popularity = popularity;
+        public Builder setOverview(String overview) {
+            this.overview = overview;
             return this;
         }
 
@@ -68,10 +94,26 @@ public class MovieResult {
             return this;
         }
 
-        public Builder setTitle(String title) {
-            this.title = title;
+        public Builder setTagline(String tagline) {
+            this.tagline = tagline;
             return this;
         }
+
+        public Builder setRuntime(int runtime) {
+            this.runtime = runtime;
+            return this;
+        }
+
+        public Builder setVoteAverage(float voteAverage) {
+            this.voteAverage = voteAverage;
+            return this;
+        }
+
+        public Builder setVoteCount(int voteCount) {
+            this.voteCount = voteCount;
+            return this;
+        }
+
 
         public MovieResult build() {
             return new MovieResult(this);
@@ -83,20 +125,29 @@ public class MovieResult {
         return new Builder(id, title);
     }
 
-    public String getBackdropPath() {
-        return backdropPath;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public int getId() {
-        return id;
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 
-    public String getPopularity() {
-        return popularity;
+    public String getOverview() {
+        return overview;
     }
 
     public String getPosterPath() {
@@ -107,13 +158,25 @@ public class MovieResult {
         return releaseDate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTagline() {
+        return tagline;
     }
 
-    @Override
-    public String toString() {
-        return getTitle();
+    public int getRuntime() {
+        return runtime;
     }
+
+    public float getVoteAverage() {
+        return voteAverage;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+//    @Override
+//    public String toString() {
+//        return getTitle();
+//    }
 
 }
