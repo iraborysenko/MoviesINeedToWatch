@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch1;
+package com.example.aurora.moviesineedtowatch.tmdb;
 
 /**
  * Created by Android Studio.
@@ -7,7 +7,7 @@ package com.example.aurora.moviesineedtowatch1;
  * Time:
  */
 
-class MovieBuilder {
+public class MovieBuilder {
     private final int id;
     private final String imdbID;
     private final String title;
@@ -37,55 +37,55 @@ class MovieBuilder {
         voteCount = builder.voteCount;
     }
 
-    static Builder newBuilder(int id, String title) {
+    public static Builder newBuilder(int id, String title) {
         return new Builder(id, title);
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    String getImdbID() {
+    public String getImdbID() {
         return imdbID;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    String getOriginalTitle() {
+    public String getOriginalTitle() {
         return originalTitle;
     }
 
-    String getOriginalLanguage() {
+    public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    String getOverview() {
+    public String getOverview() {
         return overview;
     }
 
-    String getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    String getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    String getTagline() {
+    public String getTagline() {
         return tagline;
     }
 
-    int getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
-    float getVoteAverage() {
+    public float getVoteAverage() {
         return voteAverage;
     }
 
-    int getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
     }
 
@@ -113,62 +113,62 @@ class MovieBuilder {
             return this;
         }
 
-        Builder setImdbID(String imdbID) {
+        public Builder setImdbID(String imdbID) {
             this.imdbID = imdbID;
             return this;
         }
 
-        Builder setTitle(String title) {
+        public Builder setTitle(String title) {
             this.title = title;
             return this;
         }
 
-        Builder setOriginalTitle(String originalTitle) {
+        public Builder setOriginalTitle(String originalTitle) {
             this.originalTitle = originalTitle;
             return this;
         }
 
-        Builder setOriginalLanguage(String originalLanguage) {
+        public Builder setOriginalLanguage(String originalLanguage) {
             this.originalLanguage = originalLanguage;
             return this;
         }
 
-        Builder setOverview(String overview) {
+        public Builder setOverview(String overview) {
             this.overview = overview;
             return this;
         }
 
-        Builder setPosterPath(String posterPath) {
+        public Builder setPosterPath(String posterPath) {
             this.posterPath = posterPath;
             return this;
         }
 
-        Builder setReleaseDate(String releaseDate) {
+        public Builder setReleaseDate(String releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }
 
-        Builder setTagline(String tagline) {
+        public Builder setTagline(String tagline) {
             this.tagline = tagline;
             return this;
         }
 
-        Builder setRuntime(int runtime) {
+        public Builder setRuntime(int runtime) {
             this.runtime = runtime;
             return this;
         }
 
-        Builder setVoteAverage(float voteAverage) {
+        public Builder setVoteAverage(float voteAverage) {
             this.voteAverage = voteAverage;
             return this;
         }
 
-        Builder setVoteCount(int voteCount) {
+        public Builder setVoteCount(int voteCount) {
             this.voteCount = voteCount;
             return this;
         }
 
-        MovieBuilder build() {
+        public MovieBuilder build() {
             return new MovieBuilder(this);
         }
 

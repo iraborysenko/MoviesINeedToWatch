@@ -1,13 +1,18 @@
-package com.example.aurora.moviesineedtowatch1;
+package com.example.aurora.moviesineedtowatch.ui;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.tmdb.API;
+import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,25 +27,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import com.example.aurora.moviesineedtowatch1.MovieBuilder.Builder;
-
-import static com.example.aurora.moviesineedtowatch1.Const.EN;
-import static com.example.aurora.moviesineedtowatch1.Const.genres;
-
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by Android Studio.
+ * User: Iryna
+ * Date: 25/01/18
+ * Time: 20:41
+ */
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connMgr != null;
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            new TMDBQueryManager().execute();
+            new TMDBSearchManager().execute();
         } else {
             TextView textView = new TextView(this);
             textView.setText("No network connection.");
@@ -50,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private static class TMDBQueryManager extends AsyncTask {
+    private static class TMDBSearchManager extends AsyncTask {
 
         @Override
-        protected MovieBuilder doInBackground(Object... params) {
+        protected ArrayList<SearchBuilder> doInBackground(Object... params) {
             try {
                 return search();
             } catch (IOException e) {
@@ -66,11 +71,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
-        MovieBuilder search() throws IOException {
+        ArrayList<SearchBuilder> search() throws IOException {
             // Build URL
-            String stringBuilder = "http://api.themoviedb.org/3/movie/585" +
-                    "?api_key=" + API.KEY;
+            String stringBuilder = "http://api.themoviedb.org/3/search/movie" +
+                    "?api_key=" + API.KEY + "&query=day%20after%20tomorrow";
             URL url = new URL(stringBuilder);
+            Log.e(Const.SEE, url.toString());
             Log.e(Const.TAG,url.toString());
 
             InputStream stream = null;
@@ -93,43 +99,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        private MovieBuilder parseResult(String result) {
-
-            Log.e(Const.SEE, genres.get(12)[0]);
-            MovieBuilder movie_data = null;
+        private ArrayList<SearchBuilder> parseResult(String result) {
+            ArrayList<SearchBuilder> results = new ArrayList<>();
             try {
-                JSONObject jsonMovieObject = new JSONObject(result);
-//                JSONArray array = (JSONArray) jsonObject.get("results");
-//                JSONArray arr = jsonObject.getJSONArray("movie_data");
-//                for (int i = 0; i < jsonMovieObject.length(); i++) {
-//                    JSONObject jsonMovieObject = jsonObject.getJSONObject(i);
-                JSONArray items = jsonMovieObject.getJSONArray("genres");
-                Log.e(Const.ERR, Integer.toString(items.length()));
-                Builder movieBuilder = MovieBuilder.newBuilder(
-                        Integer.parseInt(jsonMovieObject.getString("id")),
-                        jsonMovieObject.getString("title"))
-                        .setImdbID(jsonMovieObject.getString("imdb_id"))
-                        .setOriginalTitle(jsonMovieObject.getString("original_title"))
-                        .setOriginalLanguage(jsonMovieObject.getString("original_language"))
-                        .setOverview(jsonMovieObject.getString("overview"))
-                        .setPosterPath(jsonMovieObject.getString("poster_path"))
-                        .setReleaseDate(jsonMovieObject.getString("release_date"))
-                        .setTagline(jsonMovieObject.getString("tagline"))
-                        .setRuntime(Integer.parseInt(jsonMovieObject.getString("runtime")))
-                        .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
-                        .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")));
-                movie_data = movieBuilder.build();
-
-                Log.e(Const.ERR, movieBuilder.build().getTitle());
-                Log.e(Const.ERR, movie_data.getImdbID());
-                Log.e(Const.ERR, movie_data.getOverview());
-
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray array = (JSONArray) jsonObject.get("results");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonMovieObject = array.getJSONObject(i);
+                    SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
+                            Integer.parseInt(jsonMovieObject.getString("id")),
+                            jsonMovieObject.getString("title"))
+                            .setOriginalTitle(jsonMovieObject.getString("original_title"))
+                            .setPosterPath(jsonMovieObject.getString("poster_path"))
+                            .setReleaseDate(jsonMovieObject.getString("release_date"))
+                            .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")));
+                    results.add(searchBuilder.build());
+                    Log.e(Const.SEE, results.get(0).getOriginalTitle());
+                }
             } catch (JSONException e) {
                 System.err.println(e);
-                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
+                Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
-            return movie_data;
+            return results;
         }
+
 
         String stringify(InputStream stream) throws IOException {
             Reader reader = new InputStreamReader(stream, "UTF-8");

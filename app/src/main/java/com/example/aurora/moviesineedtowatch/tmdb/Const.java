@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch1;
+package com.example.aurora.moviesineedtowatch.tmdb;
 
 import java.util.HashMap;
 
@@ -10,29 +10,11 @@ import java.util.HashMap;
  */
 
 public class Const {
-    public final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
-        {
-            put("AU",new String[]{"Australia","Австралия"});
-            put("CA",new String[]{"Canada","Канада"});
-            put("DE",new String[]{"Denmark","Германия"});
-            put("FR",new String[]{"France","Франция"});
-            put("GB",new String[]{"England","Англия"});
-            put("IN",new String[]{"India","Индия"});
-            put("NZ",new String[]{"New Zealand","Новая Зеландия"});
-            put("US",new String[]{"USA","США"});
-        }
-    };
-    final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
-    final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
-    final static String IMAGE_SIZE = "w640/"; //or array?
-    final static String EN = "language=en-US";
-    final static String RU = "language=ru-RU";
-    final static String AMPERSAND = "&";
-    final static String DEBUG = "TMDBQM";
-    final static String TAG = "TAG";
-    final static String ERR = "VALUES";
-    final static String SEE = "LOOK HERE";
-    final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
+    public final static String DEBUG = "TMDBQM";
+    public final static String TAG = "TAG";
+    public final static String ERR = "VALUES";
+    public final static String SEE = "LOOK HERE";
+    public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
         {
             put(28,new String[]{"Action","Боевик"});
             put(12,new String[]{"Adventure","Приключения"});
@@ -74,4 +56,23 @@ public class Const {
             put(10748,new String[]{"Suspense","Неизвестный"});
         }
     };
+    final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
+    final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
+    final static String IMAGE_SIZE = "w640/"; //or array?
+    final static String EN = "language=en-US";
+    final static String RU = "language=ru-RU";
+    final static String AMPERSAND = "&";
+    final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
+        {
+            put("AU",new String[]{"Australia","Австралия"});
+            put("CA",new String[]{"Canada","Канада"});
+            put("DE",new String[]{"Denmark","Германия"});
+            put("FR",new String[]{"France","Франция"});
+            put("GB",new String[]{"England","Англия"});
+            put("IN",new String[]{"India","Индия"});
+            put("NZ",new String[]{"New Zealand","Новая Зеландия"});
+            put("US",new String[]{"USA","США"});
+        }
+    };
+
 }

@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch1;
+package com.example.aurora.moviesineedtowatch;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
