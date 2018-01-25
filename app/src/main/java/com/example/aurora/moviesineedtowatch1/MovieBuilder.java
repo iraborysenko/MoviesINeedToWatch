@@ -4,7 +4,7 @@ package com.example.aurora.moviesineedtowatch1;
  * Created by aurora on 23/01/18.
  */
 
-public class MovieResult {
+public class MovieBuilder {
     private final int id;
     private final String imdbID;
     private final String title;
@@ -19,7 +19,7 @@ public class MovieResult {
     private final int voteCount;
 
 
-    public MovieResult(Builder builder) {
+    public MovieBuilder(Builder builder) {
         id = builder.id;
         imdbID = builder.imdbID;
         title = builder.title;
@@ -34,6 +34,57 @@ public class MovieResult {
         voteCount = builder.voteCount;
     }
 
+    public static Builder newBuilder(int id, String title) {
+        return new Builder(id, title);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public float getVoteAverage() {
+        return voteAverage;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
 
     public static class Builder {
         private int id;
@@ -115,63 +166,10 @@ public class MovieResult {
         }
 
 
-        public MovieResult build() {
-            return new MovieResult(this);
+        public MovieBuilder build() {
+            return new MovieBuilder(this);
         }
 
-    }
-
-    public static Builder newBuilder(int id, String title) {
-        return new Builder(id, title);
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public String getImdbID() {
-        return imdbID;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public int getRuntime() {
-        return runtime;
-    }
-
-    public float getVoteAverage() {
-        return voteAverage;
-    }
-
-    public int getVoteCount() {
-        return voteCount;
     }
 
 //    @Override
