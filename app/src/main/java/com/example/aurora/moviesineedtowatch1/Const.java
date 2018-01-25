@@ -3,11 +3,36 @@ package com.example.aurora.moviesineedtowatch1;
 import java.util.HashMap;
 
 /**
- * Created by aurora on 25/01/18.
+ * Created by Android Studio.
+ * User: Iryna
+ * Date: 25/01/18
+ * Time:
  */
 
 public class Const {
-    public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
+    public final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
+        {
+            put("AU",new String[]{"Australia","Австралия"});
+            put("CA",new String[]{"Canada","Канада"});
+            put("DE",new String[]{"Denmark","Германия"});
+            put("FR",new String[]{"France","Франция"});
+            put("GB",new String[]{"England","Англия"});
+            put("IN",new String[]{"India","Индия"});
+            put("NZ",new String[]{"New Zealand","Новая Зеландия"});
+            put("US",new String[]{"USA","США"});
+        }
+    };
+    final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
+    final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
+    final static String IMAGE_SIZE = "w640/"; //or array?
+    final static String EN = "language=en-US";
+    final static String RU = "language=ru-RU";
+    final static String AMPERSAND = "&";
+    final static String DEBUG = "TMDBQM";
+    final static String TAG = "TAG";
+    final static String ERR = "VALUES";
+    final static String SEE = "LOOK HERE";
+    final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
         {
             put(28,new String[]{"Action","Боевик"});
             put(12,new String[]{"Adventure","Приключения"});
@@ -49,26 +74,4 @@ public class Const {
             put(10748,new String[]{"Suspense","Неизвестный"});
         }
     };
-    public final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
-        {
-            put("AU",new String[]{"Australia","Австралия"});
-            put("CA",new String[]{"Canada","Канада"});
-            put("DE",new String[]{"Denmark","Германия"});
-            put("FR",new String[]{"France","Франция"});
-            put("GB",new String[]{"England","Англия"});
-            put("IN",new String[]{"India","Индия"});
-            put("NZ",new String[]{"New Zealand","Новая Зеландия"});
-            put("US",new String[]{"USA","США"});
-        }
-    };
-    protected final static String DEBUG = "TMDBQM";
-    protected final static String TAG = "TAG";
-    protected final static String ERR = "VALUES";
-    protected final static String SEE = "LOOK HERE";
-    protected final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
-    protected final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
-    protected final static String IMAGE_SIZE = "w640/"; //or array?
-    protected final static String EN = "language=en-US";
-    protected final static String RU = "language=ru-RU";
-    protected final static String AMPERSAND = "&";
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import com.example.aurora.moviesineedtowatch1.MovieBuilder.Builder;
 
+import static com.example.aurora.moviesineedtowatch1.Const.EN;
 import static com.example.aurora.moviesineedtowatch1.Const.genres;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connMgr != null;
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             new TMDBQueryManager().execute();
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class TMDBQueryManager extends AsyncTask {
+    private static class TMDBQueryManager extends AsyncTask {
 
         @Override
         protected MovieBuilder doInBackground(Object... params) {
@@ -64,12 +66,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
-        public MovieBuilder search() throws IOException {
+        MovieBuilder search() throws IOException {
             // Build URL
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("http://api.themoviedb.org/3/movie/585");
-            stringBuilder.append("?api_key=" + API.KEY);
-            URL url = new URL(stringBuilder.toString());
+            String stringBuilder = "http://api.themoviedb.org/3/movie/585" +
+                    "?api_key=" + API.KEY;
+            URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
             InputStream stream = null;
@@ -95,10 +96,9 @@ public class MainActivity extends AppCompatActivity {
         private MovieBuilder parseResult(String result) {
 
             Log.e(Const.SEE, genres.get(12)[0]);
-            String streamAsString = result;
             MovieBuilder movie_data = null;
             try {
-                JSONObject jsonMovieObject = new JSONObject(streamAsString);
+                JSONObject jsonMovieObject = new JSONObject(result);
 //                JSONArray array = (JSONArray) jsonObject.get("results");
 //                JSONArray arr = jsonObject.getJSONArray("movie_data");
 //                for (int i = 0; i < jsonMovieObject.length(); i++) {
@@ -126,14 +126,13 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 System.err.println(e);
-                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + streamAsString);
+                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
             return movie_data;
         }
 
-        public String stringify(InputStream stream) throws IOException {
-            Reader reader = null;
-            reader = new InputStreamReader(stream, "UTF-8");
+        String stringify(InputStream stream) throws IOException {
+            Reader reader = new InputStreamReader(stream, "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(reader);
             return bufferedReader.readLine();
         }

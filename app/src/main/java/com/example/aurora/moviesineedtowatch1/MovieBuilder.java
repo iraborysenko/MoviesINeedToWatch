@@ -1,10 +1,13 @@
 package com.example.aurora.moviesineedtowatch1;
 
 /**
- * Created by aurora on 23/01/18.
+ * Created by Android Studio.
+ * User: Iryna
+ * Date: 23/01/18
+ * Time:
  */
 
-public class MovieBuilder {
+class MovieBuilder {
     private final int id;
     private final String imdbID;
     private final String title;
@@ -19,7 +22,7 @@ public class MovieBuilder {
     private final int voteCount;
 
 
-    public MovieBuilder(Builder builder) {
+    MovieBuilder(Builder builder) {
         id = builder.id;
         imdbID = builder.imdbID;
         title = builder.title;
@@ -34,55 +37,55 @@ public class MovieBuilder {
         voteCount = builder.voteCount;
     }
 
-    public static Builder newBuilder(int id, String title) {
+    static Builder newBuilder(int id, String title) {
         return new Builder(id, title);
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public String getImdbID() {
+    String getImdbID() {
         return imdbID;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public String getOriginalTitle() {
+    String getOriginalTitle() {
         return originalTitle;
     }
 
-    public String getOriginalLanguage() {
+    String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    public String getOverview() {
+    String getOverview() {
         return overview;
     }
 
-    public String getPosterPath() {
+    String getPosterPath() {
         return posterPath;
     }
 
-    public String getReleaseDate() {
+    String getReleaseDate() {
         return releaseDate;
     }
 
-    public String getTagline() {
+    String getTagline() {
         return tagline;
     }
 
-    public int getRuntime() {
+    int getRuntime() {
         return runtime;
     }
 
-    public float getVoteAverage() {
+    float getVoteAverage() {
         return voteAverage;
     }
 
-    public int getVoteCount() {
+    int getVoteCount() {
         return voteCount;
     }
 
@@ -100,7 +103,7 @@ public class MovieBuilder {
         private float voteAverage;
         private int voteCount;
 
-        public Builder(int id, String title) {
+        Builder(int id, String title) {
             this.id = id;
             this.title = title;
         }
@@ -110,63 +113,62 @@ public class MovieBuilder {
             return this;
         }
 
-        public Builder setImdbID(String imdbID) {
+        Builder setImdbID(String imdbID) {
             this.imdbID = imdbID;
             return this;
         }
 
-        public Builder setTitle(String title) {
+        Builder setTitle(String title) {
             this.title = title;
             return this;
         }
 
-        public Builder setOriginalTitle(String originalTitle) {
+        Builder setOriginalTitle(String originalTitle) {
             this.originalTitle = originalTitle;
             return this;
         }
 
-        public Builder setOriginalLanguage(String originalLanguage) {
+        Builder setOriginalLanguage(String originalLanguage) {
             this.originalLanguage = originalLanguage;
             return this;
         }
 
-        public Builder setOverview(String overview) {
+        Builder setOverview(String overview) {
             this.overview = overview;
             return this;
         }
 
-        public Builder setPosterPath(String posterPath) {
+        Builder setPosterPath(String posterPath) {
             this.posterPath = posterPath;
             return this;
         }
 
-        public Builder setReleaseDate(String releaseDate) {
+        Builder setReleaseDate(String releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }
 
-        public Builder setTagline(String tagline) {
+        Builder setTagline(String tagline) {
             this.tagline = tagline;
             return this;
         }
 
-        public Builder setRuntime(int runtime) {
+        Builder setRuntime(int runtime) {
             this.runtime = runtime;
             return this;
         }
 
-        public Builder setVoteAverage(float voteAverage) {
+        Builder setVoteAverage(float voteAverage) {
             this.voteAverage = voteAverage;
             return this;
         }
 
-        public Builder setVoteCount(int voteCount) {
+        Builder setVoteCount(int voteCount) {
             this.voteCount = voteCount;
             return this;
         }
 
-
-        public MovieBuilder build() {
+        MovieBuilder build() {
             return new MovieBuilder(this);
         }
 
