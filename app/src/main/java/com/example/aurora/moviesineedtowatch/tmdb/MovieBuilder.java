@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
+import java.util.ArrayList;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -20,6 +22,9 @@ public class MovieBuilder {
     private final int runtime;
     private final float voteAverage;
     private final int voteCount;
+    private final ArrayList<Integer> genresIds;
+    private final ArrayList<String> comps;
+    private final ArrayList<String> countrs;
 
 
     MovieBuilder(Builder builder) {
@@ -35,6 +40,9 @@ public class MovieBuilder {
         runtime = builder.runtime;
         voteAverage = builder.voteAverage;
         voteCount = builder.voteCount;
+        genresIds = builder.genresIds;
+        comps = builder.comps;
+        countrs = builder.countrs;
     }
 
     public static Builder newBuilder(int id, String title) {
@@ -89,6 +97,12 @@ public class MovieBuilder {
         return voteCount;
     }
 
+    public ArrayList<Integer> getGenresIds() {return genresIds; }
+
+    public ArrayList<String> getComps() {return comps; }
+
+    public ArrayList<String> getCountrs() {return countrs; }
+
     public static class Builder {
         private int id;
         private String imdbID;
@@ -102,6 +116,9 @@ public class MovieBuilder {
         private int runtime;
         private float voteAverage;
         private int voteCount;
+        private ArrayList<Integer> genresIds;
+        private ArrayList<String> comps;
+        private ArrayList<String> countrs;
 
         Builder(int id, String title) {
             this.id = id;
@@ -165,6 +182,21 @@ public class MovieBuilder {
 
         public Builder setVoteCount(int voteCount) {
             this.voteCount = voteCount;
+            return this;
+        }
+
+        public Builder setGenresIds(ArrayList<Integer> genresIds) {
+            this.genresIds = genresIds;
+            return this;
+        }
+
+        public Builder setComps(ArrayList<String> comps) {
+            this.comps = comps;
+            return this;
+        }
+
+        public Builder setCountrs(ArrayList<String> countrs) {
+            this.countrs = countrs;
             return this;
         }
 

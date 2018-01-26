@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
+import java.util.ArrayList;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -14,6 +16,7 @@ public class SearchBuilder {
     private final String posterPath;
     private final String releaseDate;
     private final float voteAverage;
+    private final ArrayList<Integer> genreIds;
 
     SearchBuilder(Builder builder) {
         id = builder.id;
@@ -22,6 +25,7 @@ public class SearchBuilder {
         posterPath = builder.posterPath;
         releaseDate = builder.releaseDate;
         voteAverage = builder.voteAverage;
+        genreIds = builder.genreIds;
     }
 
     public static Builder newBuilder(int id, String title) {
@@ -52,6 +56,8 @@ public class SearchBuilder {
         return voteAverage;
     }
 
+    public ArrayList<Integer> getGenreIds() { return genreIds; }
+
     public static class Builder {
         private int id;
         private String title;
@@ -59,6 +65,7 @@ public class SearchBuilder {
         private String posterPath;
         private String releaseDate;
         private float voteAverage;
+        private ArrayList<Integer> genreIds;
 
         Builder(int id, String title) {
             this.id = id;
@@ -92,6 +99,11 @@ public class SearchBuilder {
 
         public Builder setVoteAverage(float voteAverage) {
             this.voteAverage = voteAverage;
+            return this;
+        }
+
+        public Builder setGenreIds(ArrayList<Integer> genreIds) {
+            this.genreIds = genreIds;
             return this;
         }
 

@@ -101,25 +101,36 @@ public class SearchActivity extends AppCompatActivity {
 
         private ArrayList<SearchBuilder> parseResult(String result) {
             ArrayList<SearchBuilder> results = new ArrayList<>();
+
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray array = (JSONArray) jsonObject.get("results");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonMovieObject = array.getJSONObject(i);
+
+                    JSONArray gjIds = jsonMovieObject.getJSONArray("genre_ids");
+                    ArrayList<Integer> gIds = new ArrayList<>();
+                    for (int j=0; j<gjIds.length(); j++) {
+                        gIds.add( gjIds.getInt(j) );
+                    }
+
                     SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
                             Integer.parseInt(jsonMovieObject.getString("id")),
                             jsonMovieObject.getString("title"))
                             .setOriginalTitle(jsonMovieObject.getString("original_title"))
                             .setPosterPath(jsonMovieObject.getString("poster_path"))
                             .setReleaseDate(jsonMovieObject.getString("release_date"))
-                            .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")));
+                            .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
+                            .setGenreIds(gIds);
                     results.add(searchBuilder.build());
-                    Log.e(Const.SEE, results.get(0).getOriginalTitle());
                 }
             } catch (JSONException e) {
                 System.err.println(e);
                 Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
+
+            Log.e(Const.SEE, results.get(1).getOriginalTitle());
+            Log.e(Const.SEE, results.get(3).getGenreIds().toString());
             return results;
         }
 

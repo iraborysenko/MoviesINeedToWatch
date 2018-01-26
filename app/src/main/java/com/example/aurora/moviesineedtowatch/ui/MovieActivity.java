@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 
@@ -105,12 +106,33 @@ public class MovieActivity extends AppCompatActivity {
             MovieBuilder movie_data = null;
             try {
                 JSONObject jsonMovieObject = new JSONObject(result);
-//                JSONArray array = (JSONArray) jsonObject.get("results");
-//                JSONArray arr = jsonObject.getJSONArray("movie_data");
-//                for (int i = 0; i < jsonMovieObject.length(); i++) {
-//                    JSONObject jsonMovieObject = jsonObject.getJSONObject(i);
-                JSONArray items = jsonMovieObject.getJSONArray("genres");
-                Log.e(Const.ERR, Integer.toString(items.length()));
+
+                //parsing genres ids
+                JSONArray ids = jsonMovieObject.getJSONArray("genres");
+                ArrayList<Integer> arrGenres = new ArrayList<>();
+                for (int i = 0; i < ids.length(); i++) {
+                    JSONObject jObject = ids.getJSONObject(i);
+                    arrGenres.add(Integer.parseInt(jObject.getString("id")));
+                    Log.e(Const.ERR, jObject.getString("id"));
+                }
+
+                //parsing production companies
+                JSONArray companies = jsonMovieObject.getJSONArray("production_companies");
+                ArrayList<String> arrCompanies = new ArrayList<>();
+                for (int i = 0; i < companies.length(); i++) {
+                    JSONObject jObject = companies.getJSONObject(i);
+                    arrCompanies.add(jObject.getString("name"));
+                }
+
+                //parsing production countries
+                JSONArray countries = jsonMovieObject.getJSONArray("production_countries");
+                ArrayList<String> arrCountries = new ArrayList<>();
+                for (int i = 0; i < countries.length(); i++) {
+                    JSONObject jObject = countries.getJSONObject(i);
+                    arrCountries.add(jObject.getString("iso_3166_1"));
+                }
+                Log.e(Const.SEE, arrCountries.toString());
+
                 MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
                         Integer.parseInt(jsonMovieObject.getString("id")),
                         jsonMovieObject.getString("title"))
@@ -123,12 +145,13 @@ public class MovieActivity extends AppCompatActivity {
                         .setTagline(jsonMovieObject.getString("tagline"))
                         .setRuntime(Integer.parseInt(jsonMovieObject.getString("runtime")))
                         .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
-                        .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")));
+                        .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")))
+                        .setGenresIds(arrGenres)
+                        .setComps(arrCompanies)
+                        .setCountrs(arrCountries);
                 movie_data = movieBuilder.build();
 
-                Log.e(Const.ERR, movieBuilder.build().getTitle());
-                Log.e(Const.ERR, movie_data.getImdbID());
-                Log.e(Const.ERR, movie_data.getOverview());
+                Log.e(Const.ERR, movie_data.getGenresIds().toString());
 
             } catch (JSONException e) {
                 System.err.println(e);
