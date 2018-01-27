@@ -58,7 +58,7 @@ public class Const {
     };
     final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
     final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
-    final static String IMAGE_SIZE = "w640/"; //or array?
+    final static String[] IMAGE_SIZE = {"w640/", "w92/", "w154/", "w185/", "w342/", "w500/", "w780/", "original/"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
     final static String EN = "language=en-US";
     final static String RU = "language=ru-RU";
     final static String AMPERSAND = "&";
