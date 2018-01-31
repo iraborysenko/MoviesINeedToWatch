@@ -2,4 +2,5 @@
     <string name="app_name">MoviesINeedToWatch1</string>
     <string name="movies_i_need_to_watch">Movies I Need To Watch</string>
     <string name="api">API</string>
+    <string name="title">Title</string>
 </resources>

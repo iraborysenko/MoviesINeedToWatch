@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -41,17 +42,36 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
  */
 public class MovieActivity extends AppCompatActivity {
 
+    TextView mTitle;
+    TextView mOTitle;
+    TextView mIMDb;
+    TextView mTMDb;
+    TextView mTagline;
+    TextView mYear;
+    TextView mRuntime;
+    TextView mGenres;
+    TextView mOverview;
+    TextView mCountries;
+    TextView mCompanies;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-//        ImageView iv= (ImageView)findViewById(R.id.imageView);
-        new DownloadImageTask((ImageView) findViewById(R.id.imageView))
-                .execute("https://image.tmdb.org/t/p/w92/6DRFdlNZpAaEt7eejsbAlJGgaM7.jpg");
 
-//        iv.setImageResource(R.drawable.img);
+        mTitle = findViewById(R.id.title);
+        mOTitle = findViewById(R.id.otitle);
+        mIMDb = findViewById(R.id.imdb);
+        mTMDb = findViewById(R.id.tmdb);
+        mTagline = findViewById(R.id.tagline);
+        mYear = findViewById(R.id.year);
+        mRuntime = findViewById(R.id.runtime);
+        mGenres = findViewById(R.id.genres);
+        mOverview = findViewById(R.id.overview);
+        mCountries = findViewById(R.id.countries);
+        mCompanies = findViewById(R.id.companies);
 
-
+        //CONNECTION PART
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connMgr != null;
@@ -64,35 +84,10 @@ public class MovieActivity extends AppCompatActivity {
             setContentView(textView);
             Log.e(Const.ERR, "stepErr");
         }
-
+        //END of CONNECTION PART
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap img = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                img = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return img;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-
-    private static class TMDBMovieManager extends AsyncTask {
+    private class TMDBMovieManager extends AsyncTask {
 
         @Override
         protected MovieBuilder doInBackground(Object... params) {
@@ -105,6 +100,11 @@ public class MovieActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Object result) {
+            MovieBuilder build = (MovieBuilder) result;
+            mTitle.setText(build.getTitle());
+            new DownloadImageTask((ImageView) findViewById(R.id.poster))
+                    .execute("https://image.tmdb.org/t/p/w342/6DRFdlNZpAaEt7eejsbAlJGgaM7.jpg");
+
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
@@ -201,5 +201,30 @@ public class MovieActivity extends AppCompatActivity {
             return bufferedReader.readLine();
         }
 
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap img = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                img = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return img;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }
