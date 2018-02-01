@@ -31,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.countries;
@@ -111,21 +112,35 @@ public class MovieActivity extends AppCompatActivity {
             mTagline.setText(movie.getTagline());
             mRuntime.setText(String.format("%d min", movie.getRuntime()));
             mYear.setText(movie.getReleaseDate().subSequence(0, 4));
-
             String genresString = "";
-            for (Integer genreId: movie.getGenresIds()) {
-                genresString += genres.get(genreId)[0] + "\n";
+            if(movie.getGenresIds().isEmpty())
+            {
+                genresString = "not defined";
+            } else {
+                for (Integer genreId: movie.getGenresIds()) {
+                    genresString += genres.get(genreId)[0] + "\n";
+                }
             }
             mGenres.setText(String.valueOf(genresString));
             mOverview.setText(movie.getOverview());
             String countriesString = "";
-            for (String countryId: movie.getCountrs()) {
-                countriesString += countries.get(countryId)[0] + "\n";
+            if(movie.getCountrs().isEmpty() )
+            {
+                countriesString = "not defined";
+            } else {
+                for (String countryId : movie.getCountrs()) {
+                    countriesString += countries.get(countryId)[0] + "\n";
+                }
             }
             mCountries.setText(countriesString);
             String companiesString = "";
-            for (String company: movie.getComps()) {
-                companiesString += company + "\n";
+            if(movie.getComps().isEmpty() )
+            {
+                companiesString = "not defined";
+            } else {
+                for (String company : movie.getComps()) {
+                    companiesString += company + "\n";
+                }
             }
             mCompanies.setText(companiesString);
             String imagePath = Const.IMAGE_PATH + Const.IMAGE_SIZE[3] + movie.getPosterPath();
