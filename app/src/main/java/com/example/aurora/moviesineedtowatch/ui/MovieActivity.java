@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,7 +33,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.countries;
 
 /**
  * Created by Android Studio.
@@ -98,19 +99,45 @@ public class MovieActivity extends AppCompatActivity {
             }
         }
 
+        @SuppressLint({"DefaultLocale", "SetTextI18n"})
         @Override
         protected void onPostExecute(Object result) {
-            MovieBuilder build = (MovieBuilder) result;
-            mTitle.setText(build.getTitle());
+            MovieBuilder movie = (MovieBuilder) result;
+
+            mTitle.setText(movie.getTitle());
+            mOTitle.setText(String.format("%s %s", movie.getOriginalTitle(), movie.getOriginalLanguage()));
+            mTMDb.setText(Float.toString(movie.getVoteAverage()));
+            mTagline.setText(movie.getTagline());
+            mRuntime.setText(String.format("%d min", movie.getRuntime()));
+            mYear.setText(movie.getReleaseDate().subSequence(0, 4));
+
+            String genresString = "";
+            for (Integer genreId: movie.getGenresIds()) {
+                genresString += genres.get(genreId)[0] + "\n";
+            }
+            mGenres.setText(String.valueOf(genresString));
+            mOverview.setText(movie.getOverview());
+            String countriesString = "";
+            for (String countryId: movie.getCountrs()) {
+                countriesString += countries.get(countryId)[0] + "\n";
+            }
+            mCountries.setText(countriesString);
+            String companiesString = "";
+            for (String company: movie.getComps()) {
+                companiesString += company + "\n";
+            }
+            mCompanies.setText(companiesString);
+            String imagePath = Const.IMAGE_PATH + Const.IMAGE_SIZE[3] + movie.getPosterPath();
+            Log.e(Const.SEE, imagePath);
             new DownloadImageTask((ImageView) findViewById(R.id.poster))
-                    .execute("https://image.tmdb.org/t/p/w342/6DRFdlNZpAaEt7eejsbAlJGgaM7.jpg");
+                    .execute(imagePath);
 
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
         MovieBuilder search() throws IOException {
             // Build URL
-            String stringBuilder = "http://api.themoviedb.org/3/movie/585" +
+            String stringBuilder = "http://api.themoviedb.org/3/movie/1268" +
                     "?api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
@@ -136,8 +163,6 @@ public class MovieActivity extends AppCompatActivity {
         }
 
         private MovieBuilder parseResult(String result) {
-
-            Log.e(Const.SEE, genres.get(12)[0]);
             MovieBuilder movie_data = null;
             try {
                 JSONObject jsonMovieObject = new JSONObject(result);

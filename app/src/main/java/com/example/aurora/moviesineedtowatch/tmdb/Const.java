@@ -56,13 +56,13 @@ public class Const {
             put(10748,new String[]{"Suspense","Неизвестный"});
         }
     };
-    final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
-    final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
-    final static String[] IMAGE_SIZE = {"w92/", "w154/", "w185/", "w342/", "w500/", "w780/", "original/"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
-    final static String EN = "language=en-US";
-    final static String RU = "language=ru-RU";
-    final static String AMPERSAND = "&";
-    final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
+    public final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
+    public final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
+    public final static String[] IMAGE_SIZE = {"w92", "w154", "w185", "w342", "w500", "w780", "original"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
+    public final static String EN = "language=en-US";
+    public final static String RU = "language=ru-RU";
+    public final static String AMPERSAND = "&";
+    public final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
         {
             put("AU",new String[]{"Australia","Австралия"});
             put("CA",new String[]{"Canada","Канада"});

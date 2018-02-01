@@ -22,25 +22,23 @@
 
     <ImageView
         android:id="@+id/poster"
-        android:layout_width="157dp"
-        android:layout_height="221dp"
-        android:layout_marginBottom="27dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="34dp"
+        android:layout_width="0dp"
+        android:layout_height="214dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="7dp"
         android:contentDescription="TODO"
-        app:layout_constraintBottom_toTopOf="@+id/overview"
-        app:layout_constraintEnd_toStartOf="@+id/genres"
+        app:layout_constraintBottom_toBottomOf="@+id/tagline"
+        app:layout_constraintEnd_toStartOf="@+id/runtime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/otitle"
+        app:layout_constraintTop_toBottomOf="@+id/tagline"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/imdb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="13dp"
         android:background="#FFE135"
         android:padding="10dp"
         android:radius="15dp"
@@ -48,81 +46,85 @@
         android:textColor="       #1B1B1B"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/tmdb"
+        app:layout_constraintStart_toEndOf="@+id/poster"
         app:layout_constraintTop_toTopOf="@+id/poster" />
 
     <TextView
         android:id="@+id/tmdb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="27dp"
         android:background="#0E7C61"
         android:padding="10dp"
         android:text="tmdb"
         android:textColor="#F7E7CE"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/imdb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tagline" />
+        app:layout_constraintBottom_toTopOf="@+id/tagline"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tagline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="111dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="112dp"
         android:text="Tagline"
-        app:layout_constraintBottom_toTopOf="@+id/year"
-        app:layout_constraintEnd_toStartOf="@+id/tmdb"
-        app:layout_constraintStart_toEndOf="@+id/genres" />
+        app:layout_constraintBottom_toTopOf="@+id/genres"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/poster"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/runtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="56dp"
         android:text="runtime"
-        app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagline" />
+        app:layout_constraintBottom_toBottomOf="@+id/poster"
+        app:layout_constraintEnd_toStartOf="@+id/year"
+        app:layout_constraintStart_toEndOf="@+id/poster" />
 
     <TextView
         android:id="@+id/year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="31dp"
-        android:layout_marginStart="21dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="68dp"
         android:text="year"
         app:layout_constraintBottom_toTopOf="@+id/genres"
-        app:layout_constraintStart_toEndOf="@+id/tagline" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/runtime" />
 
     <TextView
         android:id="@+id/genres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
+        android:layout_marginBottom="21dp"
+        android:layout_marginStart="2dp"
         android:text="genres"
-        app:layout_constraintBottom_toBottomOf="@+id/poster"
-        app:layout_constraintEnd_toStartOf="@+id/tagline"
-        app:layout_constraintStart_toEndOf="@+id/poster" />
+        app:layout_constraintBottom_toTopOf="@+id/overview"
+        app:layout_constraintStart_toEndOf="@+id/runtime" />
 
     <TextView
         android:id="@+id/overview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:layout_marginStart="31dp"
+        android:layout_width="328dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="122dp"
         android:text="Overview"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/countries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="47dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginStart="16dp"
         android:text="Countries"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -131,8 +133,8 @@
         android:id="@+id/companies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="47dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="76dp"
         android:text="Companies"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -141,10 +143,10 @@
         android:id="@+id/otitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="19dp"
         android:text="original title"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintBottom_toTopOf="@+id/poster"
+        app:layout_constraintStart_toStartOf="@+id/title" />
 
 </android.support.constraint.ConstraintLayout>
