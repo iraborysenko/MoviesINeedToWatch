@@ -19,6 +19,13 @@ public class Const {
     public final static Locale enLocale = Locale.ENGLISH;
     public final static Locale ruLocale =  new Locale("ru");
 
+    public final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
+    public final static String IMDb_MOVIE = "http://www.imdb.com/title/";
+    public final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
+    public final static String[] IMAGE_SIZE = {"w92", "w154", "w185", "w342", "w500", "w780", "original"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
+    public final static String EN = "?language=en-US&";
+    public final static String RU = "?language=ru-RU&";
+    public final static String Q = "?";
 
     public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
         {
@@ -62,11 +69,4 @@ public class Const {
             put(10748,new String[]{"Suspense","Неизвестный"});
         }
     };
-    public final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
-    public final static String IMAGE_PATH = "https://image.tmdb.org/t/p/";
-    public final static String[] IMAGE_SIZE = {"w92", "w154", "w185", "w342", "w500", "w780", "original"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
-    public final static String EN = "language=en-US";
-    public final static String RU = "language=ru-RU";
-    public final static String AMPERSAND = "&";
-
 }

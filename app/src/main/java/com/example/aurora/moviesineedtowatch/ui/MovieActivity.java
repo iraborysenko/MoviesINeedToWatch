@@ -21,6 +21,9 @@ import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +35,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.Q;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
 
@@ -143,18 +153,18 @@ public class MovieActivity extends AppCompatActivity {
                 }
             }
             mCompanies.setText(companiesString);
-            String imagePath = Const.IMAGE_PATH + Const.IMAGE_SIZE[3] + movie.getPosterPath();
+            String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + movie.getPosterPath();
             Log.e(Const.SEE, imagePath);
             new DownloadImageTask((ImageView) findViewById(R.id.poster))
                     .execute(imagePath);
-
+            new IMDbrating(mIMDb).execute(movie.getImdbID());
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
         MovieBuilder search() throws IOException {
-            // Build URL
-            String stringBuilder = "http://api.themoviedb.org/3/movie/678?language=ru-RU&" +
-                    "api_key=" + API.KEY;
+
+//            String stringBuilder = TMDB_MOVIE + "1268" + Q + "api_key=" + API.KEY;
+            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
@@ -261,6 +271,31 @@ public class MovieActivity extends AppCompatActivity {
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+        }
+    }
+
+    private class IMDbrating extends AsyncTask<String, Void, String>{
+        TextView mIMDb;
+
+        IMDbrating(TextView mIMDb) {
+            this.mIMDb = mIMDb;
+        }
+
+        protected String doInBackground(String... urls) {
+            String imdbId = urls[0];
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(IMDb_MOVIE + imdbId).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Element rating = doc.select("span[itemprop = ratingValue]").first();
+            return rating.ownText();
+        }
+
+        protected void onPostExecute(String result) {
+            mIMDb.setText(result);
+            Log.e(Const.DEBUG, "IMDb onPostExecute");
         }
     }
 }
