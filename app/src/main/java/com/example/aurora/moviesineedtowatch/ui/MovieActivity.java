@@ -28,13 +28,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Locale;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.countries;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
 
 /**
  * Created by Android Studio.
@@ -124,12 +123,13 @@ public class MovieActivity extends AppCompatActivity {
             mGenres.setText(String.valueOf(genresString));
             mOverview.setText(movie.getOverview());
             String countriesString = "";
-            if(movie.getCountrs().isEmpty() )
+            if(movie.getCountrs().isEmpty())
             {
                 countriesString = "not defined";
             } else {
                 for (String countryId : movie.getCountrs()) {
-                    countriesString += countries.get(countryId)[0] + "\n";
+                    Locale obj = new Locale("", countryId);
+                    countriesString += obj.getDisplayCountry(ruLocale) + "\n";
                 }
             }
             mCountries.setText(countriesString);
@@ -153,8 +153,8 @@ public class MovieActivity extends AppCompatActivity {
 
         MovieBuilder search() throws IOException {
             // Build URL
-            String stringBuilder = "http://api.themoviedb.org/3/movie/1268" +
-                    "?api_key=" + API.KEY;
+            String stringBuilder = "http://api.themoviedb.org/3/movie/678?language=ru-RU&" +
+                    "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
@@ -189,7 +189,6 @@ public class MovieActivity extends AppCompatActivity {
                 for (int i = 0; i < ids.length(); i++) {
                     JSONObject jObject = ids.getJSONObject(i);
                     arrGenres.add(Integer.parseInt(jObject.getString("id")));
-                    Log.e(Const.ERR, jObject.getString("id"));
                 }
 
                 //parsing production companies
@@ -207,7 +206,6 @@ public class MovieActivity extends AppCompatActivity {
                     JSONObject jObject = countries.getJSONObject(i);
                     arrCountries.add(jObject.getString("iso_3166_1"));
                 }
-                Log.e(Const.SEE, arrCountries.toString());
 
                 MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
                         Integer.parseInt(jsonMovieObject.getString("id")),
@@ -226,9 +224,6 @@ public class MovieActivity extends AppCompatActivity {
                         .setComps(arrCompanies)
                         .setCountrs(arrCountries);
                 movie_data = movieBuilder.build();
-
-                Log.e(Const.ERR, movie_data.getGenresIds().toString());
-
             } catch (JSONException e) {
                 System.err.println(e);
                 Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);

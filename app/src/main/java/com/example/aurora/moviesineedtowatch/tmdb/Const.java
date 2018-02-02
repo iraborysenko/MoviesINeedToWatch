@@ -1,6 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by Android Studio.
@@ -14,6 +15,11 @@ public class Const {
     public final static String TAG = "TAG";
     public final static String ERR = "VALUES";
     public final static String SEE = "LOOK HERE";
+
+    public final static Locale enLocale = Locale.ENGLISH;
+    public final static Locale ruLocale =  new Locale("ru");
+
+
     public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
         {
             put(28,new String[]{"Action","Боевик"});
@@ -62,17 +68,5 @@ public class Const {
     public final static String EN = "language=en-US";
     public final static String RU = "language=ru-RU";
     public final static String AMPERSAND = "&";
-    public final static HashMap<String, String[]> countries = new HashMap<String, String[]>() {
-        {
-            put("AU",new String[]{"Australia","Австралия"});
-            put("CA",new String[]{"Canada","Канада"});
-            put("DE",new String[]{"Denmark","Германия"});
-            put("FR",new String[]{"France","Франция"});
-            put("GB",new String[]{"England","Англия"});
-            put("IN",new String[]{"India","Индия"});
-            put("NZ",new String[]{"New Zealand","Новая Зеландия"});
-            put("US",new String[]{"USA","США"});
-        }
-    };
 
 }
