@@ -1,6 +1,8 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -8,7 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,8 +32,13 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_SEARCH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 
 /**
  * Created by Android Studio.
@@ -47,71 +54,6 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_search);
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.tlMarksTable);
-
-        List<String> competitoinsIDs = new LinkedList<String>();
-        List<String> marks = new LinkedList<String>();
-        List<String> numOfQuestions = new LinkedList<String>();
-
-
-// adding static values to test the layout. use your dynamic data here
-        competitoinsIDs.add("123");
-        competitoinsIDs.add("124");
-        competitoinsIDs.add("125");
-
-        marks.add("56");
-        marks.add("57");
-        marks.add("58");
-
-        numOfQuestions.add("10");
-        numOfQuestions.add("11");
-        numOfQuestions.add("12");
-
-        TableRow tableRows[] = new TableRow[competitoinsIDs.size()];
-        for (int i = 0; i < tableRows.length; i++) {
-
-            tableRows[i] = new TableRow(this);
-            tableRows[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            tableRows[i].setWeightSum(2.0f);
-            tableRows[i].setPadding(5, 5, 5, 5);
-
-            TextView text = new TextView(this);
-            text.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                    android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-            text.setText(competitoinsIDs.get(i));
-            tableRows[i].addView(text);
-
-            text = new TextView(this);
-            text.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                    android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-            text.setText(marks.get(i));
-            tableRows[i].addView(text);
-
-            text = new TextView(this);
-            text.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                    android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-            text.setText(numOfQuestions.get(i));
-            tableRows[i].addView(text);
-
-            tableLayout.addView(tableRows[i]);
-
-
-//        for (int i=0; i<4;i++) {
-//            LinearLayout linearLayout = new LinearLayout(this);
-//            TextView ProgrammaticallyTextView = new TextView(this);
-//            ProgrammaticallyTextView.setText(" TextView Programmatically Example." + i);
-//            ProgrammaticallyTextView.setTextSize(22);
-//            ProgrammaticallyTextView.setPadding(20, 300, 20, 100);
-//
-//            linearLayout.addView(ProgrammaticallyTextView);
-//
-//            this.setContentView(linearLayout, new LinearLayout.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//
-//        }
-
-
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
             assert connMgr != null;
@@ -124,8 +66,6 @@ public class SearchActivity extends AppCompatActivity {
                 setContentView(textView);
                 Log.e(Const.ERR, "stepErr");
             }
-
-        }
     }
 
         class TMDBSearchManager extends AsyncTask {
@@ -141,13 +81,88 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object result) {
+
+                ArrayList<SearchBuilder> search = (ArrayList<SearchBuilder>) result;
+                TableLayout mTable = findViewById(R.id.tlMarksTable);
+
+                TableRow tableRows[] = new TableRow[search.size()];
+                for (int i = 0; i < search.size() - 1; i++) {
+
+                    tableRows[i] = new TableRow(SearchActivity.this);
+                    tableRows[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    tableRows[i].setWeightSum(2.0f);
+                    tableRows[i].setPadding(5, 5, 5, 5);
+
+                    //title
+                    TextView mTitle = new TextView(SearchActivity.this);
+                    mTitle.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+                    mTitle.setText(search.get(i).getTitle());
+                    tableRows[i].addView(mTitle);
+
+                    //original title
+                    TextView mOTitle = new TextView(SearchActivity.this);
+                    mOTitle.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+                    mOTitle.setText(search.get(i).getOriginalTitle());
+                    tableRows[i].addView(mOTitle);
+
+                    //get genres
+                    String genresString = "";
+                    if(search.get(i).getGenreIds().isEmpty())
+                    {
+                        genresString = "not defined";
+                    } else {
+                        for (Integer genreId: search.get(i).getGenreIds()) {
+                            genresString += genres.get(genreId)[0] + "\n";
+                        }
+                    }
+                    TextView mGenres = new TextView(SearchActivity.this);
+                    mGenres.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+                    mGenres.setText(String.valueOf(genresString));
+                    tableRows[i].addView(mGenres);
+
+                    //get year
+                    TextView mYear = new TextView(SearchActivity.this);
+                    mYear.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+                    mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                    tableRows[i].addView(mYear);
+
+                    //get TMDb rating
+                    TextView mTMDb = new TextView(SearchActivity.this);
+                    mTMDb.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+                    mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
+                    tableRows[i].addView(mTMDb);
+
+                    // get poster
+                    ImageView mPoster = new ImageView(SearchActivity.this);
+                    mPoster.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
+                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+
+                    String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
+                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
+
+                    try {
+                        mPoster.setImageBitmap(r.get());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    tableRows[i].addView(mPoster);
+
+                    mTable.addView(tableRows[i]);
+                }
                 Log.e(Const.DEBUG, "we're on the onPostExecute");
             }
 
             ArrayList<SearchBuilder> search() throws IOException {
                 // Build URL
-                String stringBuilder = "http://api.themoviedb.org/3/search/movie" +
-                        "?api_key=" + API.KEY + "&query=day%20after%20tomorrow";
+                String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "day%20after%20tomorrow";
                 URL url = new URL(stringBuilder);
                 Log.e(Const.SEE, url.toString());
                 Log.e(Const.TAG,url.toString());
@@ -202,17 +217,37 @@ public class SearchActivity extends AppCompatActivity {
                     Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
                 }
 
-                Log.e(Const.SEE, results.get(1).getOriginalTitle());
+                Log.e(Const.SEE, results.get(1).getTitle());
                 Log.e(Const.SEE, results.get(3).getGenreIds().toString());
                 return results;
             }
-
 
             String stringify(InputStream stream) throws IOException {
                 Reader reader = new InputStreamReader(stream, "UTF-8");
                 BufferedReader bufferedReader = new BufferedReader(reader);
                 return bufferedReader.readLine();
             }
+        }
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        DownloadImageTask() {
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap img = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                img = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return img;
+        }
+
+        protected void onPostExecute(Bitmap result) {
         }
     }
+}
