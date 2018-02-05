@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,10 +10,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.Gravity;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.aurora.moviesineedtowatch.R;
@@ -54,180 +55,198 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_search);
 
-            ConnectivityManager connMgr = (ConnectivityManager)
-                    getSystemService(Context.CONNECTIVITY_SERVICE);
-            assert connMgr != null;
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
-                new TMDBSearchManager().execute();
-            } else {
-                TextView textView = new TextView(this);
-                textView.setText("No network connection.");
-                setContentView(textView);
-                Log.e(Const.ERR, "stepErr");
-            }
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connMgr != null;
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new TMDBSearchManager().execute();
+        } else {
+            TextView textView = new TextView(this);
+            textView.setText("No network connection.");
+            setContentView(textView);
+            Log.e(Const.ERR, "stepErr");
+        }
     }
 
-        class TMDBSearchManager extends AsyncTask {
+    class TMDBSearchManager extends AsyncTask {
 
-            @Override
-            protected ArrayList<SearchBuilder> doInBackground(Object... params) {
-                try {
-                    return search();
-                } catch (IOException e) {
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Object result) {
-
-                ArrayList<SearchBuilder> search = (ArrayList<SearchBuilder>) result;
-                TableLayout mTable = findViewById(R.id.tlMarksTable);
-
-                TableRow tableRows[] = new TableRow[search.size()];
-                for (int i = 0; i < search.size() - 1; i++) {
-
-                    tableRows[i] = new TableRow(SearchActivity.this);
-                    tableRows[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT));
-                    tableRows[i].setWeightSum(2.0f);
-                    tableRows[i].setPadding(5, 5, 5, 5);
-
-                    //title
-                    TextView mTitle = new TextView(SearchActivity.this);
-                    mTitle.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-                    mTitle.setText(search.get(i).getTitle());
-                    tableRows[i].addView(mTitle);
-
-                    //original title
-                    TextView mOTitle = new TextView(SearchActivity.this);
-                    mOTitle.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-                    mOTitle.setText(search.get(i).getOriginalTitle());
-                    tableRows[i].addView(mOTitle);
-
-                    //get genres
-                    String genresString = "";
-                    if(search.get(i).getGenreIds().isEmpty())
-                    {
-                        genresString = "not defined";
-                    } else {
-                        for (Integer genreId: search.get(i).getGenreIds()) {
-                            genresString += genres.get(genreId)[0] + "\n";
-                        }
-                    }
-                    TextView mGenres = new TextView(SearchActivity.this);
-                    mGenres.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-                    mGenres.setText(String.valueOf(genresString));
-                    tableRows[i].addView(mGenres);
-
-                    //get year
-                    TextView mYear = new TextView(SearchActivity.this);
-                    mYear.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-                    mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
-                    tableRows[i].addView(mYear);
-
-                    //get TMDb rating
-                    TextView mTMDb = new TextView(SearchActivity.this);
-                    mTMDb.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-                    mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
-                    tableRows[i].addView(mTMDb);
-
-                    // get poster
-                    ImageView mPoster = new ImageView(SearchActivity.this);
-                    mPoster.setLayoutParams(new android.widget.TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT,
-                            android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
-
-                    String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
-                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
-
-                    try {
-                        mPoster.setImageBitmap(r.get());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    tableRows[i].addView(mPoster);
-
-                    mTable.addView(tableRows[i]);
-                }
-                Log.e(Const.DEBUG, "we're on the onPostExecute");
-            }
-
-            ArrayList<SearchBuilder> search() throws IOException {
-                // Build URL
-                String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "day%20after%20tomorrow";
-                URL url = new URL(stringBuilder);
-                Log.e(Const.SEE, url.toString());
-                Log.e(Const.TAG,url.toString());
-
-                InputStream stream = null;
-                try {
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setReadTimeout(10000);
-                    conn.setConnectTimeout(15000);
-                    conn.setRequestMethod("GET");
-                    conn.addRequestProperty("Accept", "application/json");
-                    conn.setDoInput(true);
-                    conn.connect();
-                    int responseCode = conn.getResponseCode();
-                    Log.e(Const.DEBUG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
-                    stream = conn.getInputStream();
-                    return parseResult(stringify(stream));
-                } finally {
-                    if (stream != null) {
-                        stream.close();
-                    }
-                }
-            }
-
-            private ArrayList<SearchBuilder> parseResult(String result) {
-                ArrayList<SearchBuilder> results = new ArrayList<>();
-
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray array = (JSONArray) jsonObject.get("results");
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject jsonMovieObject = array.getJSONObject(i);
-
-                        JSONArray gjIds = jsonMovieObject.getJSONArray("genre_ids");
-                        ArrayList<Integer> gIds = new ArrayList<>();
-                        for (int j=0; j<gjIds.length(); j++) {
-                            gIds.add( gjIds.getInt(j) );
-                        }
-
-                        SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
-                                Integer.parseInt(jsonMovieObject.getString("id")),
-                                jsonMovieObject.getString("title"))
-                                .setOriginalTitle(jsonMovieObject.getString("original_title"))
-                                .setPosterPath(jsonMovieObject.getString("poster_path"))
-                                .setReleaseDate(jsonMovieObject.getString("release_date"))
-                                .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
-                                .setGenreIds(gIds);
-                        results.add(searchBuilder.build());
-                    }
-                } catch (JSONException e) {
-                    System.err.println(e);
-                    Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
-                }
-
-                Log.e(Const.SEE, results.get(1).getTitle());
-                Log.e(Const.SEE, results.get(3).getGenreIds().toString());
-                return results;
-            }
-
-            String stringify(InputStream stream) throws IOException {
-                Reader reader = new InputStreamReader(stream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(reader);
-                return bufferedReader.readLine();
+        @Override
+        protected ArrayList<SearchBuilder> doInBackground(Object... params) {
+            try {
+                return search();
+            } catch (IOException e) {
+                return null;
             }
         }
+
+        @SuppressLint("ResourceType")
+        @Override
+        protected void onPostExecute(Object result) {
+
+            ArrayList<SearchBuilder> search = (ArrayList<SearchBuilder>) result;
+            TableLayout mTable = findViewById(R.id.tlMarksTable);
+
+            for (int i = 0; i < search.size() - 1; i++) {
+                RelativeLayout tr = new RelativeLayout(SearchActivity.this);
+
+                //get poster
+                ImageView mPoster = new ImageView(SearchActivity.this);
+                mPoster.setId(1);
+                String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
+                DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
+
+                try {
+                    mPoster.setImageBitmap(r.get());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                //title
+                TextView mTitle = new TextView(SearchActivity.this);
+                mTitle.setId(2);
+                mTitle.setText(search.get(i).getTitle());
+
+                //original title
+                TextView mOTitle = new TextView(SearchActivity.this);
+                mOTitle.setId(3);
+                mOTitle.setText(search.get(i).getOriginalTitle());
+
+                //get genres
+                String genresString = "";
+                if (search.get(i).getGenreIds().isEmpty()) {
+                    genresString = "not defined";
+                } else {
+                    for (Integer genreId : search.get(i).getGenreIds()) {
+                        genresString += genres.get(genreId)[0] + "\n";
+                    }
+                }
+                TextView mGenres = new TextView(SearchActivity.this);
+                mGenres.setId(4);
+                mGenres.setText(String.valueOf(genresString));
+
+                //get year
+                TextView mYear = new TextView(SearchActivity.this);
+                mYear.setId(5);
+                mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+
+                //get TMDb rating
+                TextView mTMDb = new TextView(SearchActivity.this);
+                mTMDb.setId(6);
+                mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
+
+
+                RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+//                    posterParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                tr.addView(mPoster, posterParams);
+
+                RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                titleParams.addRule(RelativeLayout.ALIGN_TOP);
+                mTitle.setGravity(Gravity.CENTER);
+                tr.addView(mTitle, titleParams);
+
+                RelativeLayout.LayoutParams oTitleParams = new RelativeLayout.LayoutParams(
+                        230, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                oTitleParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
+                oTitleParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                tr.addView(mOTitle, oTitleParams);
+
+                RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
+                        100, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                yearParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
+                yearParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
+                tr.addView(mYear, yearParams);
+
+                RelativeLayout.LayoutParams genresParams = new RelativeLayout.LayoutParams(
+                        170, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                genresParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
+                genresParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                tr.addView(mGenres, genresParams);
+
+                RelativeLayout.LayoutParams tmdbParams = new RelativeLayout.LayoutParams(
+                        100, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                tmdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
+                tmdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+//                    tmdbParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                tr.addView(mTMDb, tmdbParams);
+
+                mTable.addView(tr);
+            }
+            Log.e(Const.DEBUG, "we're on the onPostExecute");
+        }
+
+        ArrayList<SearchBuilder> search() throws IOException {
+            // Build URL
+            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "day%20after%20tomorrow";
+            URL url = new URL(stringBuilder);
+            Log.e(Const.SEE, url.toString());
+            Log.e(Const.TAG, url.toString());
+
+            InputStream stream = null;
+            try {
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.addRequestProperty("Accept", "application/json");
+                conn.setDoInput(true);
+                conn.connect();
+                int responseCode = conn.getResponseCode();
+                Log.e(Const.DEBUG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
+                stream = conn.getInputStream();
+                return parseResult(stringify(stream));
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
+        }
+
+        private ArrayList<SearchBuilder> parseResult(String result) {
+            ArrayList<SearchBuilder> results = new ArrayList<>();
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray array = (JSONArray) jsonObject.get("results");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonMovieObject = array.getJSONObject(i);
+
+                    JSONArray gjIds = jsonMovieObject.getJSONArray("genre_ids");
+                    ArrayList<Integer> gIds = new ArrayList<>();
+                    for (int j = 0; j < gjIds.length(); j++) {
+                        gIds.add(gjIds.getInt(j));
+                    }
+
+                    SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
+                            Integer.parseInt(jsonMovieObject.getString("id")),
+                            jsonMovieObject.getString("title"))
+                            .setOriginalTitle(jsonMovieObject.getString("original_title"))
+                            .setPosterPath(jsonMovieObject.getString("poster_path"))
+                            .setReleaseDate(jsonMovieObject.getString("release_date"))
+                            .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
+                            .setGenreIds(gIds);
+                    results.add(searchBuilder.build());
+                }
+            } catch (JSONException e) {
+                System.err.println(e);
+                Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
+            }
+
+            Log.e(Const.SEE, results.get(1).getTitle());
+            Log.e(Const.SEE, results.get(3).getGenreIds().toString());
+            return results;
+        }
+
+        String stringify(InputStream stream) throws IOException {
+            Reader reader = new InputStreamReader(stream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            return bufferedReader.readLine();
+        }
+    }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
