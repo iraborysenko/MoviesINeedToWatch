@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -55,26 +58,40 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_search);
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connMgr != null;
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new TMDBSearchManager().execute();
-        } else {
-            TextView textView = new TextView(this);
-            textView.setText("No network connection.");
-            setContentView(textView);
-            Log.e(Const.ERR, "stepErr");
-        }
+        final EditText editText = findViewById(R.id.search_query);
+        ImageButton button = findViewById(R.id.search_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                String searchQuery = editText.getText().toString();
+                Log.e(Const.DEBUG, searchQuery);
+//                final String searchQuery = "day%20after%20tomorrow";
+//                final String searchQuery = "fury";
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                assert connMgr != null;
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    new TMDBSearchManager().execute(searchQuery);
+                } else {
+                    TextView textView = new TextView(SearchActivity.this);
+                    textView.setText("No network connection.");
+                    setContentView(textView);
+                    Log.e(Const.ERR, "stepErr");
+                }
+            }
+        });
+
     }
 
-    class TMDBSearchManager extends AsyncTask {
+    class TMDBSearchManager extends AsyncTask <String, Void, ArrayList<SearchBuilder>>{
 
         @Override
-        protected ArrayList<SearchBuilder> doInBackground(Object... params) {
+        protected ArrayList<SearchBuilder> doInBackground(String... params) {
+            String searchQuery = params[0];
             try {
-                return search();
+                return search(searchQuery);
             } catch (IOException e) {
                 return null;
             }
@@ -82,10 +99,9 @@ public class SearchActivity extends AppCompatActivity {
 
         @SuppressLint("ResourceType")
         @Override
-        protected void onPostExecute(Object result) {
+        protected void onPostExecute(ArrayList<SearchBuilder> search) {
 
-            ArrayList<SearchBuilder> search = (ArrayList<SearchBuilder>) result;
-            TableLayout mTable = findViewById(R.id.tlMarksTable);
+            TableLayout mTable = findViewById(R.id.searchTable);
 
             for (int i = 0; i < search.size() - 1; i++) {
                 RelativeLayout tr = new RelativeLayout(SearchActivity.this);
@@ -179,9 +195,9 @@ public class SearchActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
-        ArrayList<SearchBuilder> search() throws IOException {
+        ArrayList<SearchBuilder> search(String searchQuery) throws IOException {
             // Build URL
-            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "day%20after%20tomorrow";
+            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + searchQuery;
             URL url = new URL(stringBuilder);
             Log.e(Const.SEE, url.toString());
             Log.e(Const.TAG, url.toString());
