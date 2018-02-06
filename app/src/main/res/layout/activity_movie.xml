@@ -7,162 +7,189 @@
     tools:context="com.example.aurora.moviesineedtowatch.ui.MovieActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:paddingLeft="20dp"
-        android:text="@string/title"
-        android:textSize="30sp"
-        android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@+id/otitle"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="150dp" />
+    <ScrollView
+        android:id="@+id/myview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/poster"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="TODO"
-        app:layout_constraintBottom_toTopOf="@+id/overview"
-        app:layout_constraintEnd_toStartOf="@+id/tagline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imdb"
-        tools:ignore="MissingConstraints" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="470dp">
 
-    <TextView
-        android:id="@+id/imdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:background="#FFE135"
-        android:padding="10dp"
-        android:radius="15dp"
-        android:text="imdb"
-        android:textColor="       #1B1B1B"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/tmdb"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/poster"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="monospace"
+                android:paddingLeft="20dp"
+                android:text="@string/title"
+                android:textSize="30sp"
+                android:textStyle="normal|bold"
+                tools:layout_editor_absoluteX="150dp"
+                tools:layout_editor_absoluteY="10dp" />
 
-    <TextView
-        android:id="@+id/tmdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#0E7C61"
-        android:padding="10dp"
-        android:text="tmdb"
-        android:textColor="#F7E7CE"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/imdb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imdb" />
+            <TextView
+                android:id="@+id/imdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tmdb"
+                android:layout_alignBottom="@+id/tmdb"
+                android:layout_alignLeft="@+id/genres"
+                android:layout_alignStart="@+id/genres"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="#FFE135"
+                android:padding="10dp"
+                android:radius="15dp"
+                android:text="imdb"
+                android:textColor="       #1B1B1B"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="187dp"
+                tools:layout_editor_absoluteY="87dp" />
 
-    <TextView
-        android:id="@+id/tagline"
-        android:layout_width="165dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="5dp"
-        android:text="Tagline"
-        app:layout_constraintBottom_toTopOf="@+id/year"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tmdb"
-        app:layout_constraintVertical_bias="0.769" />
+            <TextView
+                android:id="@+id/tmdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/tagline"
+                android:layout_alignRight="@+id/tagline"
+                android:layout_alignTop="@+id/poster"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#0E7C61"
+                android:padding="10dp"
+                android:text="tmdb"
+                android:textColor="#F7E7CE"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="273dp"
+                tools:layout_editor_absoluteY="87dp" />
 
-    <TextView
-        android:id="@+id/runtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="20dp"
-        android:text="runtime"
-        app:layout_constraintStart_toEndOf="@+id/poster"
-        app:layout_constraintTop_toBottomOf="@+id/tagline" />
+            <TextView
+                android:id="@+id/tagline"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/genres"
+                android:layout_alignStart="@+id/genres"
+                android:layout_below="@+id/imdb"
+                android:layout_marginTop="15dp"
+                android:text="Tagline"
+                tools:layout_editor_absoluteX="179dp"
+                tools:layout_editor_absoluteY="148dp" />
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="137dp"
-        android:layout_marginTop="137dp"
-        android:text="year"
-        app:layout_constraintBottom_toTopOf="@+id/companies"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
-        app:layout_constraintStart_toEndOf="@+id/runtime"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/runtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tagline"
+                android:layout_alignStart="@+id/tagline"
+                android:layout_below="@+id/tagline"
+                android:layout_marginTop="14dp"
+                android:text="runtime"
+                tools:layout_editor_absoluteX="197dp"
+                tools:layout_editor_absoluteY="187dp" />
 
-    <TextView
-        android:id="@+id/genres"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="17dp"
-        android:text="genres"
-        app:layout_constraintEnd_toStartOf="@+id/year"
-        app:layout_constraintStart_toEndOf="@+id/countries"
-        app:layout_constraintTop_toBottomOf="@+id/runtime" />
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/runtime"
+                android:layout_alignBottom="@+id/runtime"
+                android:layout_alignEnd="@+id/tmdb"
+                android:layout_alignRight="@+id/tmdb"
+                android:text="year"
+                tools:layout_editor_absoluteX="293dp"
+                tools:layout_editor_absoluteY="187dp" />
 
-    <TextView
-        android:id="@+id/overview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Overview"
-        app:layout_constraintBottom_toTopOf="@+id/countries"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/genres"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/runtime"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/poster"
+                android:layout_toRightOf="@+id/poster"
+                android:text="genres"
+                tools:layout_editor_absoluteX="180dp"
+                tools:layout_editor_absoluteY="222dp" />
 
-    <TextView
-        android:id="@+id/countries"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:text="Countries"
-        app:layout_constraintBaseline_toBaselineOf="@+id/companies"
-        app:layout_constraintEnd_toStartOf="@+id/companies"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/otitle"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignLeft="@+id/overview"
+                android:layout_alignStart="@+id/overview"
+                android:layout_below="@+id/title"
+                android:paddingLeft="25dp"
+                android:text="original title"
+                tools:layout_editor_absoluteX="161dp"
+                tools:layout_editor_absoluteY="59dp" />
 
-    <TextView
-        android:id="@+id/companies"
-        android:layout_width="164dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp"
-        android:text="Companies"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/countries" />
 
-    <TextView
-        android:id="@+id/otitle"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:paddingLeft="25dp"
-        android:text="original title"
-        app:layout_constraintBottom_toTopOf="@+id/imdb"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:layout_editor_absoluteX="161dp" />
+            <TextView
+                android:id="@+id/countries"
+                android:layout_width="154dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/companies"
+                android:layout_alignBottom="@+id/companies"
+                android:layout_alignLeft="@+id/poster"
+                android:layout_alignStart="@+id/poster"
+                android:text="Countries"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="307dp" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="491dp" />
+            <TextView
+                android:id="@+id/companies"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/imdb"
+                android:layout_alignStart="@+id/imdb"
+                android:layout_below="@+id/overview"
+                android:layout_marginTop="19dp"
+                android:text="Companies"
+                tools:layout_editor_absoluteX="180dp"
+                tools:layout_editor_absoluteY="307dp" />
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="145dp"
+                android:layout_height="201dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/otitle"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="12dp"
+                android:contentDescription="TODO"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="62dp" />
+
+
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/poster"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:text="Overview"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="272dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="491dp" />
+
+        </RelativeLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
