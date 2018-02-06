@@ -227,7 +227,7 @@ public class MovieActivity extends AppCompatActivity {
                         .setPosterPath(jsonMovieObject.getString("poster_path"))
                         .setReleaseDate(jsonMovieObject.getString("release_date"))
                         .setTagline(jsonMovieObject.getString("tagline"))
-                        .setRuntime(Integer.parseInt(jsonMovieObject.getString("runtime")))
+                        .setRuntime(jsonMovieObject.getString("runtime") == "null" ? 0 : Integer.parseInt(jsonMovieObject.getString("runtime")))
                         .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
                         .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")))
                         .setGenresIds(arrGenres)
