@@ -13,15 +13,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        movieTMDB();
-//        searchTMDB();
+//        movieTMDB();
+        searchTMDB();
     }
 
     public void movieTMDB() {
         Intent intent = new Intent(this, MovieActivity.class);
-//        EditText editText = (EditText) findViewById(R.id.edit_message);
-//        String query = editText.getText().toString();
-//        intent.putExtra(EXTRA_QUERY, query);
         startActivity(intent);
     }
 
