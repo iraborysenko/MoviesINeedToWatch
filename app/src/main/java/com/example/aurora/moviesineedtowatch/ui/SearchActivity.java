@@ -64,9 +64,10 @@ public class SearchActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                String searchQuery = editText.getText().toString();
-                Log.e(Const.DEBUG, searchQuery);
+//                String searchQuery = editText.getText().toString();
+//                Log.e(Const.DEBUG, searchQuery);
 //                final String searchQuery = "day%20after%20tomorrow";
+                final String searchQuery = "звуки%20музыки";
 //                final String searchQuery = "fury";
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -100,10 +101,11 @@ public class SearchActivity extends AppCompatActivity {
         @SuppressLint("ResourceType")
         @Override
         protected void onPostExecute(ArrayList<SearchBuilder> search) {
+            Log.e(Const.DEBUG, String.valueOf(search.size()));
 
             TableLayout mTable = findViewById(R.id.searchTable);
 
-            for (int i = 0; i < search.size() - 1; i++) {
+            for (int i = 0; i < search.size(); i++) {
                 RelativeLayout tr = new RelativeLayout(SearchActivity.this);
 
                 //get poster
@@ -147,6 +149,8 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mYear = new TextView(SearchActivity.this);
                 mYear.setId(5);
                 mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                Log.e(Const.SEE,search.get(i).getReleaseDate());
+
 
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
@@ -197,6 +201,7 @@ public class SearchActivity extends AppCompatActivity {
 
         ArrayList<SearchBuilder> search(String searchQuery) throws IOException {
             // Build URL
+//            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "звуки%20музыки";
             String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + searchQuery;
             URL url = new URL(stringBuilder);
             Log.e(Const.SEE, url.toString());
@@ -230,13 +235,11 @@ public class SearchActivity extends AppCompatActivity {
                 JSONArray array = (JSONArray) jsonObject.get("results");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonMovieObject = array.getJSONObject(i);
-
                     JSONArray gjIds = jsonMovieObject.getJSONArray("genre_ids");
                     ArrayList<Integer> gIds = new ArrayList<>();
                     for (int j = 0; j < gjIds.length(); j++) {
                         gIds.add(gjIds.getInt(j));
                     }
-
                     SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
                             Integer.parseInt(jsonMovieObject.getString("id")),
                             jsonMovieObject.getString("title"))
@@ -251,9 +254,6 @@ public class SearchActivity extends AppCompatActivity {
                 System.err.println(e);
                 Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
-
-            Log.e(Const.SEE, results.get(1).getTitle());
-            Log.e(Const.SEE, results.get(3).getGenreIds().toString());
             return results;
         }
 
