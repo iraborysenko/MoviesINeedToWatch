@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -66,9 +67,8 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                String searchQuery = editText.getText().toString();
 //                Log.e(Const.DEBUG, searchQuery);
-//                final String searchQuery = "day%20after%20tomorrow";
-                final String searchQuery = "звуки%20музыки";
-//                final String searchQuery = "fury";
+                final String searchQuery = "day after tomorrow";
+//                final String searchQuery = "звуки музыки";
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 assert connMgr != null;
@@ -149,8 +149,6 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mYear = new TextView(SearchActivity.this);
                 mYear.setId(5);
                 mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
-                Log.e(Const.SEE,search.get(i).getReleaseDate());
-
 
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
@@ -200,12 +198,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         ArrayList<SearchBuilder> search(String searchQuery) throws IOException {
-            // Build URL
-//            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + "звуки%20музыки";
-            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + searchQuery;
+
+            String encodedQuery = URLEncoder.encode(searchQuery, "UTF-8");
+            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + encodedQuery;
+
             URL url = new URL(stringBuilder);
             Log.e(Const.SEE, url.toString());
-            Log.e(Const.TAG, url.toString());
 
             InputStream stream = null;
             try {
