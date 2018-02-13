@@ -2,6 +2,8 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
@@ -115,6 +118,23 @@ public class MovieActivity extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             MovieBuilder movie = (MovieBuilder) result;
 
+            DB db1 = new DB(MovieActivity.this);
+
+            db1.addMovie(movie);
+
+            String selectQuery = "SELECT  * FROM " + "movies";
+
+            SQLiteDatabase db = db1.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            Log.e(Const.DEBUG, String.valueOf(cursor));
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Log.e(Const.SEE, cursor.getString(2));
+                    cursor.moveToNext();
+                }
+            }
+
             mTitle.setText(movie.getTitle());
             mOTitle.setText(String.format("%s %s", movie.getOriginalTitle(), movie.getOriginalLanguage()));
             mTMDb.setText(Float.toString(movie.getVoteAverage()));
@@ -163,8 +183,8 @@ public class MovieActivity extends AppCompatActivity {
 
         MovieBuilder search() throws IOException {
 
-//            String stringBuilder = TMDB_MOVIE + "1268" + Q + "api_key=" + API.KEY;
-            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
+            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
+//            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
