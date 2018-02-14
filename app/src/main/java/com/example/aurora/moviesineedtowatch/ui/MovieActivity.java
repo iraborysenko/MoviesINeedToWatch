@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -125,7 +127,7 @@ public class MovieActivity extends AppCompatActivity {
 //            db.execSQL("DROP TABLE IF EXISTS " + "movies");
 //            db1.onCreate(db);
             db1.addMovie(movie);
-            
+
             String selectQuery = "SELECT  * FROM " + "movies";
             SQLiteDatabase db = db1.getWritableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
@@ -134,6 +136,8 @@ public class MovieActivity extends AppCompatActivity {
                 while (!cursor.isAfterLast()) {
                     Log.e(Const.SEE, cursor.getString(4));
                     Log.e(Const.SEE, cursor.getString(9));
+                    stringToBitmap(cursor.getString(9));
+//                    Log.e(Const.DEBUG, stringToBitmap(cursor.getString(9)));
                     cursor.moveToNext();
                 }
             }
@@ -191,8 +195,8 @@ public class MovieActivity extends AppCompatActivity {
 
         MovieBuilder search() throws IOException {
 
-            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
-//            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
+//            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
+            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
@@ -298,6 +302,16 @@ public class MovieActivity extends AppCompatActivity {
             return bufferedReader.readLine();
         }
 
+    }
+
+    public final static String bitmapToString(Bitmap in){
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
+    }
+    public final static Bitmap stringToBitmap(String in){
+        byte[] bytes = Base64.decode(in, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
 //    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

@@ -4,7 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
+
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
 
 
 /**
@@ -84,7 +87,7 @@ public class DB extends SQLiteOpenHelper {
         values.put(KEY_OLanguage, mBuilder.getOriginalLanguage());
         values.put(KEY_OVERVIEW, mBuilder.getOverview());
         values.put(KEY_POSTER_PATH, mBuilder.getPosterPath());
-        values.put(KEY_POSTER_IMAGE, String.valueOf(mBuilder.getPosterBitmap()));
+        values.put(KEY_POSTER_IMAGE, bitmapToString(mBuilder.getPosterBitmap()));
         values.put(KEY_RELEASE_DATE, mBuilder.getReleaseDate());
         values.put(KEY_TAGLINE, mBuilder.getTagline());
         values.put(KEY_RUNTIME, String.valueOf(mBuilder.getRuntime()));
