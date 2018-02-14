@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 /**
@@ -12,11 +14,13 @@ import java.util.ArrayList;
 public class MovieBuilder {
     private final int id;
     private final String imdbID;
+    private final String imdb;
     private final String title;
     private final String originalTitle;
     private final String originalLanguage;
     private final String overview;
     private final String posterPath;
+    private final Bitmap posterBitmap;
     private final String releaseDate;
     private final String tagline;
     private final int runtime;
@@ -30,11 +34,13 @@ public class MovieBuilder {
     MovieBuilder(Builder builder) {
         id = builder.id;
         imdbID = builder.imdbID;
+        imdb = builder.imdb;
         title = builder.title;
         originalTitle = builder.originalTitle;
         originalLanguage = builder.originalLanguage;
         overview = builder.overview;
         posterPath = builder.posterPath;
+        posterBitmap = builder.posterBitmap;
         releaseDate = builder.releaseDate;
         tagline = builder.tagline;
         runtime = builder.runtime;
@@ -57,6 +63,8 @@ public class MovieBuilder {
         return imdbID;
     }
 
+    public String getImdb() { return imdb; }
+
     public String getTitle() {
         return title;
     }
@@ -76,6 +84,8 @@ public class MovieBuilder {
     public String getPosterPath() {
         return posterPath;
     }
+
+    public Bitmap getPosterBitmap() { return posterBitmap; }
 
     public String getReleaseDate() {
         return releaseDate;
@@ -106,11 +116,13 @@ public class MovieBuilder {
     public static class Builder {
         private int id;
         private String imdbID;
+        private String imdb;
         private String title;
         private String originalTitle;
         private String originalLanguage;
         private String overview;
         private String posterPath;
+        private Bitmap posterBitmap;
         private String releaseDate;
         private String tagline;
         private int runtime;
@@ -132,6 +144,11 @@ public class MovieBuilder {
 
         public Builder setImdbID(String imdbID) {
             this.imdbID = imdbID;
+            return this;
+        }
+
+        public Builder setImdb(String imdb) {
+            this.imdb = imdb;
             return this;
         }
 
@@ -157,6 +174,11 @@ public class MovieBuilder {
 
         public Builder setPosterPath(String posterPath) {
             this.posterPath = posterPath;
+            return this;
+        }
+
+        public Builder setPosterBitmap(Bitmap posterBitmap) {
+            this.posterBitmap = posterBitmap;
             return this;
         }
 
