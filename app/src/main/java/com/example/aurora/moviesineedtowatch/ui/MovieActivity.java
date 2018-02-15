@@ -2,6 +2,8 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -9,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
@@ -26,6 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,6 +62,7 @@ public class MovieActivity extends AppCompatActivity {
     TextView mOTitle;
     TextView mIMDb;
     TextView mTMDb;
+    ImageView mImage;
     TextView mTagline;
     TextView mYear;
     TextView mRuntime;
@@ -73,6 +79,7 @@ public class MovieActivity extends AppCompatActivity {
 
         mTitle = findViewById(R.id.title);
         mOTitle = findViewById(R.id.otitle);
+        mImage = findViewById(R.id.poster);
         mIMDb = findViewById(R.id.imdb);
         mTMDb = findViewById(R.id.tmdb);
         mTagline = findViewById(R.id.tagline);
@@ -115,9 +122,34 @@ public class MovieActivity extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             MovieBuilder movie = (MovieBuilder) result;
 
+            DB db1 = new DB(MovieActivity.this);
+
+//            db.execSQL("DROP TABLE IF EXISTS " + "movies");
+//            db1.onCreate(db);
+            db1.addMovie(movie);
+
+            String selectQuery = "SELECT  * FROM " + "movies";
+            SQLiteDatabase db = db1.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Log.e(Const.SEE, cursor.getString(4));
+                    Log.e(Const.SEE, cursor.getString(9));
+                    stringToBitmap(cursor.getString(9));
+//                    Log.e(Const.DEBUG, stringToBitmap(cursor.getString(9)));
+                    cursor.moveToNext();
+                }
+            }
+            cursor.close();
+
+
+
             mTitle.setText(movie.getTitle());
             mOTitle.setText(String.format("%s %s", movie.getOriginalTitle(), movie.getOriginalLanguage()));
             mTMDb.setText(Float.toString(movie.getVoteAverage()));
+            mIMDb.setText(movie.getImdb());
+            mImage.setImageBitmap(movie.getPosterBitmap());
             mTagline.setText(movie.getTagline());
             mRuntime.setText(String.format("%d min", movie.getRuntime()));
             mYear.setText(movie.getReleaseDate().subSequence(0, 4));
@@ -153,17 +185,17 @@ public class MovieActivity extends AppCompatActivity {
                 }
             }
             mCompanies.setText(companiesString);
-            String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + movie.getPosterPath();
-            Log.e(Const.SEE, imagePath);
-            new DownloadImageTask((ImageView) findViewById(R.id.poster))
-                    .execute(imagePath);
-            new IMDbrating(mIMDb).execute(movie.getImdbID());
+//            String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + movie.getPosterPath();
+//            Log.e(Const.SEE, imagePath);
+//            new DownloadImageTask((ImageView) findViewById(R.id.poster))
+//                    .execute(imagePath);
+//            new IMDbrating(mIMDb).execute(movie.getImdbID());
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
         MovieBuilder search() throws IOException {
 
-//            String stringBuilder = TMDB_MOVIE + "1268" + Q + "api_key=" + API.KEY;
+//            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
             String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
@@ -217,14 +249,37 @@ public class MovieActivity extends AppCompatActivity {
                     arrCountries.add(jObject.getString("iso_3166_1"));
                 }
 
+                //get imdb rating
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Element rating = doc.select("span[itemprop = ratingValue]").first();
+
+                //get picture bitmap
+                String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
+
+                Bitmap img = null;
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    img = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+
                 MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
                         Integer.parseInt(jsonMovieObject.getString("id")),
                         jsonMovieObject.getString("title"))
                         .setImdbID(jsonMovieObject.getString("imdb_id"))
+                        .setImdb(rating.ownText())
                         .setOriginalTitle(jsonMovieObject.getString("original_title"))
                         .setOriginalLanguage(jsonMovieObject.getString("original_language"))
                         .setOverview(jsonMovieObject.getString("overview"))
                         .setPosterPath(jsonMovieObject.getString("poster_path"))
+                        .setPosterBitmap(img)
                         .setReleaseDate(jsonMovieObject.getString("release_date"))
                         .setTagline(jsonMovieObject.getString("tagline"))
                         .setRuntime(jsonMovieObject.getString("runtime") == "null" ? 0 : Integer.parseInt(jsonMovieObject.getString("runtime")))
@@ -249,53 +304,64 @@ public class MovieActivity extends AppCompatActivity {
 
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap img = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                img = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return img;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
+    public final static String bitmapToString(Bitmap in){
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
+    }
+    public final static Bitmap stringToBitmap(String in){
+        byte[] bytes = Base64.decode(in, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    private class IMDbrating extends AsyncTask<String, Void, String>{
-        TextView mIMDb;
+//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//        ImageView bmImage;
+//
+//        DownloadImageTask(ImageView bmImage) {
+//            this.bmImage = bmImage;
+//        }
+//
+//        protected Bitmap doInBackground(String... urls) {
+//            String urldisplay = urls[0];
+//            Bitmap img = null;
+//            try {
+//                InputStream in = new java.net.URL(urldisplay).openStream();
+//                img = BitmapFactory.decodeStream(in);
+//            } catch (Exception e) {
+//                Log.e("Error", e.getMessage());
+//                e.printStackTrace();
+//            }
+//            return img;
+//        }
+//
+//        protected void onPostExecute(Bitmap result) {
+//            bmImage.setImageBitmap(result);
+//        }
+//    }
 
-        IMDbrating(TextView mIMDb) {
-            this.mIMDb = mIMDb;
-        }
+//    private class IMDbrating extends AsyncTask<String, Void, String>{
+//        TextView mIMDb;
+//
+//        IMDbrating(TextView mIMDb) {
+//            this.mIMDb = mIMDb;
+//        }
+//
+//        protected String doInBackground(String... urls) {
+//            String imdbId = urls[0];
+//            Document doc = null;
+//            try {
+//                doc = Jsoup.connect(IMDb_MOVIE + imdbId).get();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            Element rating = doc.select("span[itemprop = ratingValue]").first();
+//            return rating.ownText();
+//        }
+//
+//        protected void onPostExecute(String result) {
+//            mIMDb.setText(result);
+//            Log.e(Const.DEBUG, "IMDb onPostExecute");
+//        }
+//    }
 
-        protected String doInBackground(String... urls) {
-            String imdbId = urls[0];
-            Document doc = null;
-            try {
-                doc = Jsoup.connect(IMDb_MOVIE + imdbId).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Element rating = doc.select("span[itemprop = ratingValue]").first();
-            return rating.ownText();
-        }
-
-        protected void onPostExecute(String result) {
-            mIMDb.setText(result);
-            Log.e(Const.DEBUG, "IMDb onPostExecute");
-        }
-    }
 }
