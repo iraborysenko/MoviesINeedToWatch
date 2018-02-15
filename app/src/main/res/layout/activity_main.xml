@@ -41,12 +41,11 @@
 
                     <TableLayout
                         android:id="@+id/main_table"
-                        android:layout_below="@+id/search_query"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_marginTop="15dp"
-                        tools:ignore="ObsoleteLayoutParam">
-                    </TableLayout>
+                        android:layout_below="@+id/search_query"
+                        android:layout_marginTop="40dp"
+                        tools:ignore="ObsoleteLayoutParam"></TableLayout>
 
                 </FrameLayout>
 

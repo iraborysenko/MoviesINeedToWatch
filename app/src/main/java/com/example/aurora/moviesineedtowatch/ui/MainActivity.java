@@ -22,16 +22,10 @@ import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
 
 public class MainActivity extends AppCompatActivity {
-
 
     public final static int ID = 0;
     public final static int ID_MOVIE = 1;
@@ -124,18 +118,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 TextView mGenres = new TextView(MainActivity.this);
-                mGenres.setId(4);
+                mGenres.setId(6);
                 mGenres.setText(String.valueOf(genresString));
 
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
-                mYear.setId(5);
+                mYear.setId(7);
                 mYear.setText(cursor.getString(RELEASE_DATE).subSequence(0, 4));
                 Log.e(Const.DEBUG, cursor.getString(RELEASE_DATE));
 
                 //get TMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
-                mIMDb.setId(6);
+                mIMDb.setId(8);
                 mIMDb.setText(cursor.getString(IMDB));
                 Log.e(Const.DEBUG, cursor.getString(IMDB));
 
@@ -152,21 +146,22 @@ public class MainActivity extends AppCompatActivity {
                 tr.addView(mTitle, titleParams);
 
                 RelativeLayout.LayoutParams langParams = new RelativeLayout.LayoutParams(
-                        140, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        40, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 langParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 langParams.addRule(RelativeLayout.BELOW, mTitle.getId());
                 tr.addView(mOLang, langParams);
 
                 RelativeLayout.LayoutParams oTitleParams = new RelativeLayout.LayoutParams(
-                        230, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                oTitleParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
+                        350, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                oTitleParams.addRule(RelativeLayout.RIGHT_OF, mOLang.getId());
                 oTitleParams.addRule(RelativeLayout.BELOW, mTitle.getId());
                 tr.addView(mOTitle, oTitleParams);
 
                 RelativeLayout.LayoutParams taglineParams = new RelativeLayout.LayoutParams(
-                        170, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        350, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 taglineParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 taglineParams.addRule(RelativeLayout.BELOW, mOLang.getId());
+                taglineParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
                 tr.addView(mTagline, taglineParams);
 
                 RelativeLayout.LayoutParams genresParams = new RelativeLayout.LayoutParams(
@@ -178,12 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams imdbParams = new RelativeLayout.LayoutParams(
                         100, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 imdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-                imdbParams.addRule(RelativeLayout.RIGHT_OF, mTagline.getId());
+                imdbParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
                 tr.addView(mIMDb, imdbParams);
 
                 RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
-                        50, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        70, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 yearParams.addRule(RelativeLayout.BELOW, mIMDb.getId());
+                yearParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
                 tr.addView(mYear, yearParams);
 
                 mTable.addView(tr);
