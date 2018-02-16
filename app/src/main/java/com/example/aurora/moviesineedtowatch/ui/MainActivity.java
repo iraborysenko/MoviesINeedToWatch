@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
 
+                final String movieId = cursor.getString(ID_MOVIE);
+
                 RelativeLayout tr = new RelativeLayout(MainActivity.this);
 
                 //get poster
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 mPoster.setImageBitmap(stringToBitmap(cursor.getString(POST_IMAGE)));
 
                 //title
-                TextView mTitle = new TextView(MainActivity.this);
+                final TextView mTitle = new TextView(MainActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(cursor.getString(TITLE));
 
@@ -182,9 +184,19 @@ public class MainActivity extends AppCompatActivity {
                 yearParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
                 tr.addView(mYear, yearParams);
 
+
+                tr.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                        Log.e(Const.SEE, movieId);
+                    }
+                });
+
+
                 mTable.addView(tr);
-
-
                 cursor.moveToNext();
             }
         }
