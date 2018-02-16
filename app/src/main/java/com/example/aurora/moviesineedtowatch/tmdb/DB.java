@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
@@ -25,7 +24,7 @@ public class DB extends SQLiteOpenHelper {
     private static final String TABLE_MOVIE = "movies";
 
     private static final String KEY_ID = "id";
-    private static final String KEY_ID_MOVIE = "id_movie";
+    public static final String KEY_ID_MOVIE = "id_movie";
     private static final String KEY_ID_IMDB = "id_imdb";
     private static final String KEY_IMDB = "imdb";
     private static final String KEY_TITLE = "title";
@@ -96,7 +95,6 @@ public class DB extends SQLiteOpenHelper {
         values.put(KEY_GENRES_IDS, String.valueOf(mBuilder.getGenresIds()));
         values.put(KEY_COMPANIES, String.valueOf(mBuilder.getComps()));
         values.put(KEY_COUNTRIES, String.valueOf(mBuilder.getCountrs()));
-
 
 //        String str = String.valueOf(mBuilder.getGenresIds());
 //        Log.e(Const.SEE, str);

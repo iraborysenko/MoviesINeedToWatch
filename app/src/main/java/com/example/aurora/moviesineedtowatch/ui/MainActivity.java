@@ -22,31 +22,19 @@ import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.OTITLE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
 
 public class MainActivity extends AppCompatActivity {
-
-    public final static int ID = 0;
-    public final static int ID_MOVIE = 1;
-    public final static int ID_IMDB = 2;
-    public final static int IMDB = 3;
-    public final static int TITLE = 4;
-    public final static int OTITLE = 5;
-    public final static int LANG = 6;
-    public final static int OVERVIEW = 7;
-    public final static int POST_PATH = 8;
-    public final static int POST_IMAGE = 9;
-    public final static int RELEASE_DATE = 10;
-    public final static int TAGLINE = 11;
-    public final static int RUNTIME = 12;
-    public final static int VOTE_AVARG = 13;
-    public final static int VOTE_COUNT = 14;
-    public final static int GENRES_IDS = 15;
-    public final static int COMPS = 16;
-    public final static int COUNTRS = 17;
-
-
 
     @SuppressLint("ResourceType")
     @Override
@@ -62,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 searchTMDB();
             }
         });
-//        movieTMDB();
 
         TableLayout mTable = findViewById(R.id.main_table);
 
@@ -184,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 yearParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
                 tr.addView(mYear, yearParams);
 
-
                 tr.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -192,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
                         Log.e(Const.SEE, movieId);
+                        movieTMDB(movieId);
                     }
                 });
 
@@ -201,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         cursor.close();
-
     }
 
-    public void movieTMDB() {
+    public void movieTMDB(String movieId) {
         Intent intent = new Intent(this, MovieActivity.class);
+        intent.putExtra("EXTRA_MOVIE_ID", movieId);
         startActivity(intent);
     }
 
