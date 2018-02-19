@@ -2,6 +2,8 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -22,11 +24,16 @@ import android.widget.TextView;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tmdb.DB;
+import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,13 +44,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_SEARCH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
 
 /**
  * Created by Android Studio.
@@ -107,6 +119,8 @@ public class SearchActivity extends AppCompatActivity {
 
             for (int i = 0; i < search.size(); i++) {
                 RelativeLayout tr = new RelativeLayout(SearchActivity.this);
+
+                final String movieId = String.valueOf(search.get(i).getId());
 
                 //get poster
                 ImageView mPoster = new ImageView(SearchActivity.this);
@@ -191,6 +205,18 @@ public class SearchActivity extends AppCompatActivity {
                 tmdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
 //                    tmdbParams.addRule(RelativeLayout.CENTER_IN_PARENT);
                 tr.addView(mTMDb, tmdbParams);
+                Log.e(Const.SEE, String.valueOf(search.get(i).getId()));
+                tr.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                        Log.e(Const.SEE, movieId);
+                        new TMDBMovieManager().execute(movieId);
+                    }
+                });
+
 
                 mTable.addView(tr);
             }
@@ -217,7 +243,7 @@ public class SearchActivity extends AppCompatActivity {
                 int responseCode = conn.getResponseCode();
                 Log.e(Const.DEBUG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
                 stream = conn.getInputStream();
-                return parseResult(stringify(stream));
+                return parseSearch(stringify(stream));
             } finally {
                 if (stream != null) {
                     stream.close();
@@ -225,7 +251,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        private ArrayList<SearchBuilder> parseResult(String result) {
+        private ArrayList<SearchBuilder> parseSearch(String result) {
             ArrayList<SearchBuilder> results = new ArrayList<>();
 
             try {
@@ -260,6 +286,160 @@ public class SearchActivity extends AppCompatActivity {
             BufferedReader bufferedReader = new BufferedReader(reader);
             return bufferedReader.readLine();
         }
+    }
+
+    private class TMDBMovieManager extends AsyncTask <String, Void, MovieBuilder>{
+
+        @Override
+        protected MovieBuilder doInBackground(String... params) {
+            String movieId = params[0];
+            try {
+                return movie(movieId);
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        @SuppressLint({"DefaultLocale", "SetTextI18n"})
+        @Override
+        protected void onPostExecute(MovieBuilder movie) {
+//            MovieBuilder movie = (MovieBuilder) result;
+//
+//            DB db1 = new DB(SearchActivity.this);
+//
+////            db.execSQL("DROP TABLE IF EXISTS " + "movies");
+////            db1.onCreate(db);
+//            db1.addMovie(movie);
+//
+//            String selectQuery = "SELECT  * FROM " + "movies";
+//            SQLiteDatabase db = db1.getWritableDatabase();
+//            Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//            if (cursor.moveToFirst()) {
+//                while (!cursor.isAfterLast()) {
+//                    Log.e(Const.SEE, cursor.getString(4));
+//                    Log.e(Const.SEE, cursor.getString(9));
+//                    stringToBitmap(cursor.getString(9));
+////                    Log.e(Const.DEBUG, stringToBitmap(cursor.getString(9)));
+//                    cursor.moveToNext();
+//                }
+//            }
+//            cursor.close();
+
+            Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
+        }
+
+        MovieBuilder movie(String movieId) throws IOException {
+            Log.e(Const.DEBUG, "we're on the movie part");
+            String stringBuilder = TMDB_MOVIE + movieId + EN + "api_key=" + API.KEY;
+//            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
+//            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
+            URL url = new URL(stringBuilder);
+            Log.e(Const.TAG,url.toString());
+
+            InputStream stream = null;
+            try {
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.addRequestProperty("Accept", "application/json");
+                conn.setDoInput(true);
+                conn.connect();
+                int responseCode = conn.getResponseCode();
+                Log.e(Const.DEBUG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
+                stream = conn.getInputStream();
+                return parseMovie(stringify(stream));
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
+        }
+
+        private MovieBuilder parseMovie(String result) {
+            MovieBuilder movie_data = null;
+            try {
+                JSONObject jsonMovieObject = new JSONObject(result);
+
+                //parsing genres ids
+                JSONArray ids = jsonMovieObject.getJSONArray("genres");
+                ArrayList<Integer> arrGenres = new ArrayList<>();
+                for (int i = 0; i < ids.length(); i++) {
+                    JSONObject jObject = ids.getJSONObject(i);
+                    arrGenres.add(Integer.parseInt(jObject.getString("id")));
+                }
+
+                //parsing production companies
+                JSONArray companies = jsonMovieObject.getJSONArray("production_companies");
+                ArrayList<String> arrCompanies = new ArrayList<>();
+                for (int i = 0; i < companies.length(); i++) {
+                    JSONObject jObject = companies.getJSONObject(i);
+                    arrCompanies.add(jObject.getString("name"));
+                }
+
+                //parsing production countries
+                JSONArray countries = jsonMovieObject.getJSONArray("production_countries");
+                ArrayList<String> arrCountries = new ArrayList<>();
+                for (int i = 0; i < countries.length(); i++) {
+                    JSONObject jObject = countries.getJSONObject(i);
+                    arrCountries.add(jObject.getString("iso_3166_1"));
+                }
+
+                //get imdb rating
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Element rating = doc.select("span[itemprop = ratingValue]").first();
+
+                //get picture bitmap
+                String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
+
+                Bitmap img = null;
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    img = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
+                        Integer.parseInt(jsonMovieObject.getString("id")),
+                        jsonMovieObject.getString("title"))
+                        .setImdbID(jsonMovieObject.getString("imdb_id"))
+                        .setImdb(rating.ownText())
+                        .setOriginalTitle(jsonMovieObject.getString("original_title"))
+                        .setOriginalLanguage(jsonMovieObject.getString("original_language"))
+                        .setOverview(jsonMovieObject.getString("overview"))
+                        .setPosterPath(jsonMovieObject.getString("poster_path"))
+                        .setPosterBitmap(img)
+                        .setReleaseDate(jsonMovieObject.getString("release_date"))
+                        .setTagline(jsonMovieObject.getString("tagline"))
+                        .setRuntime(jsonMovieObject.getString("runtime") == "null" ? 0 : Integer.parseInt(jsonMovieObject.getString("runtime")))
+                        .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
+                        .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")))
+                        .setGenresIds(arrGenres)
+                        .setComps(arrCompanies)
+                        .setCountrs(arrCountries);
+                movie_data = movieBuilder.build();
+                Log.e(Const.DEBUG, movie_data.getTitle());
+            } catch (JSONException e) {
+                System.err.println(e);
+                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
+            }
+            return movie_data;
+        }
+
+        String stringify(InputStream stream) throws IOException {
+            Reader reader = new InputStreamReader(stream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            return bufferedReader.readLine();
+        }
+
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
