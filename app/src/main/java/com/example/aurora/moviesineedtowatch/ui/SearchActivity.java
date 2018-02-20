@@ -2,6 +2,7 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
 
@@ -74,10 +76,8 @@ public class SearchActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-//                String searchQuery = editText.getText().toString();
-//                Log.e(Const.DEBUG, searchQuery);
-                final String searchQuery = "day after tomorrow";
-//                final String searchQuery = "звуки музыки";
+                String searchQuery = editText.getText().toString();
+                Log.e(Const.DEBUG, searchQuery);
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 assert connMgr != null;
@@ -92,7 +92,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     class TMDBSearchManager extends AsyncTask <String, Void, ArrayList<SearchBuilder>>{
@@ -169,7 +168,6 @@ public class SearchActivity extends AppCompatActivity {
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-//                    posterParams.addRule(RelativeLayout.BELOW, mTitle.getId());
                 tr.addView(mPoster, posterParams);
 
                 RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
@@ -200,7 +198,6 @@ public class SearchActivity extends AppCompatActivity {
                         100, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 tmdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
                 tmdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-//                    tmdbParams.addRule(RelativeLayout.CENTER_IN_PARENT);
                 tr.addView(mTMDb, tmdbParams);
                 Log.e(Const.SEE, String.valueOf(search.get(i).getId()));
                 tr.setOnClickListener(new View.OnClickListener()
@@ -209,7 +206,6 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v)
                     {
                         v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                        Log.e(Const.SEE, movieId);
                         new TMDBMovieManager().execute(movieId);
                     }
                 });
@@ -300,36 +296,17 @@ public class SearchActivity extends AppCompatActivity {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         @Override
         protected void onPostExecute(MovieBuilder movie) {
-
-//            DB db1 = new DB(SearchActivity.this);
-//
-////            db.execSQL("DROP TABLE IF EXISTS " + "movies");
-////            db1.onCreate(db);
-//            db1.addMovie(movie);
-//
-//            String selectQuery = "SELECT  * FROM " + "movies";
+            DB db1 = new DB(SearchActivity.this);
 //            SQLiteDatabase db = db1.getWritableDatabase();
-//            Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//            if (cursor.moveToFirst()) {
-//                while (!cursor.isAfterLast()) {
-//                    Log.e(Const.SEE, cursor.getString(4));
-//                    Log.e(Const.SEE, cursor.getString(9));
-//                    stringToBitmap(cursor.getString(9));
-////                    Log.e(Const.DEBUG, stringToBitmap(cursor.getString(9)));
-//                    cursor.moveToNext();
-//                }
-//            }
-//            cursor.close();
+//            db1.onUpgrade(db, 1,2);
+            db1.addMovie(movie);
 
             Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
         }
 
         MovieBuilder movie(String movieId) throws IOException {
-            Log.e(Const.DEBUG, "we're on the movie part");
+
             String stringBuilder = TMDB_MOVIE + movieId + EN + "api_key=" + API.KEY;
-//            String stringBuilder = TMDB_MOVIE + "1268" + EN + "api_key=" + API.KEY;
-//            String stringBuilder = TMDB_MOVIE + "585" + EN + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
@@ -403,6 +380,9 @@ public class SearchActivity extends AppCompatActivity {
                 String imdbId = "";
                 String rating = "";
                 if(jsonMovieObject.getString("imdb_id")==null){
+                    imdbId = "none";
+                    rating = "-";
+                } else {
                     imdbId = jsonMovieObject.getString("imdb_id");
 
                     Document doc = null;
@@ -413,9 +393,6 @@ public class SearchActivity extends AppCompatActivity {
                     }
                     Element rat = doc.select("span[itemprop = ratingValue]").first();
                     rating = rat.ownText();
-                } else {
-                    imdbId = "none";
-                    rating = "-";
                 }
 
                 //get picture bitmap

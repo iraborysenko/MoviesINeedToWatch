@@ -53,11 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         TableLayout mTable = findViewById(R.id.main_table);
 
-        DB database = new DB(MainActivity.this);
-
-        String selectQuery = "SELECT  * FROM " + "movies";
-        SQLiteDatabase db = database.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        DB db = new DB(MainActivity.this);
+        Cursor cursor = db.getAllMovies();
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -113,15 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
                 mYear.setId(7);
-                mYear.setText(cursor.getString(RELEASE_DATE).subSequence(0, 4));
-                Log.e(Const.DEBUG, cursor.getString(RELEASE_DATE));
+                mYear.setText(cursor.getString(RELEASE_DATE));
 
-                //get TMDb rating
+                //get IMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
                 mIMDb.setId(8);
                 mIMDb.setText(cursor.getString(IMDB));
-                Log.e(Const.DEBUG, cursor.getString(IMDB));
-
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(
                         230, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -177,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v)
                     {
                         v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                        Log.e(Const.SEE, movieId);
                         movieTMDB(movieId);
                     }
                 });
