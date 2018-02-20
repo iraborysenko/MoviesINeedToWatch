@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
@@ -73,25 +75,41 @@ public class SearchActivity extends AppCompatActivity {
         final EditText editText = findViewById(R.id.search_query);
         ImageButton button = findViewById(R.id.search_button);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        editText.setOnKeyListener(new View.OnKeyListener() {
 
-            public void onClick(View v) {
-                String searchQuery = editText.getText().toString();
-                Log.e(Const.DEBUG, searchQuery);
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                assert connMgr != null;
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    new TMDBSearchManager().execute(searchQuery);
-                } else {
-                    TextView textView = new TextView(SearchActivity.this);
-                    textView.setText("No network connection.");
-                    setContentView(textView);
-                    Log.e(Const.ERR, "stepErr");
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    runSearch(editText);
+                    Log.e(Const.SEE, "Enter!");
+                    return true;
                 }
+                return false;
             }
         });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                runSearch(editText);
+            }
+        });
+    }
+
+    void runSearch(EditText editText) {
+        String searchQuery = editText.getText().toString();
+        Log.e(Const.DEBUG, searchQuery);
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connMgr != null;
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new TMDBSearchManager().execute(searchQuery);
+        } else {
+            TextView textView = new TextView(SearchActivity.this);
+            textView.setText("No network connection.");
+            setContentView(textView);
+            Log.e(Const.ERR, "stepErr");
+        }
     }
 
     class TMDBSearchManager extends AsyncTask <String, Void, ArrayList<SearchBuilder>>{
@@ -300,7 +318,8 @@ public class SearchActivity extends AppCompatActivity {
 //            SQLiteDatabase db = db1.getWritableDatabase();
 //            db1.onUpgrade(db, 1,2);
             db1.addMovie(movie);
-
+            
+            Toast.makeText(SearchActivity.this, "Movie added to the wish list", Toast.LENGTH_SHORT).show();
             Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
         }
 
