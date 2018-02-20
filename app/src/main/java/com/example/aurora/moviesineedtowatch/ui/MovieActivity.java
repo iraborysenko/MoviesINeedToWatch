@@ -95,8 +95,8 @@ public class MovieActivity extends AppCompatActivity {
         mIMDb.setText(cursor.getString(IMDB));
         mImage.setImageBitmap(stringToBitmap(cursor.getString(POST_IMAGE)));
         mTagline.setText(cursor.getString(TAGLINE));
-        mRuntime.setText(String.format("%s min", cursor.getString(RUNTIME)));
-        mYear.setText(cursor.getString(RELEASE_DATE).subSequence(0, 4));
+        mRuntime.setText(cursor.getString(RUNTIME));
+        mYear.setText(cursor.getString(RELEASE_DATE));
         mOverview.setText(cursor.getString(OVERVIEW));
 
         //get genres

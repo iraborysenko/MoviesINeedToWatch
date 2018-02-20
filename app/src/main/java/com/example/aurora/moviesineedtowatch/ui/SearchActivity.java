@@ -2,8 +2,6 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
 
@@ -303,8 +300,7 @@ public class SearchActivity extends AppCompatActivity {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         @Override
         protected void onPostExecute(MovieBuilder movie) {
-//            MovieBuilder movie = (MovieBuilder) result;
-//
+
 //            DB db1 = new DB(SearchActivity.this);
 //
 ////            db.execSQL("DROP TABLE IF EXISTS " + "movies");
@@ -362,6 +358,23 @@ public class SearchActivity extends AppCompatActivity {
             try {
                 JSONObject jsonMovieObject = new JSONObject(result);
 
+                String id = jsonMovieObject.getString("id");
+                String title = jsonMovieObject.getString("title");
+                String original_title = jsonMovieObject.getString("original_title");
+                String original_language = jsonMovieObject.getString("original_language");
+                String poster_path = jsonMovieObject.getString("poster_path");
+                String overview = jsonMovieObject.getString("overview");
+                String release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
+                String tagline = jsonMovieObject.getString("tagline");
+                String runtime = "";
+                if(jsonMovieObject.getString("runtime") == "null") {
+                    runtime = "none";
+                }else {
+                    runtime = jsonMovieObject.getString("runtime") + " min";
+                }
+                float tmdb = Float.parseFloat(jsonMovieObject.getString("vote_average"));
+                int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
+
                 //parsing genres ids
                 JSONArray ids = jsonMovieObject.getJSONArray("genres");
                 ArrayList<Integer> arrGenres = new ArrayList<>();
@@ -387,13 +400,23 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 //get imdb rating
-                Document doc = null;
-                try {
-                    doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                String imdbId = "";
+                String rating = "";
+                if(jsonMovieObject.getString("imdb_id")==null){
+                    imdbId = jsonMovieObject.getString("imdb_id");
+
+                    Document doc = null;
+                    try {
+                        doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Element rat = doc.select("span[itemprop = ratingValue]").first();
+                    rating = rat.ownText();
+                } else {
+                    imdbId = "none";
+                    rating = "-";
                 }
-                Element rating = doc.select("span[itemprop = ratingValue]").first();
 
                 //get picture bitmap
                 String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
@@ -408,25 +431,23 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
-                        Integer.parseInt(jsonMovieObject.getString("id")),
-                        jsonMovieObject.getString("title"))
-                        .setImdbID(jsonMovieObject.getString("imdb_id"))
-                        .setImdb(rating.ownText())
-                        .setOriginalTitle(jsonMovieObject.getString("original_title"))
-                        .setOriginalLanguage(jsonMovieObject.getString("original_language"))
-                        .setOverview(jsonMovieObject.getString("overview"))
-                        .setPosterPath(jsonMovieObject.getString("poster_path"))
+                        Integer.parseInt(id), title)
+                        .setImdbID(imdbId)
+                        .setImdb(rating)
+                        .setOriginalTitle(original_title)
+                        .setOriginalLanguage(original_language)
+                        .setOverview(overview)
+                        .setPosterPath(poster_path)
                         .setPosterBitmap(img)
-                        .setReleaseDate(jsonMovieObject.getString("release_date"))
-                        .setTagline(jsonMovieObject.getString("tagline"))
-                        .setRuntime(jsonMovieObject.getString("runtime") == "null" ? 0 : Integer.parseInt(jsonMovieObject.getString("runtime")))
-                        .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
-                        .setVoteCount(Integer.parseInt(jsonMovieObject.getString("vote_count")))
+                        .setReleaseDate(release_data)
+                        .setTagline(tagline)
+                        .setRuntime(runtime)
+                        .setVoteAverage(tmdb)
+                        .setVoteCount(vote_count)
                         .setGenresIds(arrGenres)
                         .setComps(arrCompanies)
                         .setCountrs(arrCountries);
                 movie_data = movieBuilder.build();
-                Log.e(Const.DEBUG, movie_data.getTitle());
             } catch (JSONException e) {
                 System.err.println(e);
                 Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);

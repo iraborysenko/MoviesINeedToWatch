@@ -89,7 +89,7 @@ public class DB extends SQLiteOpenHelper {
         values.put(KEY_POSTER_IMAGE, bitmapToString(mBuilder.getPosterBitmap()));
         values.put(KEY_RELEASE_DATE, mBuilder.getReleaseDate());
         values.put(KEY_TAGLINE, mBuilder.getTagline());
-        values.put(KEY_RUNTIME, String.valueOf(mBuilder.getRuntime()));
+        values.put(KEY_RUNTIME, mBuilder.getRuntime());
         values.put(KEY_VOTE_AVERAGE, String.valueOf(mBuilder.getVoteAverage()));
         values.put(KEY_VOTE_COUNT, String.valueOf(mBuilder.getVoteCount()));
         values.put(KEY_GENRES_IDS, String.valueOf(mBuilder.getGenresIds()));

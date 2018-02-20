@@ -23,7 +23,7 @@ public class MovieBuilder {
     private final Bitmap posterBitmap;
     private final String releaseDate;
     private final String tagline;
-    private final int runtime;
+    private final String runtime;
     private final float voteAverage;
     private final int voteCount;
     private final ArrayList<Integer> genresIds;
@@ -69,13 +69,9 @@ public class MovieBuilder {
         return title;
     }
 
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
+    public String getOriginalTitle() { return originalTitle; }
 
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
+    public String getOriginalLanguage() { return originalLanguage; }
 
     public String getOverview() {
         return overview;
@@ -95,7 +91,7 @@ public class MovieBuilder {
         return tagline;
     }
 
-    public int getRuntime() {
+    public String getRuntime() {
         return runtime;
     }
 
@@ -125,7 +121,7 @@ public class MovieBuilder {
         private Bitmap posterBitmap;
         private String releaseDate;
         private String tagline;
-        private int runtime;
+        private String runtime;
         private float voteAverage;
         private int voteCount;
         private ArrayList<Integer> genresIds;
@@ -192,7 +188,7 @@ public class MovieBuilder {
             return this;
         }
 
-        public Builder setRuntime(int runtime) {
+        public Builder setRuntime(String runtime) {
             this.runtime = runtime;
             return this;
         }
