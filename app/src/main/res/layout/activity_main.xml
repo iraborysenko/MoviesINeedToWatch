@@ -45,26 +45,27 @@
                         android:layout_height="fill_parent"
                         android:layout_below="@+id/search_query"
                         android:layout_marginTop="40dp"
-                        tools:ignore="ObsoleteLayoutParam"></TableLayout>
-
+                        tools:ignore="ObsoleteLayoutParam">
+                    </TableLayout>
                 </FrameLayout>
-
-                <ImageButton
-                    android:id="@+id/main_search_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="13dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@null"
-                    app:srcCompat="@drawable/main_search"
-                    tools:layout_editor_absoluteX="287dp"
-                    tools:layout_editor_absoluteY="450dp" />
             </RelativeLayout>
         </ScrollView>
+
+        <ImageButton
+            android:id="@+id/main_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/button_bg"
+            android:padding="7dp"
+            app:srcCompat="@drawable/main_search"
+            tools:layout_editor_absoluteX="287dp"
+            tools:layout_editor_absoluteY="450dp" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

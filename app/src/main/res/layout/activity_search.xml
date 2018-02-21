@@ -18,53 +18,54 @@
             android:layout_marginLeft="20dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="" />
+            android:text=""
+            android:textColorLink="?attr/colorPrimaryDark" />
+        <ImageButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="72dp"
+            android:layout_marginRight="72dp"
+            android:background="@null"
+            android:padding="10dp"
+            app:srcCompat="@drawable/search"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="16dp" />
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/scroll"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/frameLayout"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-                <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/frameLayout">
+                <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:stackFromBottom="true"
+                    android:transcriptMode="alwaysScroll">
 
                     <TableLayout
                         android:id="@+id/searchTable"
-                        android:layout_below="@+id/search_query"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
+                        android:layout_below="@+id/search_query"
                         android:layout_marginTop="15dp"
                         tools:ignore="ObsoleteLayoutParam">
                     </TableLayout>
+                </ScrollView>
 
-                </FrameLayout>
+            </FrameLayout>
 
-                <ImageButton
-                    android:id="@+id/search_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/frameLayout"
-                    android:layout_marginEnd="72dp"
-                    android:layout_marginRight="72dp"
-                    android:background="@null"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/search"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="16dp" />
-            </RelativeLayout>
-        </ScrollView>
+        </RelativeLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
