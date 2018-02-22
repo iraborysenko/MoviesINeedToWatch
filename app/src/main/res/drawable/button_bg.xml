@@ -6,5 +6,5 @@
         android:gradientRadius="100"
         android:startColor="#EFF4F0"
         android:endColor="#EFF4F0" />
-    <corners android:radius="20dp" />
+    <corners android:radius="24dp" />
 </shape>
