@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
         ImageButton searchButton = findViewById(R.id.main_search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -72,21 +74,25 @@ public class MainActivity extends AppCompatActivity {
                 final TextView mTitle = new TextView(MainActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(cursor.getString(TITLE));
+                mTitle.setTypeface(font);
 
                 //original title
                 TextView mOTitle = new TextView(MainActivity.this);
                 mOTitle.setId(3);
                 mOTitle.setText(cursor.getString(OTITLE));
+                mOTitle.setTypeface(font);
 
                 //original language
                 TextView mOLang = new TextView(MainActivity.this);
                 mOLang.setId(4);
                 mOLang.setText(cursor.getString(LANG));
+                mOLang.setTypeface(font);
 
                 //tagline
                 TextView mTagline = new TextView(MainActivity.this);
                 mTagline.setId(5);
                 mTagline.setText(cursor.getString(TAGLINE));
+                mTagline.setTypeface(font);
 
                 //get genres
                 String genresString = "";
@@ -106,16 +112,19 @@ public class MainActivity extends AppCompatActivity {
                 TextView mGenres = new TextView(MainActivity.this);
                 mGenres.setId(6);
                 mGenres.setText(String.valueOf(genresString));
+                mGenres.setTypeface(font);
 
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
                 mYear.setId(7);
                 mYear.setText(cursor.getString(RELEASE_DATE));
+                mYear.setTypeface(font);
 
                 //get IMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
                 mIMDb.setId(8);
                 mIMDb.setText(cursor.getString(IMDB));
+                mIMDb.setTypeface(font);
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(
                         230, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -174,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
                         movieTMDB(movieId);
                     }
                 });
-
 
                 mTable.addView(tr);
                 cursor.moveToNext();

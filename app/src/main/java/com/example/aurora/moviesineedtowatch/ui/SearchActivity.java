@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -93,6 +96,8 @@ public class SearchActivity extends AppCompatActivity {
                 runSearch(editText);
             }
         });
+
+
     }
 
     void runSearch(EditText editText) {
@@ -130,6 +135,7 @@ public class SearchActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, String.valueOf(search.size()));
 
             TableLayout mTable = findViewById(R.id.searchTable);
+            final Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
             for (int i = 0; i < search.size(); i++) {
                 RelativeLayout tr = new RelativeLayout(SearchActivity.this);
@@ -154,11 +160,13 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mTitle = new TextView(SearchActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(search.get(i).getTitle());
+                mTitle.setTypeface(font);
 
                 //original title
                 TextView mOTitle = new TextView(SearchActivity.this);
                 mOTitle.setId(3);
                 mOTitle.setText(search.get(i).getOriginalTitle());
+                mOTitle.setTypeface(font);
 
                 //get genres
                 String genresString = "";
@@ -172,16 +180,19 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mGenres = new TextView(SearchActivity.this);
                 mGenres.setId(4);
                 mGenres.setText(String.valueOf(genresString));
+                mGenres.setTypeface(font);
 
                 //get year
                 TextView mYear = new TextView(SearchActivity.this);
                 mYear.setId(5);
                 mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                mYear.setTypeface(font);
 
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
                 mTMDb.setId(6);
                 mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
+                mTMDb.setTypeface(font);
 
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
