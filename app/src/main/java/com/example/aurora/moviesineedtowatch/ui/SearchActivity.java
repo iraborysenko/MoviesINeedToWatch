@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -160,13 +162,16 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mTitle = new TextView(SearchActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(search.get(i).getTitle());
-                mTitle.setTypeface(font);
+                mTitle.setTypeface(font, Typeface.BOLD);
+                mTitle.setTextColor(getResources().getColor(R.color.colorBlue));
+                mTitle.setGravity(Gravity.CENTER);
+                mTitle.setTextSize(16);
 
                 //original title
                 TextView mOTitle = new TextView(SearchActivity.this);
                 mOTitle.setId(3);
                 mOTitle.setText(search.get(i).getOriginalTitle());
-                mOTitle.setTypeface(font);
+                mOTitle.setTypeface(font, Typeface.ITALIC);
 
                 //get genres
                 String genresString = "";
@@ -180,61 +185,67 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mGenres = new TextView(SearchActivity.this);
                 mGenres.setId(4);
                 mGenres.setText(String.valueOf(genresString));
-                mGenres.setTypeface(font);
-
-                //get year
-                TextView mYear = new TextView(SearchActivity.this);
-                mYear.setId(5);
-                mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
-                mYear.setTypeface(font);
+                mGenres.setTypeface(font, Typeface.BOLD);
+                mGenres.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
-                mTMDb.setId(6);
+                mTMDb.setId(5);
                 mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
-                mTMDb.setTypeface(font);
+                mTMDb.setTypeface(font, Typeface.BOLD);
+                mTMDb.setTextSize(15);
 
+                //get year
+                TextView mYear = new TextView(SearchActivity.this);
+                mYear.setId(6);
+                mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                mYear.setTypeface(font);
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                posterParams.setMargins(20, 5, 20, 20);
                 tr.addView(mPoster, posterParams);
 
                 RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 titleParams.addRule(RelativeLayout.ALIGN_TOP);
-                mTitle.setGravity(Gravity.CENTER);
+                titleParams.setMargins(0, 10, 0, 10);
                 tr.addView(mTitle, titleParams);
 
                 RelativeLayout.LayoutParams oTitleParams = new RelativeLayout.LayoutParams(
-                        230, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 oTitleParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 oTitleParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                oTitleParams.setMargins(0, 0, 10, 20);
                 tr.addView(mOTitle, oTitleParams);
 
-                RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
-                        100, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                yearParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
-                yearParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
-                tr.addView(mYear, yearParams);
-
                 RelativeLayout.LayoutParams genresParams = new RelativeLayout.LayoutParams(
-                        170, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                genresParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
-                genresParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                        320, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                genresParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
+                genresParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
+                genresParams.setMargins(10, 0, 10, 10);
                 tr.addView(mGenres, genresParams);
 
                 RelativeLayout.LayoutParams tmdbParams = new RelativeLayout.LayoutParams(
-                        100, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        50, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 tmdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
-                tmdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                tmdbParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
+                tmdbParams.setMargins(10,0,20, 0);
                 tr.addView(mTMDb, tmdbParams);
+
+                RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
+                        70, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                yearParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
+                yearParams.addRule(RelativeLayout.BELOW, mTMDb.getId());
+                yearParams.setMargins(0, 0, 0, 0);
+                tr.addView(mYear, yearParams);
+
                 Log.e(Const.SEE, String.valueOf(search.get(i).getId()));
                 tr.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
                         new TMDBMovieManager().execute(movieId);
                     }
                 });
@@ -377,7 +388,10 @@ public class SearchActivity extends AppCompatActivity {
                 if(jsonMovieObject.getString("runtime") == "null") {
                     runtime = "none";
                 }else {
-                    runtime = jsonMovieObject.getString("runtime") + " min";
+                    int duration = Integer.parseInt(jsonMovieObject.getString("runtime"));
+                    int hours = duration / 60;
+                    int minutes = duration % 60;
+                    runtime = hours + "h " + minutes + "min";
                 }
                 float tmdb = Float.parseFloat(jsonMovieObject.getString("vote_average"));
                 int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));

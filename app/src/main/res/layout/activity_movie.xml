@@ -24,6 +24,7 @@
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="20dp"
                 android:text="@string/title"
+                android:textColor="@color/colorDarkGreen"
                 android:textSize="30sp"
                 android:textStyle="normal|bold"
                 tools:layout_editor_absoluteX="150dp"
@@ -76,6 +77,9 @@
                 android:layout_below="@+id/imdb"
                 android:layout_marginTop="15dp"
                 android:text="Tagline"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp"
+                android:textStyle="italic"
                 tools:layout_editor_absoluteX="179dp"
                 tools:layout_editor_absoluteY="148dp" />
 
@@ -110,22 +114,27 @@
                 android:layout_below="@+id/runtime"
                 android:layout_marginLeft="13dp"
                 android:layout_marginStart="13dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/poster"
                 android:layout_toRightOf="@+id/poster"
                 android:text="genres"
+                android:textColor="@color/colorLightBlue"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:layout_editor_absoluteX="180dp"
                 tools:layout_editor_absoluteY="222dp" />
 
             <TextView
                 android:id="@+id/otitle"
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
+                android:layout_height="20dp"
                 android:layout_alignLeft="@+id/overview"
                 android:layout_alignStart="@+id/overview"
                 android:layout_below="@+id/title"
+                android:layout_marginBottom="5dp"
                 android:paddingLeft="25dp"
                 android:text="original title"
+                android:textSize="16sp"
                 tools:layout_editor_absoluteX="161dp"
                 tools:layout_editor_absoluteY="59dp" />
 
@@ -178,6 +187,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:text="Overview"
+                android:textSize="16sp"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="272dp" />
 

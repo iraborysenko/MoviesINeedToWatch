@@ -29,14 +29,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="9dp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="@font/comic_relief"
+                    android:padding="13dp"
                     android:text="@string/movies_to_watch"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
+                    android:textColor="@color/colorBlue"
+                    android:textSize="24sp"
+                    android:textStyle="normal|bold" />
 
                 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <TableLayout
@@ -44,9 +45,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_below="@+id/search_query"
-                        android:layout_marginTop="40dp"
-                        tools:ignore="ObsoleteLayoutParam">
-                    </TableLayout>
+                        android:layout_marginTop="60dp"
+                        tools:ignore="ObsoleteLayoutParam"></TableLayout>
                 </FrameLayout>
             </RelativeLayout>
         </ScrollView>

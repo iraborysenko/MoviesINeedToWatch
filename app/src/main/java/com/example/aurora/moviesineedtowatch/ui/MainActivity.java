@@ -74,25 +74,17 @@ public class MainActivity extends AppCompatActivity {
                 final TextView mTitle = new TextView(MainActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(cursor.getString(TITLE));
-                mTitle.setTypeface(font);
-
-                //original title
-                TextView mOTitle = new TextView(MainActivity.this);
-                mOTitle.setId(3);
-                mOTitle.setText(cursor.getString(OTITLE));
-                mOTitle.setTypeface(font);
-
-                //original language
-                TextView mOLang = new TextView(MainActivity.this);
-                mOLang.setId(4);
-                mOLang.setText(cursor.getString(LANG));
-                mOLang.setTypeface(font);
+                mTitle.setTypeface(font, Typeface.BOLD);
+                mTitle.setGravity(Gravity.CENTER);
+                mTitle.setTextColor(getResources().getColor(R.color.colorDarkGreen));
+                mTitle.setTextSize(20);
 
                 //tagline
                 TextView mTagline = new TextView(MainActivity.this);
-                mTagline.setId(5);
+                mTagline.setId(3);
                 mTagline.setText(cursor.getString(TAGLINE));
-                mTagline.setTypeface(font);
+                mTagline.setTypeface(font, Typeface.BOLD_ITALIC);
+                mTagline.setTextSize(16);
 
                 //get genres
                 String genresString = "";
@@ -110,68 +102,65 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 TextView mGenres = new TextView(MainActivity.this);
-                mGenres.setId(6);
+                mGenres.setId(4);
                 mGenres.setText(String.valueOf(genresString));
-                mGenres.setTypeface(font);
+                mGenres.setTypeface(font, Typeface.BOLD);
+                mGenres.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
-                mYear.setId(7);
+                mYear.setId(5);
                 mYear.setText(cursor.getString(RELEASE_DATE));
                 mYear.setTypeface(font);
+                mYear.setGravity(Gravity.CENTER);
 
                 //get IMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
-                mIMDb.setId(8);
+                mIMDb.setId(6);
                 mIMDb.setText(cursor.getString(IMDB));
-                mIMDb.setTypeface(font);
+                mIMDb.setTypeface(font, Typeface.BOLD);
+                mIMDb.setBackgroundColor(getResources().getColor(R.color.colorLightBlue));
+                mIMDb.setTextColor(getResources().getColor(R.color.colorBeige));
+                mIMDb.setGravity(Gravity.CENTER);
+
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(
                         230, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                posterParams.setMargins(20,0,20, 20);
                 tr.addView(mPoster, posterParams);
 
                 RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 titleParams.addRule(RelativeLayout.ALIGN_TOP);
-                mTitle.setGravity(Gravity.CENTER);
                 tr.addView(mTitle, titleParams);
 
-                RelativeLayout.LayoutParams langParams = new RelativeLayout.LayoutParams(
-                        40, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                langParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
-                langParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-                tr.addView(mOLang, langParams);
-
-                RelativeLayout.LayoutParams oTitleParams = new RelativeLayout.LayoutParams(
-                        350, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                oTitleParams.addRule(RelativeLayout.RIGHT_OF, mOLang.getId());
-                oTitleParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-                tr.addView(mOTitle, oTitleParams);
-
                 RelativeLayout.LayoutParams taglineParams = new RelativeLayout.LayoutParams(
-                        350, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        550, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 taglineParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
-                taglineParams.addRule(RelativeLayout.BELOW, mOLang.getId());
-                taglineParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
+                taglineParams.addRule(RelativeLayout.BELOW, mTitle.getId());
+                taglineParams.setMargins(0, 5, 20, 10);
                 tr.addView(mTagline, taglineParams);
 
                 RelativeLayout.LayoutParams genresParams = new RelativeLayout.LayoutParams(
-                        170, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        220, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 genresParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 genresParams.addRule(RelativeLayout.BELOW, mTagline.getId());
+                genresParams.setMargins(0, 0, 10, 10);
                 tr.addView(mGenres, genresParams);
 
                 RelativeLayout.LayoutParams imdbParams = new RelativeLayout.LayoutParams(
-                        100, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                imdbParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-                imdbParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
+                        200, 230);
+                imdbParams.addRule(RelativeLayout.BELOW, mTagline.getId());
+                imdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
+                imdbParams.setMargins(10, 5, 20, 10);
                 tr.addView(mIMDb, imdbParams);
 
                 RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
-                        70, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        200, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 yearParams.addRule(RelativeLayout.BELOW, mIMDb.getId());
-                yearParams.addRule(RelativeLayout.RIGHT_OF, mOTitle.getId());
+                yearParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
+                yearParams.setMargins(10, 0, 20, 20);
                 tr.addView(mYear, yearParams);
 
                 tr.setOnClickListener(new View.OnClickListener()
@@ -179,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v)
                     {
-                        v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
                         movieTMDB(movieId);
                     }
                 });

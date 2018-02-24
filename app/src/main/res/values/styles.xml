@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorDarkGreen</item>
         <item name="fontFamily">@font/comic_relief</item>
+        <item name="android:windowBackground">@color/colorBeige</item>
     </style>
 
 </resources>
