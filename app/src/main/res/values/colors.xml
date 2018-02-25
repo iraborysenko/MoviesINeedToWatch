@@ -8,4 +8,17 @@
     <color name="colorLightBlue">#66b3ff</color>
     <color name="colorBlue">#0000b3</color>
     <color name="colorBeige">#ffffe9</color>
+
+    <!--imdb rating colors-->
+    <color name="VeryBad">#992600</color>
+    <color name="Bad">#ff471a</color>
+    <color name="Avarage">#ff9900</color>
+    <color name="AboveAvarage">#e9e97d</color>
+    <color name="Intermediate">#77dfa4</color>
+    <color name="Good">#00a36c</color>
+    <color name="VeryGood">#3399ff</color>
+    <color name="Great">#0000b3</color>
+    <color name="Adept">#4b159c</color>
+    <color name="Unicum">#660066</color>
+    <color name="OutOfBound">#996633</color>
 </resources>
