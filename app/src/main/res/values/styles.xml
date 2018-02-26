@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorDarkGreen</item>
         <item name="fontFamily">@font/comic_relief</item>
         <item name="android:windowBackground">@color/colorBeige</item>
+    </style>
+
+    <style name="LangSwitch.text" parent="@android:style/TextAppearance" >
+        <item name="android:textColor">@color/colorBeige</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold|italic</item>
     </style>
 
 </resources>

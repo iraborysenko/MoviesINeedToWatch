@@ -2,16 +2,14 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,15 +44,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
@@ -61,7 +59,6 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_SEARCH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
 
 /**
  * Created by Android Studio.
@@ -70,6 +67,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
  * Time: 20:41
  */
 public class SearchActivity extends AppCompatActivity {
+    public Switch s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,8 +97,23 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        s = findViewById(R.id.switchToEN);
+        SharedPreferences settings = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE);
+        boolean set = settings.getBoolean("lang_key", false);
+        s.setChecked(set);
 
+        s.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Log.e(Const.TAG, String.valueOf(s.isChecked()));
+                SharedPreferences.Editor editor = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE).edit();
+                editor.putBoolean("lang_key", s.isChecked());
+                editor.commit();
+            }
+        });
     }
+
 
     void runSearch(EditText editText) {
         String searchQuery = editText.getText().toString();
@@ -259,7 +272,7 @@ public class SearchActivity extends AppCompatActivity {
         ArrayList<SearchBuilder> search(String searchQuery) throws IOException {
 
             String encodedQuery = URLEncoder.encode(searchQuery, "UTF-8");
-            String stringBuilder = TMDB_SEARCH + "?api_key=" + API.KEY + QUERY + encodedQuery;
+            String stringBuilder = TMDB_SEARCH + (s.isChecked()?EN:RU) + "api_key=" + API.KEY + QUERY + encodedQuery;
 
             URL url = new URL(stringBuilder);
             Log.e(Const.SEE, url.toString());
@@ -346,8 +359,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         MovieBuilder movie(String movieId) throws IOException {
-
-            String stringBuilder = TMDB_MOVIE + movieId + EN + "api_key=" + API.KEY;
+            String stringBuilder = TMDB_MOVIE + movieId + (s.isChecked()?EN:RU) + "api_key=" + API.KEY;
             URL url = new URL(stringBuilder);
             Log.e(Const.TAG,url.toString());
 
