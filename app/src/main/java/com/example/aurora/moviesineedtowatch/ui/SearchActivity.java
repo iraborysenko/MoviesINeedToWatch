@@ -3,6 +3,7 @@ package com.example.aurora.moviesineedtowatch.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -192,7 +193,7 @@ public class SearchActivity extends AppCompatActivity {
                     genresString = "not defined";
                 } else {
                     for (Integer genreId : search.get(i).getGenreIds()) {
-                        genresString += genres.get(genreId)[0] + "\n";
+                        genresString += genres.get(genreId)[s.isChecked()?0:1] + "\n";
                     }
                 }
                 TextView mGenres = new TextView(SearchActivity.this);
@@ -351,7 +352,7 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(MovieBuilder movie) {
             DB db1 = new DB(SearchActivity.this);
 //            SQLiteDatabase db = db1.getWritableDatabase();
-//            db1.onUpgrade(db, 1,2);
+//            db1.onUpgrade(db, 3,4);
             db1.addMovie(movie);
             
             Toast.makeText(SearchActivity.this, "Movie added to the wish list", Toast.LENGTH_SHORT).show();
@@ -397,13 +398,18 @@ public class SearchActivity extends AppCompatActivity {
                 String release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
                 String tagline = jsonMovieObject.getString("tagline");
                 String runtime = "";
-                if(jsonMovieObject.getString("runtime") == "null") {
-                    runtime = "none";
+
+                String jsonRuntime = jsonMovieObject.getString("runtime");
+                if( jsonRuntime == "null" || jsonRuntime == "0") {
+                    runtime = "unknown";
                 }else {
                     int duration = Integer.parseInt(jsonMovieObject.getString("runtime"));
                     int hours = duration / 60;
                     int minutes = duration % 60;
-                    runtime = hours + "h " + minutes + "min";
+                    if (s.isChecked())
+                        runtime = hours + "h " + minutes + "min";
+                    else
+                        runtime = hours + "ч " + minutes + "мин";
                 }
                 float tmdb = Float.parseFloat(jsonMovieObject.getString("vote_average"));
                 int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
@@ -462,6 +468,8 @@ public class SearchActivity extends AppCompatActivity {
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
+                //get current language
+                String savedLang = String.valueOf(s.isChecked());
 
                 MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
                         Integer.parseInt(id), title)
@@ -479,7 +487,8 @@ public class SearchActivity extends AppCompatActivity {
                         .setVoteCount(vote_count)
                         .setGenresIds(arrGenres)
                         .setComps(arrCompanies)
-                        .setCountrs(arrCountries);
+                        .setCountrs(arrCountries)
+                        .setSavedLang(savedLang);
                 movie_data = movieBuilder.build();
             } catch (JSONException e) {
                 System.err.println(e);

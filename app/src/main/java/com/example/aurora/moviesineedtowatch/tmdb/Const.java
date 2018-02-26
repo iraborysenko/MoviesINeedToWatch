@@ -16,9 +16,6 @@ public class Const {
     public final static String ERR = "VALUES";
     public final static String SEE = "LOOK HERE";
 
-    public final static Locale enLocale = Locale.ENGLISH;
-    public final static Locale ruLocale =  new Locale("ru");
-
     public final static String TMDB_MOVIE = "http://api.themoviedb.org/3/movie/";
     public final static String TMDB_SEARCH = "http://api.themoviedb.org/3/search/movie";
     public final static String IMDb_MOVIE = "http://www.imdb.com/title/";
@@ -35,7 +32,7 @@ public class Const {
     public final static int IMDB = 3;
     public final static int TITLE = 4;
     public final static int OTITLE = 5;
-    public final static int LANG = 6;
+    public final static int OLANG = 6;
     public final static int OVERVIEW = 7;
     public final static int POST_PATH = 8;
     public final static int POST_IMAGE = 9;
@@ -47,6 +44,16 @@ public class Const {
     public final static int GENRES_IDS = 15;
     public final static int COMPS = 16;
     public final static int COUNTRS = 17;
+    public final static int LANG = 18;
+
+
+    public final static HashMap<String, Locale> lang = new HashMap<String, Locale>() {
+        {
+            put("false", new Locale("ru"));
+            put("true", Locale.ENGLISH);
+        }
+
+    };
 
     public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {
         {

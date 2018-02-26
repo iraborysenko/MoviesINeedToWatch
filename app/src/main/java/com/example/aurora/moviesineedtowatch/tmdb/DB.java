@@ -40,6 +40,11 @@ public class DB extends SQLiteOpenHelper {
     private static final String KEY_GENRES_IDS = "genres_ids";
     private static final String KEY_COMPANIES = "companies";
     private static final String KEY_COUNTRIES = "countries";
+    //additional columns
+    private static final String KEY_LANG = "language";
+    private static final String KEY_RATING = "my_rating";
+    private static final String KEY_WATCHED = "watched";
+    private static final String KEY_COMMENT = "comment";
 
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -53,7 +58,9 @@ public class DB extends SQLiteOpenHelper {
                 + KEY_OLanguage + " TEXT," + KEY_OVERVIEW + " TEXT," + KEY_POSTER_PATH + " TEXT,"
                 + KEY_POSTER_IMAGE + " BLOB," + KEY_RELEASE_DATE + " TEXT," + KEY_TAGLINE + " TEXT,"
                 + KEY_RUNTIME + " TEXT," + KEY_VOTE_AVERAGE + " TEXT," + KEY_VOTE_COUNT + " TEXT,"
-                + KEY_GENRES_IDS + " TEXT," + KEY_COMPANIES + " TEXT," + KEY_COUNTRIES + " TEXT" + ")";
+                + KEY_GENRES_IDS + " TEXT," + KEY_COMPANIES + " TEXT," + KEY_COUNTRIES + " TEXT,"
+                + KEY_LANG + " TEXT," + KEY_RATING + " TEXT," + KEY_WATCHED + " TEXT,"
+                + KEY_COMMENT + " TEXT" + ")";
         db.execSQL(CREATE_MOVIE_TABLE);
     }
 
@@ -85,6 +92,7 @@ public class DB extends SQLiteOpenHelper {
         values.put(KEY_GENRES_IDS, String.valueOf(mBuilder.getGenresIds()));
         values.put(KEY_COMPANIES, String.valueOf(mBuilder.getComps()));
         values.put(KEY_COUNTRIES, String.valueOf(mBuilder.getCountrs()));
+        values.put(KEY_LANG, mBuilder.getSavedLang());
 
         // Inserting Row
         db.insert(TABLE_MOVIE, null, values);

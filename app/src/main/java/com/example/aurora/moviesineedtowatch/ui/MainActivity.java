@@ -23,11 +23,12 @@ import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Objects;
+
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.OTITLE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
@@ -93,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
                     if (ids.length() == 0) {
                         genresString = "not defined";
                     } else {
+                        int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
                         for (int i=0; i<ids.length(); i++) {
-                            genresString += genres.get(ids.get(i))[0] + "\n";
+                            genresString += genres.get(ids.get(i))[index] + "\n";
                         }
                     }
                 } catch (JSONException e) {
@@ -119,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 mIMDb.setId(6);
                 mIMDb.setText(cursor.getString(IMDB));
                 mIMDb.setTypeface(font, Typeface.BOLD);
-//                mIMDb.setBackgroundColor(getResources().getColor(R.color.colorLightBlue));
                 mIMDb.setBackgroundColor(getResources().getColor(chooseColor(cursor.getString(IMDB))));
                 mIMDb.setTextColor(getResources().getColor(R.color.colorBeige));
                 mIMDb.setTextSize(18);

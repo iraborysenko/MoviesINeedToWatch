@@ -19,12 +19,13 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
+import java.util.Objects;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.COMPS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.COUNTRS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.OLANG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.OTITLE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.OVERVIEW;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
@@ -32,9 +33,11 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RUNTIME;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.VOTE_AVARG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.ruLocale;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
+
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
 
 /**
  * Created by Android Studio.
@@ -90,7 +93,7 @@ public class MovieActivity extends AppCompatActivity {
         cursor.moveToFirst();
 
         mTitle.setText(cursor.getString(TITLE));
-        mOTitle.setText(String.format("%s %s", cursor.getString(LANG), cursor.getString(OTITLE)));
+        mOTitle.setText(String.format("%s %s", cursor.getString(OLANG), cursor.getString(OTITLE)));
         mTMDb.setText(cursor.getString(VOTE_AVARG));
         mIMDb.setText(cursor.getString(IMDB));
         mImage.setImageBitmap(stringToBitmap(cursor.getString(POST_IMAGE)));
@@ -106,8 +109,9 @@ public class MovieActivity extends AppCompatActivity {
             if (ids.length() == 0) {
                 genresString = "not defined";
             } else {
+                int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
                 for (int i=0; i<ids.length(); i++) {
-                    genresString += genres.get(ids.get(i))[0] + "\n";
+                    genresString += genres.get(ids.get(i))[index] + "\n";
                 }
             }
         } catch (JSONException e) {
@@ -124,7 +128,7 @@ public class MovieActivity extends AppCompatActivity {
             } else {
                 for (int i=0; i<ids.length(); i++) {
                     Locale obj = new Locale("", ids.get(i).toString());
-                    countriesString += obj.getDisplayCountry(ruLocale) + "\n";
+                    countriesString += obj.getDisplayCountry(lang.get(cursor.getString(LANG))) + "\n";
                 }
             }
             mCountries.setText(countriesString);

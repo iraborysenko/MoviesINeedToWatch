@@ -29,6 +29,7 @@ public class MovieBuilder {
     private final ArrayList<Integer> genresIds;
     private final ArrayList<String> comps;
     private final ArrayList<String> countrs;
+    private final String savedLang;
 
 
     MovieBuilder(Builder builder) {
@@ -49,6 +50,7 @@ public class MovieBuilder {
         genresIds = builder.genresIds;
         comps = builder.comps;
         countrs = builder.countrs;
+        savedLang = builder.savedLang;
     }
 
     public static Builder newBuilder(int id, String title) {
@@ -103,11 +105,13 @@ public class MovieBuilder {
         return voteCount;
     }
 
-    public ArrayList<Integer> getGenresIds() {return genresIds; }
+    public ArrayList<Integer> getGenresIds() { return genresIds; }
 
-    public ArrayList<String> getComps() {return comps; }
+    public ArrayList<String> getComps() { return comps; }
 
-    public ArrayList<String> getCountrs() {return countrs; }
+    public ArrayList<String> getCountrs() { return countrs; }
+
+    public String getSavedLang() { return savedLang; }
 
     public static class Builder {
         private int id;
@@ -127,6 +131,7 @@ public class MovieBuilder {
         private ArrayList<Integer> genresIds;
         private ArrayList<String> comps;
         private ArrayList<String> countrs;
+        private String savedLang;
 
         Builder(int id, String title) {
             this.id = id;
@@ -218,15 +223,15 @@ public class MovieBuilder {
             return this;
         }
 
+        public Builder setSavedLang(String savedLang) {
+            this.savedLang = savedLang;
+            return this;
+        }
+
         public MovieBuilder build() {
             return new MovieBuilder(this);
         }
 
     }
-
-//    @Override
-//    public String toString() {
-//        return getTitle();
-//    }
 
 }
