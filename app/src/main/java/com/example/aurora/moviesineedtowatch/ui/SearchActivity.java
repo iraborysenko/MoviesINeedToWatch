@@ -69,7 +69,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
  * Time: 20:41
  */
 public class SearchActivity extends AppCompatActivity {
-    public Switch s;
+    private Switch s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

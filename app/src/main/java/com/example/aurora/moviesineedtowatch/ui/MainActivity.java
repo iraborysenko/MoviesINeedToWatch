@@ -210,13 +210,13 @@ public class MainActivity extends AppCompatActivity {
         return color;
     }
 
-    public void movieTMDB(String movieId) {
+    private void movieTMDB(String movieId) {
         Intent intent = new Intent(this, MovieActivity.class);
         intent.putExtra("EXTRA_MOVIE_ID", movieId);
         startActivity(intent);
     }
 
-    public void searchTMDB() {
+    private void searchTMDB() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }

@@ -32,7 +32,7 @@ public class MovieBuilder {
     private final String savedLang;
 
 
-    MovieBuilder(Builder builder) {
+    private MovieBuilder(Builder builder) {
         id = builder.id;
         imdbID = builder.imdbID;
         imdb = builder.imdb;

@@ -18,7 +18,7 @@ public class SearchBuilder {
     private final float voteAverage;
     private final ArrayList<Integer> genreIds;
 
-    SearchBuilder(Builder builder) {
+    private SearchBuilder(Builder builder) {
         id = builder.id;
         title = builder.title;
         originalTitle = builder.originalTitle;

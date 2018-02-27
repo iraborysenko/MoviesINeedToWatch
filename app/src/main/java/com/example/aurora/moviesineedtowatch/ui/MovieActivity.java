@@ -48,18 +48,18 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
 
 public class MovieActivity extends AppCompatActivity {
 
-    TextView mTitle;
-    TextView mOTitle;
-    TextView mIMDb;
-    TextView mTMDb;
-    ImageView mImage;
-    TextView mTagline;
-    TextView mYear;
-    TextView mRuntime;
-    TextView mGenres;
-    TextView mOverview;
-    TextView mCountries;
-    TextView mCompanies;
+    private TextView mTitle;
+    private TextView mOTitle;
+    private TextView mIMDb;
+    private TextView mTMDb;
+    private ImageView mImage;
+    private TextView mTagline;
+    private TextView mYear;
+    private TextView mRuntime;
+    private TextView mGenres;
+    private TextView mOverview;
+    private TextView mCountries;
+    private TextView mCompanies;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class MovieActivity extends AppCompatActivity {
         setMovieInfo(movieID);
     }
 
-    public void setMovieInfo(String movieID) {
+    private void setMovieInfo(String movieID) {
 
         DB db1 = new DB(MovieActivity.this);
         String selectQuery = "SELECT * FROM " + "movies" + " WHERE " + DB.KEY_ID_MOVIE + "=" + movieID;
