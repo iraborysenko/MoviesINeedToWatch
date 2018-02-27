@@ -103,59 +103,58 @@ public class MovieActivity extends AppCompatActivity {
         mOverview.setText(cursor.getString(OVERVIEW));
 
         //get genres
-        String genresString = "";
+        StringBuilder genresString = new StringBuilder();
         try {
             JSONArray ids = new JSONArray(cursor.getString(GENRES_IDS));
             if (ids.length() == 0) {
-                genresString = "not defined";
+                genresString = new StringBuilder("not defined");
             } else {
                 int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
-                for (int i=0; i<ids.length(); i++) {
-                    genresString += genres.get(ids.get(i))[index] + "\n";
-                }
+                for (int i=0; i<ids.length(); i++)
+                    genresString.append(genres.get(ids.get(i))[index]).append("\n");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mGenres.setText(String.valueOf(genresString));
+        mGenres.setText(String.valueOf(genresString.toString()));
 
         //get countries
-        String countriesString = "";
+        StringBuilder countriesString = new StringBuilder();
         try {
             JSONArray ids = new JSONArray(cursor.getString(COUNTRS));
             if (ids.length() == 0) {
-                countriesString = "not defined";
+                countriesString = new StringBuilder("not defined");
             } else {
                 for (int i=0; i<ids.length(); i++) {
                     Locale obj = new Locale("", ids.get(i).toString());
-                    countriesString += obj.getDisplayCountry(lang.get(cursor.getString(LANG))) + "\n";
+                    countriesString.append(obj.getDisplayCountry(lang.get(cursor.getString(LANG)))).append("\n");
                 }
             }
-            mCountries.setText(countriesString);
+            mCountries.setText(countriesString.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         //get companies
-        String companiesString = "";
-        if (cursor.getString(COMPS) == "") {
-            countriesString = "not defined";
+        StringBuilder companiesString = new StringBuilder();
+        if (Objects.equals(cursor.getString(COMPS), "")) {
+            companiesString = new StringBuilder("not defined");
         } else {
-            String delims = ", |\\[|\\]";
+            String delims = ", |\\[|]";
             String[] tokens = cursor.getString(COMPS).split(delims);
-            for (String token : tokens) companiesString += token + "\n";
+            for (String token : tokens) companiesString.append(token).append("\n");
         }
-        mCompanies.setText(companiesString.trim());
+        mCompanies.setText(companiesString.toString().trim());
 
         cursor.close();
     }
 
-    public final static String bitmapToString(Bitmap in){
+    public static String bitmapToString(Bitmap in){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
     }
-    public final static Bitmap stringToBitmap(String in){
+    public static Bitmap stringToBitmap(String in){
         byte[] bytes = Base64.decode(in, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

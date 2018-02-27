@@ -61,9 +61,7 @@ public class MovieBuilder {
         return id;
     }
 
-    public String getImdbID() {
-        return imdbID;
-    }
+    String getImdbID() { return imdbID; }
 
     public String getImdb() { return imdb; }
 
@@ -71,47 +69,47 @@ public class MovieBuilder {
         return title;
     }
 
-    public String getOriginalTitle() { return originalTitle; }
+    String getOriginalTitle() { return originalTitle; }
 
-    public String getOriginalLanguage() { return originalLanguage; }
+    String getOriginalLanguage() { return originalLanguage; }
 
-    public String getOverview() {
+    String getOverview() {
         return overview;
     }
 
-    public String getPosterPath() {
+    String getPosterPath() {
         return posterPath;
     }
 
-    public Bitmap getPosterBitmap() { return posterBitmap; }
+    Bitmap getPosterBitmap() { return posterBitmap; }
 
-    public String getReleaseDate() {
+    String getReleaseDate() {
         return releaseDate;
     }
 
-    public String getTagline() {
+    String getTagline() {
         return tagline;
     }
 
-    public String getRuntime() {
+    String getRuntime() {
         return runtime;
     }
 
-    public float getVoteAverage() {
+    float getVoteAverage() {
         return voteAverage;
     }
 
-    public int getVoteCount() {
+    int getVoteCount() {
         return voteCount;
     }
 
-    public ArrayList<Integer> getGenresIds() { return genresIds; }
+    ArrayList<Integer> getGenresIds() { return genresIds; }
 
-    public ArrayList<String> getComps() { return comps; }
+    ArrayList<String> getComps() { return comps; }
 
-    public ArrayList<String> getCountrs() { return countrs; }
+    ArrayList<String> getCountrs() { return countrs; }
 
-    public String getSavedLang() { return savedLang; }
+    String getSavedLang() { return savedLang; }
 
     public static class Builder {
         private int id;

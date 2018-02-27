@@ -88,16 +88,15 @@ public class MainActivity extends AppCompatActivity {
                 mTagline.setTextSize(16);
 
                 //get genres
-                String genresString = "";
+                StringBuilder genresString = new StringBuilder();
                 try {
                     JSONArray ids = new JSONArray(cursor.getString(GENRES_IDS));
                     if (ids.length() == 0) {
-                        genresString = "not defined";
+                        genresString = new StringBuilder("not defined");
                     } else {
                         int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
-                        for (int i=0; i<ids.length(); i++) {
-                            genresString += genres.get(ids.get(i))[index] + "\n";
-                        }
+                        for (int i=0; i<ids.length(); i++)
+                            genresString.append(genres.get(ids.get(i))[index]).append("\n");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView mGenres = new TextView(MainActivity.this);
                 mGenres.setId(4);
-                mGenres.setText(String.valueOf(genresString));
+                mGenres.setText(String.valueOf(genresString.toString()));
                 mGenres.setTypeface(font, Typeface.BOLD);
                 mGenres.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(
                         230, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                posterParams.setMargins(20,0,20, 20);
+                posterParams.setMargins(20,0,15, 20);
                 tr.addView(mPoster, posterParams);
 
                 RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(
@@ -142,18 +141,18 @@ public class MainActivity extends AppCompatActivity {
                         550, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 taglineParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 taglineParams.addRule(RelativeLayout.BELOW, mTitle.getId());
-                taglineParams.setMargins(0, 5, 20, 10);
+                taglineParams.setMargins(0, 7, 20, 10);
                 tr.addView(mTagline, taglineParams);
 
                 RelativeLayout.LayoutParams genresParams = new RelativeLayout.LayoutParams(
-                        220, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        235, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 genresParams.addRule(RelativeLayout.RIGHT_OF, mPoster.getId());
                 genresParams.addRule(RelativeLayout.BELOW, mTagline.getId());
-                genresParams.setMargins(0, 0, 10, 10);
+                genresParams.setMargins(0, 0, 5, 10);
                 tr.addView(mGenres, genresParams);
 
                 RelativeLayout.LayoutParams imdbParams = new RelativeLayout.LayoutParams(
-                        200, 230);
+                        190, 230);
                 imdbParams.addRule(RelativeLayout.BELOW, mTagline.getId());
                 imdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
                 imdbParams.setMargins(10, 5, 20, 10);

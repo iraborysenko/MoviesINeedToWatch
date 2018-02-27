@@ -49,6 +49,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
@@ -110,12 +111,13 @@ public class SearchActivity extends AppCompatActivity {
                 Log.e(Const.TAG, String.valueOf(s.isChecked()));
                 SharedPreferences.Editor editor = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE).edit();
                 editor.putBoolean("lang_key", s.isChecked());
-                editor.commit();
+                editor.apply();
             }
         });
     }
 
 
+    @SuppressLint("SetTextI18n")
     void runSearch(EditText editText) {
         String searchQuery = editText.getText().toString();
         Log.e(Const.DEBUG, searchQuery);
@@ -166,9 +168,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 try {
                     mPoster.setImageBitmap(r.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
 
@@ -188,24 +188,24 @@ public class SearchActivity extends AppCompatActivity {
                 mOTitle.setTypeface(font, Typeface.ITALIC);
 
                 //get genres
-                String genresString = "";
+                StringBuilder genresString = new StringBuilder();
                 if (search.get(i).getGenreIds().isEmpty()) {
-                    genresString = "not defined";
+                    genresString = new StringBuilder("not defined");
                 } else {
                     for (Integer genreId : search.get(i).getGenreIds()) {
-                        genresString += genres.get(genreId)[s.isChecked()?0:1] + "\n";
+                        genresString.append(genres.get(genreId)[s.isChecked() ? 0 : 1]).append("\n");
                     }
                 }
                 TextView mGenres = new TextView(SearchActivity.this);
                 mGenres.setId(4);
-                mGenres.setText(String.valueOf(genresString));
+                mGenres.setText(String.valueOf(genresString.toString()));
                 mGenres.setTypeface(font, Typeface.BOLD);
                 mGenres.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
                 mTMDb.setId(5);
-                mTMDb.setText(Float.toString(search.get(i).getVoteAverage()));
+                mTMDb.setText(String.valueOf(search.get(i).getVoteAverage()));
                 mTMDb.setTypeface(font, Typeface.BOLD);
                 mTMDb.setTextSize(15);
 
@@ -322,7 +322,6 @@ public class SearchActivity extends AppCompatActivity {
                     results.add(searchBuilder.build());
                 }
             } catch (JSONException e) {
-                System.err.println(e);
                 Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
             return results;
@@ -397,10 +396,10 @@ public class SearchActivity extends AppCompatActivity {
                 String overview = jsonMovieObject.getString("overview");
                 String release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
                 String tagline = jsonMovieObject.getString("tagline");
-                String runtime = "";
+                String runtime;
 
                 String jsonRuntime = jsonMovieObject.getString("runtime");
-                if( jsonRuntime == "null" || jsonRuntime == "0") {
+                if(Objects.equals(jsonRuntime, "null") || Objects.equals(jsonRuntime, "0")) {
                     runtime = "unknown";
                 }else {
                     int duration = Integer.parseInt(jsonMovieObject.getString("runtime"));
@@ -439,8 +438,8 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 //get imdb rating
-                String imdbId = "";
-                String rating = "";
+                String imdbId;
+                String rating;
                 if(jsonMovieObject.getString("imdb_id")==null){
                     imdbId = "none";
                     rating = "-";
@@ -453,6 +452,7 @@ public class SearchActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    assert doc != null;
                     Element rat = doc.select("span[itemprop = ratingValue]").first();
                     rating = rat.ownText();
                 }
@@ -491,7 +491,6 @@ public class SearchActivity extends AppCompatActivity {
                         .setSavedLang(savedLang);
                 movie_data = movieBuilder.build();
             } catch (JSONException e) {
-                System.err.println(e);
                 Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
             }
             return movie_data;
@@ -505,7 +504,7 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         DownloadImageTask() {
         }

@@ -4,4 +4,19 @@
     <string name="api">API</string>
     <string name="title">Title</string>
     <string name="movies_to_watch">Movies To Watch</string>
+    <string name="ru">RU</string>
+    <string name="en">EN</string>
+    <string name="go">Go</string>
+    <string name="imdb">imdb</string>
+    <string name="tmdb">tmdb</string>
+    <string name="tagline">Tagline</string>
+    <string name="runtime">runtime</string>
+    <string name="year">year</string>
+    <string name="genres">genres</string>
+    <string name="original_title">original title</string>
+    <string name="countries">Countries</string>
+    <string name="companies">Companies</string>
+    <string name="movieposter">MoviePoster</string>
+    <string name="overview">Overview</string>
+    <string name="moviesearcher">MovieSearcher</string>
 </resources>

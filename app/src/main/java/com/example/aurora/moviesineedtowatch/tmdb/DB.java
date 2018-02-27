@@ -102,7 +102,6 @@ public class DB extends SQLiteOpenHelper {
     public Cursor getAllMovies() {
         String selectQuery = "SELECT  * FROM " + "movies";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor;
+        return db.rawQuery(selectQuery, null);
     }
 }
