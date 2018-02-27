@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 
 import org.json.JSONArray;
@@ -137,7 +138,7 @@ public class MovieActivity extends AppCompatActivity {
 
         //get companies
         StringBuilder companiesString = new StringBuilder();
-        if (Objects.equals(cursor.getString(COMPS), "")) {
+        if (Objects.equals(cursor.getString(COMPS), "[]")) {
             companiesString = new StringBuilder("not defined");
         } else {
             String delims = ", |\\[|]";

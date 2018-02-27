@@ -3,7 +3,6 @@ package com.example.aurora.moviesineedtowatch.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -58,6 +57,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_SEARCH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
@@ -86,7 +86,6 @@ public class SearchActivity extends AppCompatActivity {
                 if(event.getAction() == KeyEvent.ACTION_DOWN &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     runSearch(editText);
-                    Log.e(Const.SEE, "Enter!");
                     return true;
                 }
                 return false;
@@ -108,7 +107,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Log.e(Const.TAG, String.valueOf(s.isChecked()));
                 SharedPreferences.Editor editor = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE).edit();
                 editor.putBoolean("lang_key", s.isChecked());
                 editor.apply();
@@ -163,14 +161,15 @@ public class SearchActivity extends AppCompatActivity {
                 //get poster
                 ImageView mPoster = new ImageView(SearchActivity.this);
                 mPoster.setId(1);
-                String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
-                DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
-
-                try {
-                    mPoster.setImageBitmap(r.get());
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
+                if (search.get(i).getPosterPath()!= "null") {
+                    String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
+                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
+                    try {
+                        mPoster.setImageBitmap(r.get());
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                } else mPoster.setImageResource(R.drawable.noposter);
 
                 //title
                 TextView mTitle = new TextView(SearchActivity.this);
@@ -189,9 +188,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 //get genres
                 StringBuilder genresString = new StringBuilder();
-                if (search.get(i).getGenreIds().isEmpty()) {
+                if (search.get(i).getGenreIds().isEmpty())
                     genresString = new StringBuilder("not defined");
-                } else {
+                else {
                     for (Integer genreId : search.get(i).getGenreIds()) {
                         genresString.append(genres.get(genreId)[s.isChecked() ? 0 : 1]).append("\n");
                     }
@@ -212,8 +211,10 @@ public class SearchActivity extends AppCompatActivity {
                 //get year
                 TextView mYear = new TextView(SearchActivity.this);
                 mYear.setId(6);
-                mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
                 mYear.setTypeface(font);
+                if (!Objects.equals(search.get(i).getReleaseDate(), ""))
+                    mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                else mYear.setText("----");
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
@@ -394,10 +395,17 @@ public class SearchActivity extends AppCompatActivity {
                 String original_language = jsonMovieObject.getString("original_language");
                 String poster_path = jsonMovieObject.getString("poster_path");
                 String overview = jsonMovieObject.getString("overview");
-                String release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
                 String tagline = jsonMovieObject.getString("tagline");
                 String runtime;
+                String release_data;
 
+                //parsing year
+                if (Objects.equals(jsonMovieObject.getString("release_date"), ""))
+                    release_data = "----";
+                else
+                    release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
+
+                //parsing runtime
                 String jsonRuntime = jsonMovieObject.getString("runtime");
                 if(Objects.equals(jsonRuntime, "null") || Objects.equals(jsonRuntime, "0")) {
                     runtime = "unknown";
@@ -410,6 +418,7 @@ public class SearchActivity extends AppCompatActivity {
                     else
                         runtime = hours + "ч " + minutes + "мин";
                 }
+
                 float tmdb = Float.parseFloat(jsonMovieObject.getString("vote_average"));
                 int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
 
@@ -440,9 +449,9 @@ public class SearchActivity extends AppCompatActivity {
                 //get imdb rating
                 String imdbId;
                 String rating;
-                if(jsonMovieObject.getString("imdb_id")==null){
+                if(Objects.equals(jsonMovieObject.getString("imdb_id"), "null")){
                     imdbId = "none";
-                    rating = "-";
+                    rating = "0.0";
                 } else {
                     imdbId = jsonMovieObject.getString("imdb_id");
 
@@ -453,21 +462,27 @@ public class SearchActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     assert doc != null;
-                    Element rat = doc.select("span[itemprop = ratingValue]").first();
-                    rating = rat.ownText();
+                    if (doc.select("span[itemprop = ratingValue]").first() == null) {
+                        rating = "0.0";
+                    } else {
+                        Element rat = doc.select("span[itemprop = ratingValue]").first();
+                        rating = rat.ownText();
+                    }
                 }
 
                 //get picture bitmap
-                String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
-
                 Bitmap img = null;
-                try {
-                    InputStream in = new java.net.URL(urldisplay).openStream();
-                    img = BitmapFactory.decodeStream(in);
-                } catch (Exception e) {
-                    Log.e("Error", e.getMessage());
-                    e.printStackTrace();
-                }
+                if (!Objects.equals(jsonMovieObject.getString("poster_path"), "null")) {
+                    String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
+                    try {
+                        InputStream in = new java.net.URL(urldisplay).openStream();
+                        img = BitmapFactory.decodeStream(in);
+                    } catch (Exception e) {
+                        Log.e("Error", e.getMessage());
+                        e.printStackTrace();
+                    }
+                } else img = BitmapFactory.decodeResource(getResources(), R.drawable.noposter);
+
                 //get current language
                 String savedLang = String.valueOf(s.isChecked());
 
