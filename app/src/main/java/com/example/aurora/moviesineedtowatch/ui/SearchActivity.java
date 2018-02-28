@@ -58,6 +58,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_SEARCH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
@@ -99,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         s = findViewById(R.id.switchToEN);
-        SharedPreferences settings = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean set = settings.getBoolean("lang_key", false);
         s.setChecked(set);
 
@@ -107,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                SharedPreferences.Editor editor = getSharedPreferences("com.moviestowatch.PREFERENCE_FILE_KEY", MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
                 editor.putBoolean("lang_key", s.isChecked());
                 editor.apply();
             }
@@ -151,6 +152,9 @@ public class SearchActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, String.valueOf(search.size()));
 
             TableLayout mTable = findViewById(R.id.searchTable);
+
+            mTable.removeAllViewsInLayout();
+
             final Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
             for (int i = 0; i < search.size(); i++) {
@@ -354,7 +358,11 @@ public class SearchActivity extends AppCompatActivity {
 //            SQLiteDatabase db = db1.getWritableDatabase();
 //            db1.onUpgrade(db, 3,4);
             db1.addMovie(movie);
-            
+
+            SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+            editor.putBoolean("db_is_changed", true);
+            editor.apply();
+
             Toast.makeText(SearchActivity.this, "Movie added to the wish list", Toast.LENGTH_SHORT).show();
             Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
         }

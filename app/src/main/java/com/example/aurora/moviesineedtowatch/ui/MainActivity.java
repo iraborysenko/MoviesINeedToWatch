@@ -2,6 +2,7 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -31,20 +32,21 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
 
 public class MainActivity extends AppCompatActivity {
+    TableLayout mTable;
+    Typeface font;
 
-    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
         ImageButton searchButton = findViewById(R.id.main_search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +55,30 @@ public class MainActivity extends AppCompatActivity {
                 searchTMDB();
             }
         });
+        font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
+        mTable = findViewById(R.id.main_table);
 
-        TableLayout mTable = findViewById(R.id.main_table);
+        showDBData();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
+        boolean is_changed = settings.getBoolean("db_is_changed", false);
+        if(is_changed){
+            Log.e(Const.TAG, "I'm onRestart!");
+            showDBData();
+            SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+            editor.putBoolean("db_is_changed", false);
+            editor.apply();
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private void showDBData() {
+        mTable.removeAllViewsInLayout();
 
         DB db = new DB(MainActivity.this);
         Cursor cursor = db.getAllMovies();

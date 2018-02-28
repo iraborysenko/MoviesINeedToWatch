@@ -100,7 +100,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public Cursor getAllMovies() {
-        String selectQuery = "SELECT  * FROM " + "movies";
+        String selectQuery = "SELECT  * FROM " + TABLE_MOVIE + " ORDER BY " + KEY_ID + " DESC";
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery(selectQuery, null);
     }

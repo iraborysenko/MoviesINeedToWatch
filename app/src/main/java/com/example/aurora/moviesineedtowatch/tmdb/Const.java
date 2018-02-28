@@ -25,6 +25,7 @@ public class Const {
     public final static String RU = "?language=ru-RU&";
     public final static String Q = "?";
     public final static String QUERY = "&query=";
+    public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";
 
     public final static int ID = 0;
     public final static int ID_MOVIE = 1;
