@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TableLayout;
@@ -71,6 +72,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
  */
 public class SearchActivity extends AppCompatActivity {
     private Switch s;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     class TMDBSearchManager extends AsyncTask <String, Void, ArrayList<SearchBuilder>>{
+
+        @Override
+        protected void onPreExecute() {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
 
         @Override
         protected ArrayList<SearchBuilder> doInBackground(String... params) {
@@ -272,6 +281,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 mTable.addView(tr);
             }
+            progressBar.setVisibility(View.INVISIBLE);
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
@@ -342,6 +352,13 @@ public class SearchActivity extends AppCompatActivity {
     private class TMDBMovieManager extends AsyncTask <String, Void, MovieBuilder>{
 
         @Override
+        protected void onPreExecute() {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
         protected MovieBuilder doInBackground(String... params) {
             String movieId = params[0];
             try {
@@ -363,6 +380,7 @@ public class SearchActivity extends AppCompatActivity {
             editor.putBoolean("db_is_changed", true);
             editor.apply();
 
+            progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(SearchActivity.this, "Movie added to the wish list", Toast.LENGTH_SHORT).show();
             Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
         }
