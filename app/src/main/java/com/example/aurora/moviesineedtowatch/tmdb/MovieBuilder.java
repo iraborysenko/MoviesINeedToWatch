@@ -24,7 +24,7 @@ public class MovieBuilder {
     private final String releaseDate;
     private final String tagline;
     private final String runtime;
-    private final float voteAverage;
+    private final String voteAverage;
     private final int voteCount;
     private final ArrayList<Integer> genresIds;
     private final ArrayList<String> comps;
@@ -95,7 +95,7 @@ public class MovieBuilder {
         return runtime;
     }
 
-    float getVoteAverage() {
+    String getVoteAverage() {
         return voteAverage;
     }
 
@@ -124,7 +124,7 @@ public class MovieBuilder {
         private String releaseDate;
         private String tagline;
         private String runtime;
-        private float voteAverage;
+        private String voteAverage;
         private int voteCount;
         private ArrayList<Integer> genresIds;
         private ArrayList<String> comps;
@@ -196,7 +196,7 @@ public class MovieBuilder {
             return this;
         }
 
-        public Builder setVoteAverage(float voteAverage) {
+        public Builder setVoteAverage(String voteAverage) {
             this.voteAverage = voteAverage;
             return this;
         }

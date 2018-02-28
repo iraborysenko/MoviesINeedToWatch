@@ -20,6 +20,7 @@
     <color name="VeryGood">#3399ff</color>
     <color name="Great">#0000b3</color>
     <color name="Adept">#4b159c</color>
-    <color name="Unicum">#660066</color>
+    <color name="Unicum">#4e064e</color>
     <color name="OutOfBound">#996633</color>
+    <color name="NoMovie">#000018</color>
 </resources>

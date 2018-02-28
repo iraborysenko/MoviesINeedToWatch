@@ -427,7 +427,11 @@ public class SearchActivity extends AppCompatActivity {
                         runtime = hours + "ч " + minutes + "мин";
                 }
 
-                float tmdb = Float.parseFloat(jsonMovieObject.getString("vote_average"));
+                String tmdb;
+                float tmdb_rating = Float.parseFloat(jsonMovieObject.getString("vote_average"));
+                if (tmdb_rating == 0.0f) tmdb = "none";
+                else tmdb = String.valueOf(tmdb_rating);
+
                 int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
 
                 //parsing genres ids
@@ -457,9 +461,10 @@ public class SearchActivity extends AppCompatActivity {
                 //get imdb rating
                 String imdbId;
                 String rating;
-                if(Objects.equals(jsonMovieObject.getString("imdb_id"), "null")){
+                String json_IMDB_result = jsonMovieObject.getString("imdb_id");
+                if(json_IMDB_result.equals("null") || json_IMDB_result.equals("") ){
                     imdbId = "none";
-                    rating = "0.0";
+                    rating = "none";
                 } else {
                     imdbId = jsonMovieObject.getString("imdb_id");
 
@@ -471,7 +476,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                     assert doc != null;
                     if (doc.select("span[itemprop = ratingValue]").first() == null) {
-                        rating = "0.0";
+                        rating = "none";
                     } else {
                         Element rat = doc.select("span[itemprop = ratingValue]").first();
                         rating = rat.ownText();

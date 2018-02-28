@@ -206,29 +206,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int chooseColor(String imdbRating) {
-        float rating = Float.parseFloat(imdbRating);
         int color = R.color.OutOfBound;
-
-        if (rating<5.0f) {
-            color = R.color.VeryBad;
-        } else if (5.0f<= rating && rating<=5.9f) {
-            color = R.color.Bad;
-        } else if (6.0f<= rating && rating<=6.5f) {
-            color = R.color.Avarage;
-        } else if (6.6f<= rating && rating<=6.8f) {
-            color = R.color.AboveAvarage;
-        } else if (6.9f<= rating && rating<=7.2f) {
-            color = R.color.Intermediate;
-        } else if (7.3f<= rating && rating<=7.7f) {
-            color = R.color.Good;
-        } else if (7.8f<= rating && rating<=8.1f) {
-            color = R.color.VeryGood;
-        } else if (8.2f<= rating && rating<=8.5f) {
-            color = R.color.Great;
-        } else if (8.6f<= rating && rating<=8.9f) {
-            color = R.color.Adept;
-        } else if ( rating >= 9.0f) {
-            color = R.color.Unicum;
+        if (imdbRating.equals("none")) {
+            color = R.color.NoMovie;
+        } else {
+            float rating = Float.parseFloat(imdbRating);
+            if (rating<5.0f) {
+                color = R.color.VeryBad;
+            } else if (5.0f<= rating && rating<=5.9f) {
+                color = R.color.Bad;
+            } else if (6.0f<= rating && rating<=6.5f) {
+                color = R.color.Avarage;
+            } else if (6.6f<= rating && rating<=6.8f) {
+                color = R.color.AboveAvarage;
+            } else if (6.9f<= rating && rating<=7.2f) {
+                color = R.color.Intermediate;
+            } else if (7.3f<= rating && rating<=7.7f) {
+                color = R.color.Good;
+            } else if (7.8f<= rating && rating<=8.1f) {
+                color = R.color.VeryGood;
+            } else if (8.2f<= rating && rating<=8.5f) {
+                color = R.color.Great;
+            } else if (8.6f<= rating && rating<=8.9f) {
+                color = R.color.Adept;
+            } else if ( rating >= 9.0f) {
+                color = R.color.Unicum;
+            }
         }
 
         return color;
