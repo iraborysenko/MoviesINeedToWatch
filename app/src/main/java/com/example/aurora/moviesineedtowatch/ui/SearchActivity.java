@@ -32,6 +32,7 @@ import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,14 +175,15 @@ public class SearchActivity extends AppCompatActivity {
                 //get poster
                 ImageView mPoster = new ImageView(SearchActivity.this);
                 mPoster.setId(1);
-                if (search.get(i).getPosterPath()!= "null") {
+                if (!Objects.equals(search.get(i).getPosterPath(), "null")) {
                     String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
-                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
-                    try {
-                        mPoster.setImageBitmap(r.get());
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    Picasso.with(getApplicationContext()).load(imagePath).into(mPoster);
+//                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
+//                    try {
+//                        mPoster.setImageBitmap(r.get());
+//                    } catch (InterruptedException | ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
                 } else mPoster.setImageResource(R.drawable.noposter);
 
                 //title
