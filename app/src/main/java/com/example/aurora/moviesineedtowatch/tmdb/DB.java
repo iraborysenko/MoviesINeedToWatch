@@ -20,10 +20,10 @@ public class DB extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "MoviesToWatch";
-    private static final String TABLE_MOVIE = "movies";
+    public static final String TABLE_MOVIE = "movies";
 
-    private static final String KEY_ID = "id";
-    public static final String KEY_ID_MOVIE = "id_movie";
+    public static final String KEY_ID = "id";
+    private static final String KEY_ID_MOVIE = "id_movie";
     private static final String KEY_ID_IMDB = "id_imdb";
     private static final String KEY_IMDB = "imdb";
     private static final String KEY_TITLE = "title";

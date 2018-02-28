@@ -6,11 +6,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -27,6 +30,7 @@ import org.json.JSONException;
 import java.util.Objects;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
 
-                final String movieId = cursor.getString(ID_MOVIE);
+                final String rowId = cursor.getString(ID);
 
                 RelativeLayout tr = new RelativeLayout(MainActivity.this);
 
@@ -189,14 +193,26 @@ public class MainActivity extends AppCompatActivity {
                 yearParams.setMargins(10, 0, 20, 20);
                 tr.addView(mYear, yearParams);
 
-                tr.setOnClickListener(new View.OnClickListener()
-                {
+                tr.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
                     {
-                        movieTMDB(movieId);
+                        movieTMDB(rowId);
                     }
                 });
+
+                tr.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.e(Const.TAG, "it's long click listener");
+                        DB db1 = new DB(MainActivity.this);
+                        SQLiteDatabase db = db1.getWritableDatabase();
+                        db.delete(DB.TABLE_MOVIE, "id = " + rowId, null);
+                        showDBData();
+                        return true;
+                    }
+                });
+
 
                 mTable.addView(tr);
                 cursor.moveToNext();
@@ -237,9 +253,9 @@ public class MainActivity extends AppCompatActivity {
         return color;
     }
 
-    private void movieTMDB(String movieId) {
+    private void movieTMDB(String rowId) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("EXTRA_MOVIE_ID", movieId);
+        intent.putExtra("EXTRA_MOVIE_ID", rowId);
         startActivity(intent);
     }
 
