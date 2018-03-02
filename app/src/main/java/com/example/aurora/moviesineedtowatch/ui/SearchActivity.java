@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,13 +28,15 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -175,16 +179,15 @@ public class SearchActivity extends AppCompatActivity {
                 //get poster
                 ImageView mPoster = new ImageView(SearchActivity.this);
                 mPoster.setId(1);
-                if (!Objects.equals(search.get(i).getPosterPath(), "null")) {
-                    String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
-                    Picasso.with(getApplicationContext()).load(imagePath).into(mPoster);
-//                    DownloadImageTask r = (DownloadImageTask) new DownloadImageTask().execute(imagePath);
-//                    try {
-//                        mPoster.setImageBitmap(r.get());
-//                    } catch (InterruptedException | ExecutionException e) {
-//                        e.printStackTrace();
-//                    }
-                } else mPoster.setImageResource(R.drawable.noposter);
+                String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
+                RequestOptions options = new RequestOptions()
+                        .error(R.drawable.noposter)
+                        .skipMemoryCache(true);
+
+                Glide.with(SearchActivity.this)
+                        .load(imagePath)
+                        .apply(options)
+                        .into(mPoster);
 
                 //title
                 TextView mTitle = new TextView(SearchActivity.this);
@@ -231,7 +234,7 @@ public class SearchActivity extends AppCompatActivity {
                     mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
                 else mYear.setText("----");
 
-                RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, 485);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 posterParams.setMargins(20, 5, 20, 20);
                 tr.addView(mPoster, posterParams);
@@ -270,7 +273,6 @@ public class SearchActivity extends AppCompatActivity {
                 yearParams.setMargins(0, 0, 0, 0);
                 tr.addView(mYear, yearParams);
 
-                Log.e(Const.SEE, String.valueOf(search.get(i).getId()));
                 tr.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -378,7 +380,7 @@ public class SearchActivity extends AppCompatActivity {
 //            db1.onUpgrade(db, 3,4);
             db1.addMovie(movie);
 
-            SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
             editor.putBoolean("db_is_changed", true);
             editor.apply();
 
@@ -504,16 +506,20 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 //get picture bitmap
-                Bitmap img = null;
+                Bitmap img;
                 if (!Objects.equals(jsonMovieObject.getString("poster_path"), "null")) {
                     String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
-                    try {
-                        InputStream in = new java.net.URL(urldisplay).openStream();
-                        img = BitmapFactory.decodeStream(in);
-                    } catch (Exception e) {
-                        Log.e("Error", e.getMessage());
-                        e.printStackTrace();
-                    }
+                    RequestOptions options = new RequestOptions()
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE);
+                    img = Glide
+                            .with(SearchActivity.this)
+                            .asBitmap()
+                            .load(urldisplay)
+                            .apply(options)
+                            .submit()
+                            .get();
+
                 } else img = BitmapFactory.decodeResource(getResources(), R.drawable.noposter);
 
                 //get current language
@@ -540,6 +546,8 @@ public class SearchActivity extends AppCompatActivity {
                 movie_data = movieBuilder.build();
             } catch (JSONException e) {
                 Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
             return movie_data;
         }
@@ -550,27 +558,5 @@ public class SearchActivity extends AppCompatActivity {
             return bufferedReader.readLine();
         }
 
-    }
-
-    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        DownloadImageTask() {
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap img = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                img = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return img;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-        }
     }
 }
