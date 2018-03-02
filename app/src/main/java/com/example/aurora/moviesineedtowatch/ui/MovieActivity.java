@@ -11,6 +11,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
@@ -85,10 +88,10 @@ public class MovieActivity extends AppCompatActivity {
         setMovieInfo(movieID);
     }
 
-    private void setMovieInfo(String movieID) {
+    private void setMovieInfo(String rowId) {
 
         DB db1 = new DB(MovieActivity.this);
-        String selectQuery = "SELECT * FROM " + "movies" + " WHERE " + DB.KEY_ID_MOVIE + "=" + movieID;
+        String selectQuery = "SELECT * FROM " + DB.TABLE_MOVIE + " WHERE " + DB.KEY_ID + "=" + rowId;
         SQLiteDatabase db = db1.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
@@ -97,11 +100,20 @@ public class MovieActivity extends AppCompatActivity {
         mOTitle.setText(String.format("%s %s", cursor.getString(OLANG), cursor.getString(OTITLE)));
         mTMDb.setText(cursor.getString(VOTE_AVARG));
         mIMDb.setText(cursor.getString(IMDB));
-        mImage.setImageBitmap(stringToBitmap(cursor.getString(POST_IMAGE)));
         mTagline.setText(cursor.getString(TAGLINE));
         mRuntime.setText(cursor.getString(RUNTIME));
         mYear.setText(cursor.getString(RELEASE_DATE));
         mOverview.setText(cursor.getString(OVERVIEW));
+
+        //get poster
+        RequestOptions options = new RequestOptions()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        Glide.with(this)
+                .asBitmap()
+                .load(stringToBitmap(cursor.getString(POST_IMAGE)))
+                .apply(options)
+                .into(mImage);
 
         //get genres
         StringBuilder genresString = new StringBuilder();

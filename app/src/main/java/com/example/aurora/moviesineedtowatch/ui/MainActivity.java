@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
@@ -97,7 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 //get poster
                 ImageView mPoster = new ImageView(MainActivity.this);
                 mPoster.setId(1);
-                mPoster.setImageBitmap(stringToBitmap(cursor.getString(POST_IMAGE)));
+
+                RequestOptions options = new RequestOptions()
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE);
+                Glide.with(this)
+                        .asBitmap()
+                        .load(stringToBitmap(cursor.getString(POST_IMAGE)))
+                        .apply(options)
+                        .into(mPoster);
 
                 //title
                 final TextView mTitle = new TextView(MainActivity.this);
@@ -155,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(
-                        230, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        230, 490);
                 posterParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 posterParams.setMargins(20,0,15, 20);
                 tr.addView(mPoster, posterParams);
