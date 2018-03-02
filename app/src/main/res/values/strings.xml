@@ -2,8 +2,8 @@
     <string name="app_name">MoviesToWatch</string>
     <string name="movies_i_need_to_watch">Movies I Need To Watch</string>
     <string name="api">API</string>
-    <string name="title">Title</string>
     <string name="movies_to_watch">Movies To Watch</string>
+    <string name="title">Title</string>
     <string name="ru">RU</string>
     <string name="en">EN</string>
     <string name="go">Go</string>
@@ -16,7 +16,17 @@
     <string name="original_title">original title</string>
     <string name="countries">Countries</string>
     <string name="companies">Companies</string>
-    <string name="movieposter">MoviePoster</string>
+    <string name="movie_poster">MoviePoster</string>
     <string name="overview">Overview</string>
-    <string name="moviesearcher">MovieSearcher</string>
+    <string name="movie_searcher">MovieSearcher</string>
+    <string name="editing_movie">Editing Movie</string>
+    <string name="adding_movie_to_watched">Adding Movie to Watched</string>
+    <string name="comment">Comment</string>
+    <string name="my_rating">My Rating</string>
+    <string name="add">Add</string>
+    <string name="edit_movie_info">Edit Movie Info</string>
+    <string name="edit">Edit</string>
+    <string name="deleting_movie">Deleting Movie</string>
+    <string name="delete_question">Are you sure?</string>
+    <string name="delete_button">delete_button</string>
 </resources>

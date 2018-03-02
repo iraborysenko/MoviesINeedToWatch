@@ -65,7 +65,7 @@
             app:srcCompat="@drawable/main_search"
             tools:layout_editor_absoluteX="287dp"
             tools:layout_editor_absoluteY="450dp"
-            android:contentDescription="@string/moviesearcher" />
+            android:contentDescription="@string/movie_searcher" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
