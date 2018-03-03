@@ -37,6 +37,8 @@ import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -415,6 +417,15 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         private MovieBuilder parseMovie(String result) {
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            MovieBuilder movie_data = gson.fromJson(result, MovieBuilder.class);
+//            Log.e(SEE, "start");
+//            Log.e(SEE, movie_data.getTagline());
+//            Log.e(SEE, movie_data.getVoteAverage());
+//            Log.e(SEE, "end");
+//            Log.e(SEE, gson.toJson(movie_data));
+
             MovieBuilder movie_data = null;
             try {
                 JSONObject jsonMovieObject = new JSONObject(result);
