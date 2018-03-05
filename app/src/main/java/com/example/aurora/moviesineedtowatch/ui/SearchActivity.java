@@ -377,14 +377,14 @@ public class SearchActivity extends AppCompatActivity {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         @Override
         protected void onPostExecute(MovieBuilder movie) {
-            DB db1 = new DB(SearchActivity.this);
-//            SQLiteDatabase db = db1.getWritableDatabase();
-//            db1.onUpgrade(db, 3,4);
-            db1.addMovie(movie);
-
-        SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
-            editor.putBoolean("db_is_changed", true);
-            editor.apply();
+//            DB db1 = new DB(SearchActivity.this);
+////            SQLiteDatabase db = db1.getWritableDatabase();
+////            db1.onUpgrade(db, 3,4);
+//            db1.addMovie(movie);
+//
+//        SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+//            editor.putBoolean("db_is_changed", true);
+//            editor.apply();
 
             progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(SearchActivity.this, "Movie added to the wish list", Toast.LENGTH_SHORT).show();
@@ -417,149 +417,187 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         private MovieBuilder parseMovie(String result) {
-//            GsonBuilder builder = new GsonBuilder();
-//            Gson gson = builder.create();
-//            MovieBuilder movie_data = gson.fromJson(result, MovieBuilder.class);
-//            Log.e(SEE, "start");
-//            Log.e(SEE, movie_data.getTagline());
-//            Log.e(SEE, movie_data.getVoteAverage());
-//            Log.e(SEE, "end");
-//            Log.e(SEE, gson.toJson(movie_data));
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            MovieBuilder movie_data = gson.fromJson(result, MovieBuilder.class);
 
-            MovieBuilder movie_data = null;
-            try {
-                JSONObject jsonMovieObject = new JSONObject(result);
+            Log.e(SEE, "start");
+            Log.e(SEE, movie_data.getTagline());
+            Log.e(SEE, movie_data.getCountrs().get(0).getISO());
+            Log.e(SEE, String.valueOf(movie_data.getPosterBitmap()));
+            Log.e(SEE, "end");
 
-                String id = jsonMovieObject.getString("id");
-                String title = jsonMovieObject.getString("title");
-                String original_title = jsonMovieObject.getString("original_title");
-                String original_language = jsonMovieObject.getString("original_language");
-                String poster_path = jsonMovieObject.getString("poster_path");
-                String overview = jsonMovieObject.getString("overview");
-                String tagline = jsonMovieObject.getString("tagline");
-                String runtime;
-                String release_data;
+//            Bitmap img = null;
+//            try {
+//            if (!Objects.equals(movie_data.getPosterPath(), "null")) {
+//                String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + movie_data.getPosterPath();
+//                RequestOptions options = new RequestOptions()
+//                        .skipMemoryCache(true)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE);
+//
+//                    img = Glide
+//                            .with(SearchActivity.this)
+//                            .asBitmap()
+//                            .load(urldisplay)
+//                            .apply(options)
+//                            .submit()
+//                            .get();
+//
+//
+//            } else img = BitmapFactory.decodeResource(getResources(), R.drawable.noposter);
+//
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//            movie_data.returnPosterBitmap(img);
 
-                //parsing year
-                if (Objects.equals(jsonMovieObject.getString("release_date"), ""))
-                    release_data = "----";
-                else
-                    release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
+//            Log.e(SEE, String.valueOf(img));
+//            Log.e(SEE, "here@@");
+//            Log.e(SEE, String.valueOf(movie_data.getPosterBitmap()));
 
-                //parsing runtime
-                String jsonRuntime = jsonMovieObject.getString("runtime");
-                if(Objects.equals(jsonRuntime, "null") || Objects.equals(jsonRuntime, "0")) {
-                    runtime = "unknown";
-                }else {
-                    int duration = Integer.parseInt(jsonMovieObject.getString("runtime"));
-                    int hours = duration / 60;
-                    int minutes = duration % 60;
-                    if (s.isChecked())
-                        runtime = hours + "h " + minutes + "min";
-                    else
-                        runtime = hours + "ч " + minutes + "мин";
-                }
+            Log.e(SEE, gson.toJson(movie_data));
 
-                String tmdb;
-                float tmdb_rating = Float.parseFloat(jsonMovieObject.getString("vote_average"));
-                if (tmdb_rating == 0.0f) tmdb = "none";
-                else tmdb = String.valueOf(tmdb_rating);
 
-                int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
 
-                //parsing genres ids
-                JSONArray ids = jsonMovieObject.getJSONArray("genres");
-                ArrayList<Integer> arrGenres = new ArrayList<>();
-                for (int i = 0; i < ids.length(); i++) {
-                    JSONObject jObject = ids.getJSONObject(i);
-                    arrGenres.add(Integer.parseInt(jObject.getString("id")));
-                }
 
-                //parsing production companies
-                JSONArray companies = jsonMovieObject.getJSONArray("production_companies");
-                ArrayList<String> arrCompanies = new ArrayList<>();
-                for (int i = 0; i < companies.length(); i++) {
-                    JSONObject jObject = companies.getJSONObject(i);
-                    arrCompanies.add(jObject.getString("name"));
-                }
 
-                //parsing production countries
-                JSONArray countries = jsonMovieObject.getJSONArray("production_countries");
-                ArrayList<String> arrCountries = new ArrayList<>();
-                for (int i = 0; i < countries.length(); i++) {
-                    JSONObject jObject = countries.getJSONObject(i);
-                    arrCountries.add(jObject.getString("iso_3166_1"));
-                }
 
-                //get imdb rating
-                String imdbId;
-                String rating;
-                String json_IMDB_result = jsonMovieObject.getString("imdb_id");
-                if(json_IMDB_result.equals("null") || json_IMDB_result.equals("") ){
-                    imdbId = "none";
-                    rating = "none";
-                } else {
-                    imdbId = jsonMovieObject.getString("imdb_id");
 
-                    Document doc = null;
-                    try {
-                        doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    assert doc != null;
-                    if (doc.select("span[itemprop = ratingValue]").first() == null) {
-                        rating = "none";
-                    } else {
-                        Element rat = doc.select("span[itemprop = ratingValue]").first();
-                        rating = rat.ownText();
-                    }
-                }
 
-                //get picture bitmap
-                Bitmap img;
-                if (!Objects.equals(jsonMovieObject.getString("poster_path"), "null")) {
-                    String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
-                    RequestOptions options = new RequestOptions()
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE);
-                    img = Glide
-                            .with(SearchActivity.this)
-                            .asBitmap()
-                            .load(urldisplay)
-                            .apply(options)
-                            .submit()
-                            .get();
-
-                } else img = BitmapFactory.decodeResource(getResources(), R.drawable.noposter);
-
-                //get current language
-                String savedLang = String.valueOf(s.isChecked());
-
-                MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
-                        Integer.parseInt(id), title)
-                        .setImdbID(imdbId)
-                        .setImdb(rating)
-                        .setOriginalTitle(original_title)
-                        .setOriginalLanguage(original_language)
-                        .setOverview(overview)
-                        .setPosterPath(poster_path)
-                        .setPosterBitmap(img)
-                        .setReleaseDate(release_data)
-                        .setTagline(tagline)
-                        .setRuntime(runtime)
-                        .setVoteAverage(tmdb)
-                        .setVoteCount(vote_count)
-                        .setGenresIds(arrGenres)
-                        .setComps(arrCompanies)
-                        .setCountrs(arrCountries)
-                        .setSavedLang(savedLang);
-                movie_data = movieBuilder.build();
-            } catch (JSONException e) {
-                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+//            MovieBuilder movie_data = null;
+//            try {
+//                JSONObject jsonMovieObject = new JSONObject(result);
+//
+//                String id = jsonMovieObject.getString("id");
+//                String title = jsonMovieObject.getString("title");
+//                String original_title = jsonMovieObject.getString("original_title");
+//                String original_language = jsonMovieObject.getString("original_language");
+//                String poster_path = jsonMovieObject.getString("poster_path");
+//                String overview = jsonMovieObject.getString("overview");
+//                String tagline = jsonMovieObject.getString("tagline");
+//                String runtime;
+//                String release_data;
+//
+//                //parsing year
+//                if (Objects.equals(jsonMovieObject.getString("release_date"), ""))
+//                    release_data = "----";
+//                else
+//                    release_data = (String) jsonMovieObject.getString("release_date").subSequence(0, 4);
+//
+//                //parsing runtime
+//                String jsonRuntime = jsonMovieObject.getString("runtime");
+//                if(Objects.equals(jsonRuntime, "null") || Objects.equals(jsonRuntime, "0")) {
+//                    runtime = "unknown";
+//                }else {
+//                    int duration = Integer.parseInt(jsonMovieObject.getString("runtime"));
+//                    int hours = duration / 60;
+//                    int minutes = duration % 60;
+//                    if (s.isChecked())
+//                        runtime = hours + "h " + minutes + "min";
+//                    else
+//                        runtime = hours + "ч " + minutes + "мин";
+//                }
+//
+//                String tmdb;
+//                float tmdb_rating = Float.parseFloat(jsonMovieObject.getString("vote_average"));
+//                if (tmdb_rating == 0.0f) tmdb = "none";
+//                else tmdb = String.valueOf(tmdb_rating);
+//
+//                int vote_count = Integer.parseInt(jsonMovieObject.getString("vote_count"));
+//
+//                //parsing genres ids
+//                JSONArray ids = jsonMovieObject.getJSONArray("genres");
+//                ArrayList<Integer> arrGenres = new ArrayList<>();
+//                for (int i = 0; i < ids.length(); i++) {
+//                    JSONObject jObject = ids.getJSONObject(i);
+//                    arrGenres.add(Integer.parseInt(jObject.getString("id")));
+//                }
+//
+//                //parsing production companies
+//                JSONArray companies = jsonMovieObject.getJSONArray("production_companies");
+//                ArrayList<String> arrCompanies = new ArrayList<>();
+//                for (int i = 0; i < companies.length(); i++) {
+//                    JSONObject jObject = companies.getJSONObject(i);
+//                    arrCompanies.add(jObject.getString("name"));
+//                }
+//
+//                //parsing production countries
+//                JSONArray countries = jsonMovieObject.getJSONArray("production_countries");
+//                ArrayList<String> arrCountries = new ArrayList<>();
+//                for (int i = 0; i < countries.length(); i++) {
+//                    JSONObject jObject = countries.getJSONObject(i);
+//                    arrCountries.add(jObject.getString("iso_3166_1"));
+//                }
+//
+//                //get imdb rating
+//                String imdbId;
+//                String rating;
+//                String json_IMDB_result = jsonMovieObject.getString("imdb_id");
+//                if(json_IMDB_result.equals("null") || json_IMDB_result.equals("") ){
+//                    imdbId = "none";
+//                    rating = "none";
+//                } else {
+//                    imdbId = jsonMovieObject.getString("imdb_id");
+//
+//                    Document doc = null;
+//                    try {
+//                        doc = Jsoup.connect(IMDb_MOVIE + jsonMovieObject.getString("imdb_id")).get();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    assert doc != null;
+//                    if (doc.select("span[itemprop = ratingValue]").first() == null) {
+//                        rating = "none";
+//                    } else {
+//                        Element rat = doc.select("span[itemprop = ratingValue]").first();
+//                        rating = rat.ownText();
+//                    }
+//                }
+//
+//                //get picture bitmap
+//                Bitmap img;
+//                if (!Objects.equals(jsonMovieObject.getString("poster_path"), "null")) {
+//                    String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + jsonMovieObject.getString("poster_path");
+//                    RequestOptions options = new RequestOptions()
+//                            .skipMemoryCache(true)
+//                            .diskCacheStrategy(DiskCacheStrategy.NONE);
+//                    img = Glide
+//                            .with(SearchActivity.this)
+//                            .asBitmap()
+//                            .load(urldisplay)
+//                            .apply(options)
+//                            .submit()
+//                            .get();
+//
+//                } else img = BitmapFactory.decodeResource(getResources(), R.drawable.noposter);
+//
+//                //get current language
+//                String savedLang = String.valueOf(s.isChecked());
+//
+//                MovieBuilder.Builder movieBuilder = MovieBuilder.newBuilder(
+//                        Integer.parseInt(id), title)
+//                        .setImdbID(imdbId)
+//                        .setImdb(rating)
+//                        .setOriginalTitle(original_title)
+//                        .setOriginalLanguage(original_language)
+//                        .setOverview(overview)
+//                        .setPosterPath(poster_path)
+//                        .setPosterBitmap(img)
+//                        .setReleaseDate(release_data)
+//                        .setTagline(tagline)
+//                        .setRuntime(runtime)
+//                        .setVoteAverage(tmdb)
+//                        .setVoteCount(vote_count)
+//                        .setGenresIds(arrGenres)
+//                        .setComps(arrCompanies)
+//                        .setCountrs(arrCountries)
+//                        .setSavedLang(savedLang);
+//                movie_data = movieBuilder.build();
+//            } catch (JSONException e) {
+//                Log.e(Const.DEBUG, "Error parsing JSON. String was: " + result);
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
             return movie_data;
         }
 

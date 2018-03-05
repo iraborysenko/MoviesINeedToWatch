@@ -2,7 +2,10 @@ package com.example.aurora.moviesineedtowatch.tmdb;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Android Studio.
@@ -13,22 +16,32 @@ import java.util.ArrayList;
 
 public class MovieBuilder {
     private final int id;
+    @SerializedName("imdb_id")
     private final String imdbID;
     private final String imdb;
     private final String title;
+    @SerializedName("original_title")
     private final String originalTitle;
+    @SerializedName("original_language")
     private final String originalLanguage;
     private final String overview;
+    @SerializedName("poster_path")
     private final String posterPath;
-    private final Bitmap posterBitmap;
+    private Bitmap posterBitmap;
+    @SerializedName("release_date")
     private final String releaseDate;
     private final String tagline;
     private final String runtime;
+    @SerializedName("vote_average")
     private final String voteAverage;
+    @SerializedName("vote_count")
     private final int voteCount;
-    private final ArrayList<Integer> genresIds;
-    private final ArrayList<String> comps;
-    private final ArrayList<String> countrs;
+    @SerializedName("genres")
+    private final List<GengresIDs> genresIds;
+    @SerializedName("production_companies")
+    private final List<Companies> comps;
+    @SerializedName("production_countries")
+    private final List<Countries> countrs;
     private final String savedLang;
 
 
@@ -61,7 +74,7 @@ public class MovieBuilder {
         return id;
     }
 
-    String getImdbID() { return imdbID; }
+    public String getImdbID() { return imdbID; }
 
     public String getImdb() { return imdb; }
 
@@ -69,25 +82,25 @@ public class MovieBuilder {
         return title;
     }
 
-    String getOriginalTitle() { return originalTitle; }
+    public String getOriginalTitle() { return originalTitle; }
 
-    String getOriginalLanguage() { return originalLanguage; }
+    public String getOriginalLanguage() { return originalLanguage; }
 
     String getOverview() {
         return overview;
     }
 
-    String getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    Bitmap getPosterBitmap() { return posterBitmap; }
+    public Bitmap getPosterBitmap() { return posterBitmap; }
 
     String getReleaseDate() {
         return releaseDate;
     }
 
-    String getTagline() {
+    public String getTagline() {
         return tagline;
     }
 
@@ -95,7 +108,7 @@ public class MovieBuilder {
         return runtime;
     }
 
-    String getVoteAverage() {
+    public String getVoteAverage() {
         return voteAverage;
     }
 
@@ -103,13 +116,18 @@ public class MovieBuilder {
         return voteCount;
     }
 
-    ArrayList<Integer> getGenresIds() { return genresIds; }
+    public List<GengresIDs> getGenresIds() { return genresIds; }
 
-    ArrayList<String> getComps() { return comps; }
+    public List<Companies> getComps() { return comps; }
 
-    ArrayList<String> getCountrs() { return countrs; }
+    public List<Countries> getCountrs() { return countrs; }
 
     String getSavedLang() { return savedLang; }
+
+    public void returnPosterBitmap(Bitmap posterBitmap){
+        this.posterBitmap = posterBitmap;
+    }
+
 
     public static class Builder {
         private int id;
@@ -126,9 +144,9 @@ public class MovieBuilder {
         private String runtime;
         private String voteAverage;
         private int voteCount;
-        private ArrayList<Integer> genresIds;
-        private ArrayList<String> comps;
-        private ArrayList<String> countrs;
+        private List<GengresIDs> genresIds;
+        private List<Companies> comps;
+        private List<Countries> countrs;
         private String savedLang;
 
         Builder(int id, String title) {
@@ -181,6 +199,8 @@ public class MovieBuilder {
             return this;
         }
 
+
+
         public Builder setReleaseDate(String releaseDate) {
             this.releaseDate = releaseDate;
             return this;
@@ -206,17 +226,17 @@ public class MovieBuilder {
             return this;
         }
 
-        public Builder setGenresIds(ArrayList<Integer> genresIds) {
+        public Builder setGenresIds(List<GengresIDs> genresIds) {
             this.genresIds = genresIds;
             return this;
         }
 
-        public Builder setComps(ArrayList<String> comps) {
+        public Builder setComps(List<Companies> comps) {
             this.comps = comps;
             return this;
         }
 
-        public Builder setCountrs(ArrayList<String> countrs) {
+        public Builder setCountrs(List<Countries> countrs) {
             this.countrs = countrs;
             return this;
         }
@@ -231,5 +251,17 @@ public class MovieBuilder {
         }
 
     }
+//
+//    @Override
+//    public String toString() {
+//        return "[id=" + id + ", imdb_id=" + imdbID + ", title=" + title
+//                + ", original_title=" + originalTitle + ", original_language=" + originalLanguage
+//                + ", overview=" + overview
+//                + ", poster_path=" + posterPath + ", release_date=" + releaseDate
+//                + ", tagline=" + tagline + ", runtime=" + runtime + ", vote_average=" + voteAverage
+//                + ", vote_count=" + voteCount
+//                + ", genres=" + genresIds
+//                + "]";
+//    }
 
 }
