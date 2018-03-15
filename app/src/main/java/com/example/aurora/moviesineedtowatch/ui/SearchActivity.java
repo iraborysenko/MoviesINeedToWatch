@@ -3,15 +3,11 @@ package com.example.aurora.moviesineedtowatch.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,49 +25,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
+import com.example.aurora.moviesineedtowatch.gson.SearchMovieDeserializer;
+import com.example.aurora.moviesineedtowatch.gson.SearchResultDeserializer;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
-import com.example.aurora.moviesineedtowatch.tmdb.SearchBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
@@ -152,7 +133,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    class TMDBSearchManager extends AsyncTask <String, Void, ArrayList<SearchBuilder>>{
+    class TMDBSearchManager extends AsyncTask <String, Void, SearchResultBuilder>{
 
         @Override
         protected void onPreExecute() {
@@ -162,7 +143,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<SearchBuilder> doInBackground(String... params) {
+        protected SearchResultBuilder doInBackground(String... params) {
             String searchQuery = params[0];
             try {
                 return search(searchQuery);
@@ -173,24 +154,25 @@ public class SearchActivity extends AppCompatActivity {
 
         @SuppressLint("ResourceType")
         @Override
-        protected void onPostExecute(ArrayList<SearchBuilder> search) {
-            Log.e(Const.DEBUG, String.valueOf(search.size()));
+        protected void onPostExecute(SearchResultBuilder searchResult) {
+            Log.e(SEE, searchResult.getTotalResults());
 
+            SearchMovieBuilder[] search = searchResult.getResults();
             TableLayout mTable = findViewById(R.id.searchTable);
 
             mTable.removeAllViewsInLayout();
 
             final Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
-            for (int i = 0; i < search.size(); i++) {
+            for (SearchMovieBuilder aSearch : search) {
                 RelativeLayout tr = new RelativeLayout(SearchActivity.this);
 
-                final String movieId = String.valueOf(search.get(i).getId());
+                final String movieId = String.valueOf(aSearch.getId());
 
                 //get poster
                 ImageView mPoster = new ImageView(SearchActivity.this);
                 mPoster.setId(1);
-                String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + search.get(i).getPosterPath();
+                String imagePath = IMAGE_PATH + IMAGE_SIZE[3] + aSearch.getPosterPath();
                 RequestOptions options = new RequestOptions()
                         .error(R.drawable.noposter)
                         .skipMemoryCache(true);
@@ -203,7 +185,7 @@ public class SearchActivity extends AppCompatActivity {
                 //title
                 TextView mTitle = new TextView(SearchActivity.this);
                 mTitle.setId(2);
-                mTitle.setText(search.get(i).getTitle());
+                mTitle.setText(aSearch.getTitle());
                 mTitle.setTypeface(font, Typeface.BOLD);
                 mTitle.setTextColor(getResources().getColor(R.color.colorBlue));
                 mTitle.setGravity(Gravity.CENTER);
@@ -212,15 +194,15 @@ public class SearchActivity extends AppCompatActivity {
                 //original title
                 TextView mOTitle = new TextView(SearchActivity.this);
                 mOTitle.setId(3);
-                mOTitle.setText(search.get(i).getOriginalTitle());
+                mOTitle.setText(aSearch.getOriginalTitle());
                 mOTitle.setTypeface(font, Typeface.ITALIC);
 
                 //get genres
                 StringBuilder genresString = new StringBuilder();
-                if (search.get(i).getGenreIds().isEmpty())
+                if (aSearch.getGenreIds().isEmpty())
                     genresString = new StringBuilder("not defined");
                 else {
-                    for (Integer genreId : search.get(i).getGenreIds()) {
+                    for (Integer genreId : aSearch.getGenreIds()) {
                         genresString.append(genres.get(genreId)[s.isChecked() ? 0 : 1]).append("\n");
                     }
                 }
@@ -233,7 +215,7 @@ public class SearchActivity extends AppCompatActivity {
                 //get TMDb rating
                 TextView mTMDb = new TextView(SearchActivity.this);
                 mTMDb.setId(5);
-                mTMDb.setText(String.valueOf(search.get(i).getVoteAverage()));
+                mTMDb.setText(String.valueOf(aSearch.getVoteAverage()));
                 mTMDb.setTypeface(font, Typeface.BOLD);
                 mTMDb.setTextSize(15);
 
@@ -241,8 +223,8 @@ public class SearchActivity extends AppCompatActivity {
                 TextView mYear = new TextView(SearchActivity.this);
                 mYear.setId(6);
                 mYear.setTypeface(font);
-                if (!Objects.equals(search.get(i).getReleaseDate(), ""))
-                    mYear.setText(search.get(i).getReleaseDate().subSequence(0, 4));
+                if (!Objects.equals(aSearch.getReleaseDate(), ""))
+                    mYear.setText(aSearch.getReleaseDate().subSequence(0, 4));
                 else mYear.setText("----");
 
                 RelativeLayout.LayoutParams posterParams = new RelativeLayout.LayoutParams(230, 485);
@@ -274,7 +256,7 @@ public class SearchActivity extends AppCompatActivity {
                         50, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 tmdbParams.addRule(RelativeLayout.RIGHT_OF, mGenres.getId());
                 tmdbParams.addRule(RelativeLayout.BELOW, mOTitle.getId());
-                tmdbParams.setMargins(10,0,20, 0);
+                tmdbParams.setMargins(10, 0, 20, 0);
                 tr.addView(mTMDb, tmdbParams);
 
                 RelativeLayout.LayoutParams yearParams = new RelativeLayout.LayoutParams(
@@ -284,11 +266,9 @@ public class SearchActivity extends AppCompatActivity {
                 yearParams.setMargins(0, 0, 0, 0);
                 tr.addView(mYear, yearParams);
 
-                tr.setOnClickListener(new View.OnClickListener()
-                {
+                tr.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         new TMDBMovieManager().execute(movieId);
                     }
                 });
@@ -300,7 +280,7 @@ public class SearchActivity extends AppCompatActivity {
             Log.e(Const.DEBUG, "we're on the onPostExecute");
         }
 
-        ArrayList<SearchBuilder> search(String searchQuery) throws IOException {
+        SearchResultBuilder search(String searchQuery) throws IOException {
 
             String encodedQuery = URLEncoder.encode(searchQuery, "UTF-8");
             String stringBuilder = TMDB_SEARCH + (s.isChecked()?EN:RU) + "api_key=" + API.KEY + QUERY + encodedQuery;
@@ -328,33 +308,13 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        private ArrayList<SearchBuilder> parseSearch(String result) {
-            ArrayList<SearchBuilder> results = new ArrayList<>();
+        private SearchResultBuilder parseSearch(String result) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(SearchResultBuilder.class, new SearchResultDeserializer());
+            gsonBuilder.registerTypeAdapter(SearchMovieBuilder.class, new SearchMovieDeserializer());
 
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray array = (JSONArray) jsonObject.get("results");
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonMovieObject = array.getJSONObject(i);
-                    JSONArray gjIds = jsonMovieObject.getJSONArray("genre_ids");
-                    ArrayList<Integer> gIds = new ArrayList<>();
-                    for (int j = 0; j < gjIds.length(); j++) {
-                        gIds.add(gjIds.getInt(j));
-                    }
-                    SearchBuilder.Builder searchBuilder = SearchBuilder.newBuilder(
-                            Integer.parseInt(jsonMovieObject.getString("id")),
-                            jsonMovieObject.getString("title"))
-                            .setOriginalTitle(jsonMovieObject.getString("original_title"))
-                            .setPosterPath(jsonMovieObject.getString("poster_path"))
-                            .setReleaseDate(jsonMovieObject.getString("release_date"))
-                            .setVoteAverage(Float.parseFloat(jsonMovieObject.getString("vote_average")))
-                            .setGenreIds(gIds);
-                    results.add(searchBuilder.build());
-                }
-            } catch (JSONException e) {
-                Log.d(Const.DEBUG, "Error parsing JSON. String was: " + result);
-            }
-            return results;
+            Gson customGson = gsonBuilder.create();
+            return customGson.fromJson(result, SearchResultBuilder.class);
         }
 
         String stringify(InputStream stream) throws IOException {
