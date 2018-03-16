@@ -30,6 +30,8 @@ import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
 import com.example.aurora.moviesineedtowatch.gson.SearchMovieDeserializer;
 import com.example.aurora.moviesineedtowatch.gson.SearchResultDeserializer;
+import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
+import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.tmdb.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
@@ -48,6 +50,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
@@ -112,6 +118,36 @@ public class SearchActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
+
+
+
+
+        //retrofit part
+
+        ApiInterface apiService =
+                ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
+
+        Call<MovieBuilder> call = apiService.getMovie(585, API.KEY);
+        call.enqueue(new Callback<MovieBuilder>() {
+            @Override
+            public void onResponse(Call<MovieBuilder>call, Response<MovieBuilder> response) {
+                MovieBuilder movie = response.body();
+                assert movie != null;
+                Log.e(Const.TAG, "Movie data: " + movie.getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<MovieBuilder>call, Throwable t) {
+                Log.e(SEE, t.toString());
+            }
+        });
+
+
+
+
+
+
+
     }
 
 
