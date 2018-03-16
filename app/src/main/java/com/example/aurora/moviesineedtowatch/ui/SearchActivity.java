@@ -76,6 +76,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 public class SearchActivity extends AppCompatActivity {
     private Switch s;
     private ProgressBar progressBar;
+    private TextView mNotificationField;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class SearchActivity extends AppCompatActivity {
 
         final EditText editText = findViewById(R.id.search_query);
         ImageButton button = findViewById(R.id.search_button);
+        mNotificationField = findViewById(R.id.notificationField);
 
         editText.setOnKeyListener(new View.OnKeyListener() {
 
@@ -197,6 +199,8 @@ public class SearchActivity extends AppCompatActivity {
             TableLayout mTable = findViewById(R.id.searchTable);
 
             mTable.removeAllViewsInLayout();
+            mNotificationField.setText(String.format("Total amount: %s", searchResult.getTotalResults()));
+            mNotificationField.setTextSize(20);
 
             final Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
