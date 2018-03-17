@@ -23,6 +23,8 @@ public class Const {
     public final static String[] IMAGE_SIZE = {"w92", "w154", "w185", "w342", "w500", "w780", "original"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
     public final static String EN = "?language=en-US&";
     public final static String RU = "?language=ru-RU&";
+    public final static String EN1 = "en-US";
+    public final static String RU1 = "ru-RU";
     public final static String Q = "?";
     public final static String QUERY = "&query=";
     public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";

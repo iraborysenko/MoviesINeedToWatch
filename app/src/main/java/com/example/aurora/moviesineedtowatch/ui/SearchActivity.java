@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -56,10 +57,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN1;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.QUERY;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU1;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_MOVIE;
@@ -126,25 +129,32 @@ public class SearchActivity extends AppCompatActivity {
 
         //retrofit part
 
-        ApiInterface apiService =
-                ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
+        try {
+            String searchQuery = "Amelie";
+            String encodedQuery = URLEncoder.encode(searchQuery, "UTF-8");
 
-        Call<MovieBuilder> call = apiService.getMovie(585, API.KEY);
-        call.enqueue(new Callback<MovieBuilder>() {
-            @Override
-            public void onResponse(Call<MovieBuilder>call, Response<MovieBuilder> response) {
-                MovieBuilder movie = response.body();
-                assert movie != null;
-                Log.e(Const.TAG, "Movie data: " + movie.getTitle());
-            }
+            ApiInterface apiService =
+                    ApiClient.getClient1().create(ApiInterface.class);
 
-            @Override
-            public void onFailure(Call<MovieBuilder>call, Throwable t) {
-                Log.e(SEE, t.toString());
-            }
-        });
+            Call<SearchResultBuilder> call = apiService.getSearchResult((s.isChecked()?EN1:RU1),
+                    API.KEY, encodedQuery);
+            call.enqueue(new Callback<SearchResultBuilder>() {
+                @Override
+                public void onResponse(Call<SearchResultBuilder>call, Response<SearchResultBuilder> response) {
+                    SearchResultBuilder result = response.body();
+                    assert result != null;
+                    Log.e(Const.TAG, "Result data: " + result.getResults()[0].getTitle());
+                }
 
+                @Override
+                public void onFailure(Call<SearchResultBuilder>call, Throwable t) {
+                    Log.e(SEE, t.toString());
+                }
+            });
 
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -309,7 +319,8 @@ public class SearchActivity extends AppCompatActivity {
                 tr.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new TMDBMovieManager().execute(movieId);
+//                        new TMDBMovieManager().execute(movieId);
+                        loadMovieInfo(movieId);
                     }
                 });
 
@@ -362,6 +373,28 @@ public class SearchActivity extends AppCompatActivity {
             BufferedReader bufferedReader = new BufferedReader(reader);
             return bufferedReader.readLine();
         }
+    }
+
+    private void loadMovieInfo(String movieId) {
+
+        ApiInterface apiService =
+                ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
+
+        Call<MovieBuilder> call =
+                apiService.getMovie(Integer.parseInt(movieId),(s.isChecked()?EN1:RU1), API.KEY);
+        call.enqueue(new Callback<MovieBuilder>() {
+            @Override
+            public void onResponse(Call<MovieBuilder>call, Response<MovieBuilder> response) {
+                MovieBuilder movie = response.body();
+                assert movie != null;
+                Log.e(Const.TAG, "Movie data: " + movie.getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<MovieBuilder>call, Throwable t) {
+                Log.e(SEE, t.toString());
+            }
+        });
     }
 
     private class TMDBMovieManager extends AsyncTask <String, Void, MovieBuilder>{

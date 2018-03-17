@@ -16,10 +16,17 @@ import retrofit2.http.Query;
  */
 public interface ApiInterface {
 
-//    @GET("movie/top_rated")
-//    Call<SearchResultBuilder> getTopRatedMovies(@Query("api_key") String apiKey);
+    //http://api.themoviedb.org/3/search/movie?language=ru-RU&api_key=ffd306e2816e78d8da9d87e05072bf55&query=%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0+
+    //http://api.themoviedb.org/3/movie/14577?language=ru-RU&api_key=ffd306e2816e78d8da9d87e05072bf55
+
+    @GET("search/movie")
+    Call<SearchResultBuilder> getSearchResult(@Query("language") String lang,
+                                              @Query("api_key") String apiKey,
+                                              @Query("query") String query);
 
     @GET("movie/{id}")
-    Call<MovieBuilder> getMovie(@Path("id") int id, @Query("api_key") String apiKey);
+    Call<MovieBuilder> getMovie(@Path("id") int id,
+                                @Query("language") String lang,
+                                @Query("api_key") String apiKey);
 
 }
