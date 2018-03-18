@@ -58,7 +58,7 @@ public class MovieBuilder {
     }
 
     //getters
-    String getId() {
+    public String getId() {
         return id;
     }
 
@@ -66,11 +66,11 @@ public class MovieBuilder {
         return imdbID;
     }
 
-    String getImdb() {
+    public String getImdb() {
         return imdb;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -128,79 +128,6 @@ public class MovieBuilder {
 
     String getSavedLang() {
         return savedLang;
-    }
-
-    //setters
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setImdbID(String imdbID) {
-        this.imdbID = imdbID;
-    }
-
-    public void setImdb(String imdb) {
-        this.imdb = imdb;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public void setPosterBitmap(Bitmap posterBitmap) {
-        this.posterBitmap = posterBitmap;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public void setRuntime(String runtime) {
-        this.runtime = runtime;
-    }
-
-    public void setVoteAverage(String voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public void setGenresIds(ArrayList<Integer> genresIds) {
-        this.genresIds = genresIds;
-    }
-
-    public void setComps(ArrayList<String> comps) {
-        this.comps = comps;
-    }
-
-    public void setCountrs(ArrayList<String> countrs) {
-        this.countrs = countrs;
-    }
-
-    public void setSavedLang(String savedLang) {
-        this.savedLang = savedLang;
     }
 
 }
