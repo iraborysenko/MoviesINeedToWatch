@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,7 +26,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
-import com.example.aurora.moviesineedtowatch.tmdb.API;
+import com.example.aurora.moviesineedtowatch.retrofit.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
@@ -117,14 +118,14 @@ public class SearchActivity extends AppCompatActivity {
                 API.KEY, searchQuery);
         call.enqueue(new Callback<SearchResultBuilder>() {
             @Override
-            public void onResponse(Call<SearchResultBuilder>call, Response<SearchResultBuilder> response) {
+            public void onResponse(@NonNull Call<SearchResultBuilder>call, @NonNull Response<SearchResultBuilder> response) {
                 SearchResultBuilder result = response.body();
                 assert result != null;
                 displaySearchResults(result);
             }
 
             @Override
-            public void onFailure(Call<SearchResultBuilder>call, Throwable t) {
+            public void onFailure(@NonNull Call<SearchResultBuilder>call, @NonNull Throwable t) {
                 Log.e(SEE, t.toString());
             }
         });
@@ -269,7 +270,7 @@ public class SearchActivity extends AppCompatActivity {
                 apiService.getMovie(Integer.parseInt(movieId),(s.isChecked()?EN:RU), API.KEY);
         call.enqueue(new Callback<MovieBuilder>() {
             @Override
-            public void onResponse(Call<MovieBuilder>call, Response<MovieBuilder> response) {
+            public void onResponse(@NonNull Call<MovieBuilder>call, @NonNull Response<MovieBuilder> response) {
                 MovieBuilder movie = response.body();
                 DB db = new DB(SearchActivity.this);
                 db.addMovie(movie);
@@ -285,7 +286,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieBuilder>call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieBuilder>call, @NonNull Throwable t) {
                 Log.e(SEE, t.toString());
             }
         });
