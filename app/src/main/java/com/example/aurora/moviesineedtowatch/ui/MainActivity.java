@@ -26,11 +26,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
+import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.Objects;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID;
@@ -39,6 +43,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
@@ -48,6 +53,7 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
 public class MainActivity extends AppCompatActivity {
     TableLayout mTable;
     Typeface font;
+    private Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,33 @@ public class MainActivity extends AppCompatActivity {
         mTable = findViewById(R.id.main_table);
 
         showDBData();
+
+        Realm.init(this);
+        mRealm = Realm.getDefaultInstance();
+
+        mRealm.beginTransaction();
+        MovieBuilder movie = mRealm.createObject(MovieBuilder.class);
+        movie.setId("12");
+        mRealm.commitTransaction();
+
+        Log.e(SEE, "second part");
+        try {
+            mRealm.beginTransaction();
+
+            RealmResults<MovieBuilder> books = mRealm.where(MovieBuilder.class).findAll();
+
+            if(!books.isEmpty()) {
+
+                for(int i = books.size() - 1; i >= 0; i--)
+                    Log.e(SEE, books.get(i).getId());
+
+            }
+            mRealm.commitTransaction();
+            mRealm.close();
+        } finally {
+            mRealm.close();
+        }
+
     }
 
     @Override

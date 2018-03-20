@@ -4,6 +4,10 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.Required;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -11,7 +15,8 @@ import java.util.ArrayList;
  * Time:
  */
 
-public class MovieBuilder {
+public class MovieBuilder extends RealmObject {
+    @Required
     private String id;
     private String imdbID;
     private String imdb;
@@ -20,15 +25,20 @@ public class MovieBuilder {
     private String originalLanguage;
     private String overview;
     private String posterPath;
+    @Ignore
     private Bitmap posterBitmap;
     private String releaseDate;
     private String tagline;
     private String runtime;
     private String voteAverage;
     private int voteCount;
+    @Ignore
     private ArrayList<Integer> genresIds;
+    @Ignore
     private ArrayList<String> comps;
+    @Ignore
     private ArrayList<String> countrs;
+    @Ignore
     private String savedLang;
 
     public MovieBuilder(String id, String imdbID, String imdb, String title, String originalTitle,
@@ -57,77 +67,149 @@ public class MovieBuilder {
         this.savedLang = savedLang;
     }
 
-    //getters
+    public MovieBuilder () {}
+
     public String getId() {
         return id;
     }
 
-    String getImdbID() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getImdbID() {
         return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
     }
 
     public String getImdb() {
         return imdb;
     }
 
+    public void setImdb(String imdb) {
+        this.imdb = imdb;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    String getOriginalTitle() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOriginalTitle() {
         return originalTitle;
     }
 
-    String getOriginalLanguage() {
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    String getOverview() {
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public String getOverview() {
         return overview;
     }
 
-    String getPosterPath() {
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getPosterPath() {
         return posterPath;
     }
 
-    Bitmap getPosterBitmap() {
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public Bitmap getPosterBitmap() {
         return posterBitmap;
     }
 
-    String getReleaseDate() {
+    public void setPosterBitmap(Bitmap posterBitmap) {
+        this.posterBitmap = posterBitmap;
+    }
+
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    String getTagline() {
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getTagline() {
         return tagline;
     }
 
-    String getRuntime() {
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public String getRuntime() {
         return runtime;
     }
 
-    String getVoteAverage() {
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getVoteAverage() {
         return voteAverage;
     }
 
-    int getVoteCount() {
+    public void setVoteAverage(String voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public int getVoteCount() {
         return voteCount;
     }
 
-    ArrayList<Integer> getGenresIds() {
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public ArrayList<Integer> getGenresIds() {
         return genresIds;
     }
 
-    ArrayList<String> getComps() {
+    public void setGenresIds(ArrayList<Integer> genresIds) {
+        this.genresIds = genresIds;
+    }
+
+    public ArrayList<String> getComps() {
         return comps;
     }
 
-    ArrayList<String> getCountrs() {
+    public void setComps(ArrayList<String> comps) {
+        this.comps = comps;
+    }
+
+    public ArrayList<String> getCountrs() {
         return countrs;
     }
 
-    String getSavedLang() {
+    public void setCountrs(ArrayList<String> countrs) {
+        this.countrs = countrs;
+    }
+
+    public String getSavedLang() {
         return savedLang;
     }
 
+    public void setSavedLang(String savedLang) {
+        this.savedLang = savedLang;
+    }
 }
