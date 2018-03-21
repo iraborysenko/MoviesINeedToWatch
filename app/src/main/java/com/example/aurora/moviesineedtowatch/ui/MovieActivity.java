@@ -1,13 +1,10 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
@@ -27,21 +22,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import io.realm.Realm;
-
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.COMPS;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.COUNTRS;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.OLANG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.OTITLE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.OVERVIEW;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.RUNTIME;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.VOTE_AVARG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;

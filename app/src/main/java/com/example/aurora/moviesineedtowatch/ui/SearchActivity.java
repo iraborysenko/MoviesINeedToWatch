@@ -28,14 +28,12 @@ import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.DB;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
 import java.util.Objects;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,8 +70,6 @@ public class SearchActivity extends AppCompatActivity {
         mNotificationField = findViewById(R.id.notificationField);
         progressBar = findViewById(R.id.progressBar);
 
-//        Realm.init(SearchActivity.this);
-//        mRealm = Realm.getDefaultInstance();
         mRealm = MainActivity.getRealm();
 
         editText.setOnKeyListener(new View.OnKeyListener() {

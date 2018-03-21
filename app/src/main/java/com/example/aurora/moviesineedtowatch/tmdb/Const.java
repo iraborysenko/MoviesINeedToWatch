@@ -24,27 +24,6 @@ public class Const {
     public final static String RU = "ru-RU";
     public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";
 
-    public final static int ID = 0;
-    public final static int ID_MOVIE = 1;
-    public final static int ID_IMDB = 2;
-    public final static int IMDB = 3;
-    public final static int TITLE = 4;
-    public final static int OTITLE = 5;
-    public final static int OLANG = 6;
-    public final static int OVERVIEW = 7;
-    public final static int POST_PATH = 8;
-    public final static int POST_IMAGE = 9;
-    public final static int RELEASE_DATE = 10;
-    public final static int TAGLINE = 11;
-    public final static int RUNTIME = 12;
-    public final static int VOTE_AVARG = 13;
-    public final static int VOTE_COUNT = 14;
-    public final static int GENRES_IDS = 15;
-    public final static int COMPS = 16;
-    public final static int COUNTRS = 17;
-    public final static int LANG = 18;
-
-
     public final static HashMap<String, Locale> lang = new HashMap<String, Locale>() {
         {
             put("false", new Locale("ru"));
