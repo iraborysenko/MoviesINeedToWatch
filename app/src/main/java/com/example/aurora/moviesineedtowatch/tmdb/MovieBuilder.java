@@ -1,11 +1,6 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
-import android.graphics.Bitmap;
-
-import java.util.ArrayList;
-
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.Required;
 
 /**
@@ -25,28 +20,27 @@ public class MovieBuilder extends RealmObject {
     private String originalLanguage;
     private String overview;
     private String posterPath;
-    @Ignore
-    private Bitmap posterBitmap;
+    private String posterBitmap;
     private String releaseDate;
     private String tagline;
     private String runtime;
     private String voteAverage;
-    private int voteCount;
-    @Ignore
-    private ArrayList<Integer> genresIds;
-    @Ignore
-    private ArrayList<String> comps;
-    @Ignore
-    private ArrayList<String> countrs;
-    @Ignore
+    private String voteCount;
+    private String genresIds;
+    private String compsArr;
+    private String countrsArr;
     private String savedLang;
+
+    private float myRating;
+    private Boolean isWatched;
+    private String comment;
 
     public MovieBuilder(String id, String imdbID, String imdb, String title, String originalTitle,
                         String originalLanguage, String overview, String posterPath,
-                        Bitmap posterBitmap, String releaseDate, String tagline,
-                        String runtime, String voteAverage, int voteCount,
-                        ArrayList<Integer> genresIds, ArrayList<String> comps,
-                        ArrayList<String> countrs, String savedLang) {
+                        String posterBitmap, String releaseDate, String tagline,
+                        String runtime, String voteAverage, String voteCount,
+                        String genresIds, String compsArr,
+                        String countrsArr, String savedLang) {
         this.id = id;
         this.imdbID = imdbID;
         this.imdb = imdb;
@@ -62,8 +56,8 @@ public class MovieBuilder extends RealmObject {
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
         this.genresIds = genresIds;
-        this.comps = comps;
-        this.countrs = countrs;
+        this.compsArr = compsArr;
+        this.countrsArr = countrsArr;
         this.savedLang = savedLang;
     }
 
@@ -133,11 +127,11 @@ public class MovieBuilder extends RealmObject {
         this.posterPath = posterPath;
     }
 
-    public Bitmap getPosterBitmap() {
+    public String getPosterBitmap() {
         return posterBitmap;
     }
 
-    public void setPosterBitmap(Bitmap posterBitmap) {
+    public void setPosterBitmap(String posterBitmap) {
         this.posterBitmap = posterBitmap;
     }
 
@@ -173,36 +167,36 @@ public class MovieBuilder extends RealmObject {
         this.voteAverage = voteAverage;
     }
 
-    public int getVoteCount() {
+    public String getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(int voteCount) {
+    public void setVoteCount(String voteCount) {
         this.voteCount = voteCount;
     }
 
-    public ArrayList<Integer> getGenresIds() {
+    public String getGenresIds() {
         return genresIds;
     }
 
-    public void setGenresIds(ArrayList<Integer> genresIds) {
+    public void setGenresIds(String genresIds) {
         this.genresIds = genresIds;
     }
 
-    public ArrayList<String> getComps() {
-        return comps;
+    public String getCompsArr() {
+        return compsArr;
     }
 
-    public void setComps(ArrayList<String> comps) {
-        this.comps = comps;
+    public void setCompsArr(String compsArr) {
+        this.compsArr = compsArr;
     }
 
-    public ArrayList<String> getCountrs() {
-        return countrs;
+    public String getCountrsArr() {
+        return countrsArr;
     }
 
-    public void setCountrs(ArrayList<String> countrs) {
-        this.countrs = countrs;
+    public void setCountrsArr(String countrsArr) {
+        this.countrsArr = countrsArr;
     }
 
     public String getSavedLang() {
@@ -211,5 +205,29 @@ public class MovieBuilder extends RealmObject {
 
     public void setSavedLang(String savedLang) {
         this.savedLang = savedLang;
+    }
+
+    public float getMyRating() {
+        return myRating;
+    }
+
+    public void setMyRating(float myRating) {
+        this.myRating = myRating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Boolean getWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(Boolean watched) {
+        isWatched = watched;
     }
 }

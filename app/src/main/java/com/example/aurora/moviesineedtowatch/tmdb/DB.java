@@ -83,15 +83,15 @@ public class DB extends SQLiteOpenHelper {
         values.put(KEY_OLanguage, mBuilder.getOriginalLanguage());
         values.put(KEY_OVERVIEW, mBuilder.getOverview());
         values.put(KEY_POSTER_PATH, mBuilder.getPosterPath());
-        values.put(KEY_POSTER_IMAGE, bitmapToString(mBuilder.getPosterBitmap()));
+        values.put(KEY_POSTER_IMAGE, mBuilder.getPosterBitmap());
         values.put(KEY_RELEASE_DATE, mBuilder.getReleaseDate());
         values.put(KEY_TAGLINE, mBuilder.getTagline());
         values.put(KEY_RUNTIME, mBuilder.getRuntime());
-        values.put(KEY_VOTE_AVERAGE, String.valueOf(mBuilder.getVoteAverage()));
-        values.put(KEY_VOTE_COUNT, String.valueOf(mBuilder.getVoteCount()));
-        values.put(KEY_GENRES_IDS, String.valueOf(mBuilder.getGenresIds()));
-        values.put(KEY_COMPANIES, String.valueOf(mBuilder.getComps()));
-        values.put(KEY_COUNTRIES, String.valueOf(mBuilder.getCountrs()));
+        values.put(KEY_VOTE_AVERAGE, mBuilder.getVoteAverage());
+        values.put(KEY_VOTE_COUNT, mBuilder.getVoteCount());
+        values.put(KEY_GENRES_IDS, mBuilder.getGenresIds());
+        values.put(KEY_COMPANIES, mBuilder.getCompsArr());
+        values.put(KEY_COUNTRIES, mBuilder.getCountrsArr());
         values.put(KEY_LANG, mBuilder.getSavedLang());
 
         // Inserting Row

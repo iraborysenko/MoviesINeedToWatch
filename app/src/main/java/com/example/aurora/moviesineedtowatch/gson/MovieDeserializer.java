@@ -32,6 +32,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
 
 import android.content.Context;
 
@@ -95,7 +96,7 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
         if (tmdb_rating == 0.0f) tmdb = "none";
         else tmdb = String.valueOf(tmdb_rating);
 
-        int voteCount = jsonObject.get("vote_count").getAsInt();
+        String voteCount = jsonObject.get("vote_count").getAsString();
 
         //get imdb rating
         String imdbId;
@@ -180,15 +181,15 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
                 originalLanguage,
                 overview,
                 posterPath,
-                img,
+                bitmapToString(img),
                 releaseDate,
                 tagline,
                 runtime,
                 tmdb,
                 voteCount,
-                arrGenres,
-                arrCompanies,
-                arrCountries,
+                String.valueOf(arrGenres),
+                String.valueOf(arrCompanies),
+                String.valueOf(arrCountries),
                 savedLang
         );
     }
