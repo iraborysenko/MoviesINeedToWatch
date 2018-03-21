@@ -11,8 +11,11 @@ import io.realm.annotations.Required;
  */
 
 public class MovieBuilder extends RealmObject {
+
     @Required
     private String id;
+    @Required
+    private String savedLang;
     private String imdbID;
     private String imdb;
     private String title;
@@ -29,7 +32,6 @@ public class MovieBuilder extends RealmObject {
     private String genresIds;
     private String compsArr;
     private String countrsArr;
-    private String savedLang;
 
     private float myRating;
     private Boolean isWatched;

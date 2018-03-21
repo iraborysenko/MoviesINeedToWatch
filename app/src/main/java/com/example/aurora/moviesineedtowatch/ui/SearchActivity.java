@@ -34,6 +34,8 @@ import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
 import java.util.Objects;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,6 +59,7 @@ public class SearchActivity extends AppCompatActivity {
     private Switch s;
     public ProgressBar progressBar;
     private TextView mNotificationField;
+    private Realm mRealm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,10 @@ public class SearchActivity extends AppCompatActivity {
         ImageButton button = findViewById(R.id.search_button);
         mNotificationField = findViewById(R.id.notificationField);
         progressBar = findViewById(R.id.progressBar);
+
+//        Realm.init(SearchActivity.this);
+//        mRealm = Realm.getDefaultInstance();
+        mRealm = MainActivity.getRealm();
 
         editText.setOnKeyListener(new View.OnKeyListener() {
 
@@ -262,7 +269,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadMovieInfo(String movieId) {
-
+        progressBar.setVisibility(View.VISIBLE);
         ApiInterface apiService =
                 ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
@@ -272,16 +279,18 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<MovieBuilder>call, @NonNull Response<MovieBuilder> response) {
                 MovieBuilder movie = response.body();
-                DB db = new DB(SearchActivity.this);
-                db.addMovie(movie);
+                assert movie != null;
+
+                mRealm.beginTransaction();
+                mRealm.copyToRealm(movie);
+                mRealm.commitTransaction();
 
                 SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
                 editor.putBoolean("db_is_changed", true);
                 editor.apply();
 
                 progressBar.setVisibility(View.INVISIBLE);
-                assert movie != null;
-                Toast.makeText(SearchActivity.this, "Movie \" "+ movie.getTitle() + "\" added to the wish list", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, "Movie \""+ movie.getTitle() + "\" added to the wish list", Toast.LENGTH_SHORT).show();
                 Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
             }
 

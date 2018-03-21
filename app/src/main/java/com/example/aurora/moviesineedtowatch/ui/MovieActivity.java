@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.DB;
+import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,8 @@ import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Objects;
+
+import io.realm.Realm;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.COMPS;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.COUNTRS;
@@ -65,6 +68,8 @@ public class MovieActivity extends AppCompatActivity {
     private TextView mCountries;
     private TextView mCompanies;
 
+    private Realm mRealm;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,26 +89,29 @@ public class MovieActivity extends AppCompatActivity {
         mCountries = findViewById(R.id.countries);
         mCompanies = findViewById(R.id.companies);
 
-        String movieID = getIntent().getStringExtra("EXTRA_MOVIE_ID");
-        setMovieInfo(movieID);
+        mRealm = MainActivity.getRealm();
+
+        String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
+        String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
+        setMovieInfo(movieId, dataLang);
     }
 
-    private void setMovieInfo(String rowId) {
+    private void setMovieInfo(String movieId, String dataLang) {
 
-        DB db1 = new DB(MovieActivity.this);
-        String selectQuery = "SELECT * FROM " + DB.TABLE_MOVIE + " WHERE " + DB.KEY_ID + "=" + rowId;
-        SQLiteDatabase db = db1.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToFirst();
+        MovieBuilder curMovie = mRealm.where(MovieBuilder.class)
+                .equalTo("id", movieId)
+                .equalTo("savedLang", dataLang)
+                .findFirst();
+        assert curMovie != null;
 
-        mTitle.setText(cursor.getString(TITLE));
-        mOTitle.setText(String.format("%s %s", cursor.getString(OLANG), cursor.getString(OTITLE)));
-        mTMDb.setText(cursor.getString(VOTE_AVARG));
-        mIMDb.setText(cursor.getString(IMDB));
-        mTagline.setText(cursor.getString(TAGLINE));
-        mRuntime.setText(cursor.getString(RUNTIME));
-        mYear.setText(cursor.getString(RELEASE_DATE));
-        mOverview.setText(cursor.getString(OVERVIEW));
+        mTitle.setText(curMovie.getTitle());
+        mOTitle.setText(String.format("%s %s", curMovie.getOriginalLanguage(), curMovie.getOriginalTitle()));
+        mTMDb.setText(curMovie.getVoteAverage());
+        mIMDb.setText(curMovie.getImdb());
+        mTagline.setText(curMovie.getTagline());
+        mRuntime.setText(curMovie.getRuntime());
+        mYear.setText(curMovie.getReleaseDate());
+        mOverview.setText(curMovie.getOverview());
 
         //get poster
         RequestOptions options = new RequestOptions()
@@ -111,18 +119,18 @@ public class MovieActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this)
                 .asBitmap()
-                .load(stringToBitmap(cursor.getString(POST_IMAGE)))
+                .load(stringToBitmap(curMovie.getPosterBitmap()))
                 .apply(options)
                 .into(mImage);
 
         //get genres
         StringBuilder genresString = new StringBuilder();
         try {
-            JSONArray ids = new JSONArray(cursor.getString(GENRES_IDS));
+            JSONArray ids = new JSONArray(curMovie.getGenresIds());
             if (ids.length() == 0) {
                 genresString = new StringBuilder("not defined");
             } else {
-                int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
+                int index = (Objects.equals(dataLang, "true"))?0:1;
                 for (int i=0; i<ids.length(); i++)
                     genresString.append(genres.get(ids.get(i))[index]).append("\n");
             }
@@ -134,13 +142,13 @@ public class MovieActivity extends AppCompatActivity {
         //get countries
         StringBuilder countriesString = new StringBuilder();
         try {
-            JSONArray ids = new JSONArray(cursor.getString(COUNTRS));
+            JSONArray ids = new JSONArray(curMovie.getCountrsArr());
             if (ids.length() == 0) {
                 countriesString = new StringBuilder("not defined");
             } else {
                 for (int i=0; i<ids.length(); i++) {
                     Locale obj = new Locale("", ids.get(i).toString());
-                    countriesString.append(obj.getDisplayCountry(lang.get(cursor.getString(LANG)))).append("\n");
+                    countriesString.append(obj.getDisplayCountry(lang.get(dataLang))).append("\n");
                 }
             }
             mCountries.setText(countriesString.toString());
@@ -150,16 +158,15 @@ public class MovieActivity extends AppCompatActivity {
 
         //get companies
         StringBuilder companiesString = new StringBuilder();
-        if (Objects.equals(cursor.getString(COMPS), "[]")) {
+        if (Objects.equals(curMovie.getCompsArr(), "[]")) {
             companiesString = new StringBuilder("not defined");
         } else {
             String delims = ", |\\[|]";
-            String[] tokens = cursor.getString(COMPS).split(delims);
+            String[] tokens = curMovie.getCompsArr().split(delims);
             for (String token : tokens) companiesString.append(token).append("\n");
         }
         mCompanies.setText(companiesString.toString().trim());
 
-        cursor.close();
     }
 
     public static String bitmapToString(Bitmap in){
