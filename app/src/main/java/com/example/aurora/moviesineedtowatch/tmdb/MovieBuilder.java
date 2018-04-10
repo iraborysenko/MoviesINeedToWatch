@@ -1,8 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
-import android.graphics.Bitmap;
-
-import java.util.ArrayList;
+import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 /**
  * Created by Android Studio.
@@ -11,225 +10,226 @@ import java.util.ArrayList;
  * Time:
  */
 
-public class MovieBuilder {
-    private final int id;
-    private final String imdbID;
-    private final String imdb;
-    private final String title;
-    private final String originalTitle;
-    private final String originalLanguage;
-    private final String overview;
-    private final String posterPath;
-    private final Bitmap posterBitmap;
-    private final String releaseDate;
-    private final String tagline;
-    private final String runtime;
-    private final String voteAverage;
-    private final int voteCount;
-    private final ArrayList<Integer> genresIds;
-    private final ArrayList<String> comps;
-    private final ArrayList<String> countrs;
-    private final String savedLang;
+public class MovieBuilder extends RealmObject {
 
+    @Required
+    private String id;
+    @Required
+    private String savedLang;
+    private String imdbID;
+    private String imdb;
+    private String title;
+    private String originalTitle;
+    private String originalLanguage;
+    private String overview;
+    private String posterPath;
+    private String posterBitmap;
+    private String releaseDate;
+    private String tagline;
+    private String runtime;
+    private String voteAverage;
+    private String voteCount;
+    private String genresIds;
+    private String compsArr;
+    private String countrsArr;
 
-    private MovieBuilder(Builder builder) {
-        id = builder.id;
-        imdbID = builder.imdbID;
-        imdb = builder.imdb;
-        title = builder.title;
-        originalTitle = builder.originalTitle;
-        originalLanguage = builder.originalLanguage;
-        overview = builder.overview;
-        posterPath = builder.posterPath;
-        posterBitmap = builder.posterBitmap;
-        releaseDate = builder.releaseDate;
-        tagline = builder.tagline;
-        runtime = builder.runtime;
-        voteAverage = builder.voteAverage;
-        voteCount = builder.voteCount;
-        genresIds = builder.genresIds;
-        comps = builder.comps;
-        countrs = builder.countrs;
-        savedLang = builder.savedLang;
+    private float myRating;
+    private Boolean isWatched;
+    private String comment;
+
+    public MovieBuilder(String id, String imdbID, String imdb, String title, String originalTitle,
+                        String originalLanguage, String overview, String posterPath,
+                        String posterBitmap, String releaseDate, String tagline,
+                        String runtime, String voteAverage, String voteCount,
+                        String genresIds, String compsArr,
+                        String countrsArr, String savedLang) {
+        this.id = id;
+        this.imdbID = imdbID;
+        this.imdb = imdb;
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.originalLanguage = originalLanguage;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.posterBitmap = posterBitmap;
+        this.releaseDate = releaseDate;
+        this.tagline = tagline;
+        this.runtime = runtime;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
+        this.genresIds = genresIds;
+        this.compsArr = compsArr;
+        this.countrsArr = countrsArr;
+        this.savedLang = savedLang;
     }
 
-    public static Builder newBuilder(int id, String title) {
-        return new Builder(id, title);
-    }
+    public MovieBuilder () {}
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    String getImdbID() { return imdbID; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getImdb() { return imdb; }
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
+    }
+
+    public String getImdb() {
+        return imdb;
+    }
+
+    public void setImdb(String imdb) {
+        this.imdb = imdb;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    String getOriginalTitle() { return originalTitle; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    String getOriginalLanguage() { return originalLanguage; }
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
 
-    String getOverview() {
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public String getOverview() {
         return overview;
     }
 
-    String getPosterPath() {
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getPosterPath() {
         return posterPath;
     }
 
-    Bitmap getPosterBitmap() { return posterBitmap; }
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
 
-    String getReleaseDate() {
+    public String getPosterBitmap() {
+        return posterBitmap;
+    }
+
+    public void setPosterBitmap(String posterBitmap) {
+        this.posterBitmap = posterBitmap;
+    }
+
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    String getTagline() {
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getTagline() {
         return tagline;
     }
 
-    String getRuntime() {
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public String getRuntime() {
         return runtime;
     }
 
-    String getVoteAverage() {
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getVoteAverage() {
         return voteAverage;
     }
 
-    int getVoteCount() {
+    public void setVoteAverage(String voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public String getVoteCount() {
         return voteCount;
     }
 
-    ArrayList<Integer> getGenresIds() { return genresIds; }
-
-    ArrayList<String> getComps() { return comps; }
-
-    ArrayList<String> getCountrs() { return countrs; }
-
-    String getSavedLang() { return savedLang; }
-
-    public static class Builder {
-        private int id;
-        private String imdbID;
-        private String imdb;
-        private String title;
-        private String originalTitle;
-        private String originalLanguage;
-        private String overview;
-        private String posterPath;
-        private Bitmap posterBitmap;
-        private String releaseDate;
-        private String tagline;
-        private String runtime;
-        private String voteAverage;
-        private int voteCount;
-        private ArrayList<Integer> genresIds;
-        private ArrayList<String> comps;
-        private ArrayList<String> countrs;
-        private String savedLang;
-
-        Builder(int id, String title) {
-            this.id = id;
-            this.title = title;
-        }
-
-        public Builder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setImdbID(String imdbID) {
-            this.imdbID = imdbID;
-            return this;
-        }
-
-        public Builder setImdb(String imdb) {
-            this.imdb = imdb;
-            return this;
-        }
-
-        public Builder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder setOriginalTitle(String originalTitle) {
-            this.originalTitle = originalTitle;
-            return this;
-        }
-
-        public Builder setOriginalLanguage(String originalLanguage) {
-            this.originalLanguage = originalLanguage;
-            return this;
-        }
-
-        public Builder setOverview(String overview) {
-            this.overview = overview;
-            return this;
-        }
-
-        public Builder setPosterPath(String posterPath) {
-            this.posterPath = posterPath;
-            return this;
-        }
-
-        public Builder setPosterBitmap(Bitmap posterBitmap) {
-            this.posterBitmap = posterBitmap;
-            return this;
-        }
-
-        public Builder setReleaseDate(String releaseDate) {
-            this.releaseDate = releaseDate;
-            return this;
-        }
-
-        public Builder setTagline(String tagline) {
-            this.tagline = tagline;
-            return this;
-        }
-
-        public Builder setRuntime(String runtime) {
-            this.runtime = runtime;
-            return this;
-        }
-
-        public Builder setVoteAverage(String voteAverage) {
-            this.voteAverage = voteAverage;
-            return this;
-        }
-
-        public Builder setVoteCount(int voteCount) {
-            this.voteCount = voteCount;
-            return this;
-        }
-
-        public Builder setGenresIds(ArrayList<Integer> genresIds) {
-            this.genresIds = genresIds;
-            return this;
-        }
-
-        public Builder setComps(ArrayList<String> comps) {
-            this.comps = comps;
-            return this;
-        }
-
-        public Builder setCountrs(ArrayList<String> countrs) {
-            this.countrs = countrs;
-            return this;
-        }
-
-        public Builder setSavedLang(String savedLang) {
-            this.savedLang = savedLang;
-            return this;
-        }
-
-        public MovieBuilder build() {
-            return new MovieBuilder(this);
-        }
-
+    public void setVoteCount(String voteCount) {
+        this.voteCount = voteCount;
     }
 
+    public String getGenresIds() {
+        return genresIds;
+    }
+
+    public void setGenresIds(String genresIds) {
+        this.genresIds = genresIds;
+    }
+
+    public String getCompsArr() {
+        return compsArr;
+    }
+
+    public void setCompsArr(String compsArr) {
+        this.compsArr = compsArr;
+    }
+
+    public String getCountrsArr() {
+        return countrsArr;
+    }
+
+    public void setCountrsArr(String countrsArr) {
+        this.countrsArr = countrsArr;
+    }
+
+    public String getSavedLang() {
+        return savedLang;
+    }
+
+    public void setSavedLang(String savedLang) {
+        this.savedLang = savedLang;
+    }
+
+    public float getMyRating() {
+        return myRating;
+    }
+
+    public void setMyRating(float myRating) {
+        this.myRating = myRating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Boolean getWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(Boolean watched) {
+        isWatched = watched;
+    }
 }

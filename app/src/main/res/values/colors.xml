@@ -9,6 +9,7 @@
     <color name="colorBlue">#0000b3</color>
     <color name="colorBeige">#ffffe9</color>
     <color name="colorGrey">#27170432</color>
+    <color name="colorDarkGrey">#3e4851</color>
 
     <!--imdb rating colors-->
     <color name="VeryBad">#992600</color>

@@ -3,17 +3,12 @@ package com.example.aurora.moviesineedtowatch.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,29 +20,26 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.DB;
+import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.Objects;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.GENRES_IDS;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.ID_MOVIE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDB;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.LANG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.POST_IMAGE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.RELEASE_DATE;
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TAGLINE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TITLE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
 
 public class MainActivity extends AppCompatActivity {
     TableLayout mTable;
     Typeface font;
+    private static Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,35 +57,29 @@ public class MainActivity extends AppCompatActivity {
         font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
         mTable = findViewById(R.id.main_table);
 
-        showDBData();
-    }
+        Realm.init(this);
+        mRealm = Realm.getDefaultInstance();
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+        displayListOfMovies();
 
-        SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
-        boolean is_changed = settings.getBoolean("db_is_changed", false);
-        if(is_changed){
-            Log.e(Const.TAG, "I'm onRestart!");
-            showDBData();
-            SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
-            editor.putBoolean("db_is_changed", false);
-            editor.apply();
-        }
     }
 
     @SuppressLint("ResourceType")
-    private void showDBData() {
+    private void displayListOfMovies() {
         mTable.removeAllViewsInLayout();
 
-        DB db = new DB(MainActivity.this);
-        Cursor cursor = db.getAllMovies();
+        mRealm.beginTransaction();
+        RealmResults<MovieBuilder> movies = mRealm.where(MovieBuilder.class).findAll();
+        mRealm.commitTransaction();
+        MovieBuilder movie;
 
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
+        if(!movies.isEmpty()) {
+            for(int i = movies.size() - 1; i >= 0; i--) {
+                movie = movies.get(i);
+                assert movie != null;
 
-                final String rowId = cursor.getString(ID);
+                final String movieId = movie.getId();
+                final String dataLang = movie.getSavedLang();
 
                 RelativeLayout tr = new RelativeLayout(MainActivity.this);
 
@@ -106,14 +92,14 @@ public class MainActivity extends AppCompatActivity {
                         .diskCacheStrategy(DiskCacheStrategy.NONE);
                 Glide.with(this)
                         .asBitmap()
-                        .load(stringToBitmap(cursor.getString(POST_IMAGE)))
+                        .load(stringToBitmap(movie.getPosterBitmap()))
                         .apply(options)
                         .into(mPoster);
 
                 //title
                 final TextView mTitle = new TextView(MainActivity.this);
                 mTitle.setId(2);
-                mTitle.setText(cursor.getString(TITLE));
+                mTitle.setText(movie.getTitle());
                 mTitle.setTypeface(font, Typeface.BOLD);
                 mTitle.setGravity(Gravity.CENTER);
                 mTitle.setTextColor(getResources().getColor(R.color.colorDarkGreen));
@@ -122,20 +108,20 @@ public class MainActivity extends AppCompatActivity {
                 //tagline
                 TextView mTagline = new TextView(MainActivity.this);
                 mTagline.setId(3);
-                mTagline.setText(cursor.getString(TAGLINE));
+                mTagline.setText(movie.getTagline());
                 mTagline.setTypeface(font, Typeface.BOLD_ITALIC);
                 mTagline.setTextSize(16);
 
                 //get genres
                 StringBuilder genresString = new StringBuilder();
                 try {
-                    JSONArray ids = new JSONArray(cursor.getString(GENRES_IDS));
+                    JSONArray ids = new JSONArray(movie.getGenresIds());
                     if (ids.length() == 0) {
                         genresString = new StringBuilder("not defined");
                     } else {
-                        int index = (Objects.equals(cursor.getString(LANG), "true"))?0:1;
-                        for (int i=0; i<ids.length(); i++)
-                            genresString.append(genres.get(ids.get(i))[index]).append("\n");
+                        int index = (Objects.equals(movie.getSavedLang(), "true"))?0:1;
+                        for (int j=0; j<ids.length(); j++)
+                            genresString.append(genres.get(ids.get(j))[index]).append("\n");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,16 +136,16 @@ public class MainActivity extends AppCompatActivity {
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
                 mYear.setId(5);
-                mYear.setText(cursor.getString(RELEASE_DATE));
+                mYear.setText(movie.getReleaseDate());
                 mYear.setTypeface(font, Typeface.BOLD);
                 mYear.setGravity(Gravity.CENTER);
 
                 //get IMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
                 mIMDb.setId(6);
-                mIMDb.setText(cursor.getString(IMDB));
+                mIMDb.setText(movie.getImdb());
                 mIMDb.setTypeface(font, Typeface.BOLD);
-                mIMDb.setBackgroundColor(getResources().getColor(chooseColor(cursor.getString(IMDB))));
+                mIMDb.setBackgroundColor(getResources().getColor(chooseColor(movie.getImdb())));
                 mIMDb.setTextColor(getResources().getColor(R.color.colorBeige));
                 mIMDb.setTextSize(18);
                 mIMDb.setGravity(Gravity.CENTER);
@@ -208,28 +194,60 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v)
                     {
-                        movieTMDB(rowId);
+                        movieTMDB(movieId, dataLang);
                     }
                 });
 
                 tr.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        Log.e(Const.TAG, "it's long click listener");
-                        DB db1 = new DB(MainActivity.this);
-                        SQLiteDatabase db = db1.getWritableDatabase();
-                        db.delete(DB.TABLE_MOVIE, "id = " + rowId, null);
-                        showDBData();
+                        mRealm.beginTransaction();
+
+                        RealmResults<MovieBuilder> result = mRealm.where(MovieBuilder.class)
+                                .equalTo("id", movieId)
+                                .equalTo("savedLang", dataLang)
+                                .findAll();
+                        result.deleteAllFromRealm();
+                        mRealm.commitTransaction();
+
+                        displayListOfMovies();
                         return true;
                     }
                 });
 
 
                 mTable.addView(tr);
-                cursor.moveToNext();
             }
+
+        } else {
+            Log.e(DEBUG, "No data yet.");
         }
-        cursor.close();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
+        boolean is_changed = settings.getBoolean("db_is_changed", false);
+        if(is_changed){
+            Log.e(Const.TAG, "I'm onRestart!");
+            displayListOfMovies();
+            SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+            editor.putBoolean("db_is_changed", false);
+            editor.apply();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+    }
+
+    public static Realm getRealm() {
+        return mRealm;
     }
 
     private int chooseColor(String imdbRating) {
@@ -264,9 +282,10 @@ public class MainActivity extends AppCompatActivity {
         return color;
     }
 
-    private void movieTMDB(String rowId) {
+    private void movieTMDB(String movieId, String dataLang) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("EXTRA_MOVIE_ID", rowId);
+        intent.putExtra("EXTRA_MOVIE_ID", movieId);
+        intent.putExtra("EXTRA_DATA_LANG", dataLang);
         startActivity(intent);
     }
 

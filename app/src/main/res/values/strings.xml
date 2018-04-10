@@ -29,4 +29,5 @@
     <string name="deleting_movie">Deleting Movie</string>
     <string name="delete_question">Are you sure?</string>
     <string name="delete_button">delete_button</string>
+    <string name="notification_field">Bellow will be displays a list of movies</string>
 </resources>

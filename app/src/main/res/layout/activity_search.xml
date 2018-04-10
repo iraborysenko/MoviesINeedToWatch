@@ -73,19 +73,35 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/search_query"
+            android:layout_marginTop="20dp"
             android:fillViewport="true"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <TableLayout
-                android:id="@+id/searchTable"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/search_query"
-                android:layout_marginTop="15dp"
-                tools:ignore="ObsoleteLayoutParam">
-            </TableLayout>
+                <TextView
+                    android:id="@+id/notificationField"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/notification_field"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="ObsoleteLayoutParam" />
+
+                <TableLayout
+                    android:id="@+id/searchTable"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/notificationField"
+                    android:layout_marginTop="15dp"
+                    tools:ignore="ObsoleteLayoutParam">
+                </TableLayout>
+            </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
