@@ -1,15 +1,16 @@
 package com.example.aurora.moviesineedtowatch.gson;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,15 +28,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
-
-import android.content.Context;
-
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Android Studio.
@@ -43,7 +40,6 @@ import android.content.Context;
  * Date: 15/03/18
  * Time: 18:41
  */
-
 public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
     private Context cntxt;
 

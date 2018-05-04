@@ -1,5 +1,8 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,14 +20,11 @@ import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import io.realm.Realm;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Objects;
-
-import io.realm.Realm;
-
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
 
 /**
  * Created by Android Studio.
@@ -32,7 +32,6 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
  * Date: 25/01/18
  * Time: 20:43
  */
-
 public class MovieActivity extends AppCompatActivity {
 
     private TextView mTitle;

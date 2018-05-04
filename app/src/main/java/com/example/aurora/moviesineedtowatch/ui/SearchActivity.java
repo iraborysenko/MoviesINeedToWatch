@@ -1,5 +1,14 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -31,20 +40,14 @@ import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
-import java.util.Objects;
 
 import io.realm.Realm;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import java.util.Objects;
 
 /**
  * Created by Android Studio.
@@ -52,7 +55,6 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
  * Date: 25/01/18
  * Time: 20:41
  */
-
 public class SearchActivity extends AppCompatActivity {
     private Switch s;
     public ProgressBar progressBar;

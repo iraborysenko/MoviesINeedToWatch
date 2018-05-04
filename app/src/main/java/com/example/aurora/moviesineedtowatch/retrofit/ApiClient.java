@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.retrofit;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_BASE;
+
 import android.content.Context;
 
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
@@ -13,8 +15,6 @@ import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_BASE;
 
 /**
  * Created by Android Studio.

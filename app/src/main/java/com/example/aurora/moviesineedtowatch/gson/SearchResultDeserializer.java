@@ -10,7 +10,6 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-
 /**
  * Created by Android Studio.
  * User: Iryna

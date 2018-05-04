@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * Date: 23/01/18
  * Time:
  */
-
 public class SearchMovieBuilder {
     private String id;
     private String title;

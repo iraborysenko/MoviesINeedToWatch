@@ -1,11 +1,17 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,16 +31,10 @@ import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.Objects;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TableLayout mTable;

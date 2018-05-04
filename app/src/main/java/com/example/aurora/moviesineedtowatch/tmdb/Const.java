@@ -9,7 +9,6 @@ import java.util.Locale;
  * Date: 25/01/18
  * Time:
  */
-
 public class Const {
     public final static String DEBUG = "TMDBQM";
     public final static String TAG = "TAG";

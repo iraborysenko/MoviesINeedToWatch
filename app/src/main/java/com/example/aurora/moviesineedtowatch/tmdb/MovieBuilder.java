@@ -1,7 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
-import io.realm.RealmObject;
 import io.realm.annotations.Required;
+import io.realm.RealmObject;
 
 /**
  * Created by Android Studio.
@@ -9,7 +9,6 @@ import io.realm.annotations.Required;
  * Date: 23/01/18
  * Time:
  */
-
 public class MovieBuilder extends RealmObject {
 
     @Required
