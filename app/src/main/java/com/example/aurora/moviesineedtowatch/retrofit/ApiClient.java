@@ -5,11 +5,11 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_BASE;
 import android.content.Context;
 
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
-import com.example.aurora.moviesineedtowatch.gson.SearchMovieDeserializer;
+import com.example.aurora.moviesineedtowatch.gson.FoundMovieDeserializer;
 import com.example.aurora.moviesineedtowatch.gson.SearchResultDeserializer;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
-import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
-import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
+import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -30,9 +30,9 @@ public class ApiClient {
         if (retrofit==null) {
 
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(MovieBuilder.class, new MovieDeserializer(context))
-                    .registerTypeAdapter(SearchResultBuilder.class, new SearchResultDeserializer())
-                    .registerTypeAdapter(SearchMovieBuilder.class, new SearchMovieDeserializer())
+                    .registerTypeAdapter(Movie.class, new MovieDeserializer(context))
+                    .registerTypeAdapter(SearchResult.class, new SearchResultDeserializer())
+                    .registerTypeAdapter(FoundMovie.class, new FoundMovieDeserializer())
                     .create();
 
             retrofit = new Retrofit.Builder()

@@ -26,7 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,9 +37,10 @@ import io.realm.RealmResults;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    @SuppressLint("StaticFieldLeak")
+    private static Realm sRealm;
     TableLayout mTable;
-    Typeface font;
-    private static Realm mRealm;
+    Typeface mFont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 searchTMDB();
             }
         });
-        font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
+        mFont = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
         mTable = findViewById(R.id.main_table);
 
         Realm.init(this);
-        mRealm = Realm.getDefaultInstance();
+        sRealm = Realm.getDefaultInstance();
 
         displayListOfMovies();
 
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
     private void displayListOfMovies() {
         mTable.removeAllViewsInLayout();
 
-        mRealm.beginTransaction();
-        RealmResults<MovieBuilder> movies = mRealm.where(MovieBuilder.class).findAll();
-        mRealm.commitTransaction();
-        MovieBuilder movie;
+        sRealm.beginTransaction();
+        RealmResults<Movie> movies = sRealm.where(Movie.class).findAll();
+        sRealm.commitTransaction();
+        Movie movie;
 
         if(!movies.isEmpty()) {
             for(int i = movies.size() - 1; i >= 0; i--) {
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 final TextView mTitle = new TextView(MainActivity.this);
                 mTitle.setId(2);
                 mTitle.setText(movie.getTitle());
-                mTitle.setTypeface(font, Typeface.BOLD);
+                mTitle.setTypeface(mFont, Typeface.BOLD);
                 mTitle.setGravity(Gravity.CENTER);
                 mTitle.setTextColor(getResources().getColor(R.color.colorDarkGreen));
                 mTitle.setTextSize(20);
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView mTagline = new TextView(MainActivity.this);
                 mTagline.setId(3);
                 mTagline.setText(movie.getTagline());
-                mTagline.setTypeface(font, Typeface.BOLD_ITALIC);
+                mTagline.setTypeface(mFont, Typeface.BOLD_ITALIC);
                 mTagline.setTextSize(16);
 
                 //get genres
@@ -130,21 +131,21 @@ public class MainActivity extends AppCompatActivity {
                 TextView mGenres = new TextView(MainActivity.this);
                 mGenres.setId(4);
                 mGenres.setText(String.valueOf(genresString.toString()));
-                mGenres.setTypeface(font, Typeface.BOLD);
+                mGenres.setTypeface(mFont, Typeface.BOLD);
                 mGenres.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 //get year
                 TextView mYear = new TextView(MainActivity.this);
                 mYear.setId(5);
                 mYear.setText(movie.getReleaseDate());
-                mYear.setTypeface(font, Typeface.BOLD);
+                mYear.setTypeface(mFont, Typeface.BOLD);
                 mYear.setGravity(Gravity.CENTER);
 
                 //get IMDb rating
                 TextView mIMDb = new TextView(MainActivity.this);
                 mIMDb.setId(6);
                 mIMDb.setText(movie.getImdb());
-                mIMDb.setTypeface(font, Typeface.BOLD);
+                mIMDb.setTypeface(mFont, Typeface.BOLD);
                 mIMDb.setBackgroundColor(getResources().getColor(chooseColor(movie.getImdb())));
                 mIMDb.setTextColor(getResources().getColor(R.color.colorBeige));
                 mIMDb.setTextSize(18);
@@ -201,14 +202,14 @@ public class MainActivity extends AppCompatActivity {
                 tr.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        mRealm.beginTransaction();
+                        sRealm.beginTransaction();
 
-                        RealmResults<MovieBuilder> result = mRealm.where(MovieBuilder.class)
+                        RealmResults<Movie> result = sRealm.where(Movie.class)
                                 .equalTo("id", movieId)
                                 .equalTo("savedLang", dataLang)
                                 .findAll();
                         result.deleteAllFromRealm();
-                        mRealm.commitTransaction();
+                        sRealm.commitTransaction();
 
                         displayListOfMovies();
                         return true;
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
-            Log.e(DEBUG, "No data yet.");
+            Log.i(DEBUG, "No data yet.");
         }
 
     }
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean is_changed = settings.getBoolean("db_is_changed", false);
         if(is_changed){
-            Log.e(Const.TAG, "I'm onRestart!");
+            Log.i(Const.TAG, "I'm onRestart!");
             displayListOfMovies();
             SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
             editor.putBoolean("db_is_changed", false);
@@ -243,11 +244,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRealm.close();
+        sRealm.close();
     }
 
     public static Realm getRealm() {
-        return mRealm;
+        return sRealm;
     }
 
     private int chooseColor(String imdbRating) {

@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.gson;
 
-import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -18,9 +18,9 @@ import java.util.Objects;
  * Date: 15/03/18
  * Time: 20:28
  */
-public class SearchMovieDeserializer implements JsonDeserializer{
+public class FoundMovieDeserializer implements JsonDeserializer{
     @Override
-    public SearchMovieBuilder deserialize(JsonElement json, Type typeOfT,
+    public FoundMovie deserialize(JsonElement json, Type typeOfT,
                                      JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
@@ -54,7 +54,7 @@ public class SearchMovieDeserializer implements JsonDeserializer{
             arrGenres.add(ids.get(i).getAsInt());
         }
 
-        return new SearchMovieBuilder(
+        return new FoundMovie(
                 id,
                 title,
                 originalTitle,

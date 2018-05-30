@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
  * Date: 15/03/18
  * Time: 18:41
  */
-public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
+public class MovieDeserializer implements JsonDeserializer<Movie> {
     private Context cntxt;
 
     public MovieDeserializer(Context context){
@@ -48,7 +48,7 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
     }
 
     @Override
-    public MovieBuilder deserialize(JsonElement json, Type typeOfT,
+    public Movie deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
@@ -168,7 +168,7 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
             arrCountries.add(jObject.get("iso_3166_1").getAsString());
         }
 
-        return new MovieBuilder(
+        return new Movie(
                 id,
                 imdbId,
                 rating,

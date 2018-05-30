@@ -37,9 +37,9 @@ import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
-import com.example.aurora.moviesineedtowatch.tmdb.SearchMovieBuilder;
-import com.example.aurora.moviesineedtowatch.tmdb.SearchResultBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
+import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 
 import io.realm.Realm;
 
@@ -56,7 +56,7 @@ import java.util.Objects;
  * Time: 20:41
  */
 public class SearchActivity extends AppCompatActivity {
-    private Switch s;
+    private Switch mSwitch;
     public ProgressBar progressBar;
     private TextView mNotificationField;
     private Realm mRealm;
@@ -92,17 +92,17 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        s = findViewById(R.id.switchToEN);
+        mSwitch = findViewById(R.id.switchToEN);
         SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean set = settings.getBoolean("lang_key", false);
-        s.setChecked(set);
+        mSwitch.setChecked(set);
 
-        s.setOnClickListener(new View.OnClickListener() {
+        mSwitch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
-                editor.putBoolean("lang_key", s.isChecked());
+                editor.putBoolean("lang_key", mSwitch.isChecked());
                 editor.apply();
             }
         });
@@ -112,35 +112,35 @@ public class SearchActivity extends AppCompatActivity {
     private void runSearch(EditText editText) {
 
         String searchQuery = editText.getText().toString();
-        Log.e(Const.SEE, searchQuery);
+        Log.d(Const.SEE, searchQuery);
 
         ApiInterface apiService =
                 ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Call<SearchResultBuilder> call = apiService.getSearchResult((s.isChecked()?EN:RU),
+        Call<SearchResult> call = apiService.getSearchResult((mSwitch.isChecked()?EN:RU),
                 API.KEY, searchQuery);
-        call.enqueue(new Callback<SearchResultBuilder>() {
+        call.enqueue(new Callback<SearchResult>() {
             @Override
-            public void onResponse(@NonNull Call<SearchResultBuilder>call, @NonNull Response<SearchResultBuilder> response) {
-                SearchResultBuilder result = response.body();
+            public void onResponse(@NonNull Call<SearchResult>call, @NonNull Response<SearchResult> response) {
+                SearchResult result = response.body();
                 assert result != null;
                 displaySearchResults(result);
             }
 
             @Override
-            public void onFailure(@NonNull Call<SearchResultBuilder>call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<SearchResult>call, @NonNull Throwable t) {
                 Log.e(SEE, t.toString());
             }
         });
     }
 
     @SuppressLint("ResourceType")
-    private void displaySearchResults(SearchResultBuilder searchResult) {
-        Log.e(SEE, searchResult.getTotalResults());
+    private void displaySearchResults(SearchResult searchResult) {
+        Log.d(SEE, searchResult.getTotalResults());
 
-        SearchMovieBuilder[] search = searchResult.getResults();
+        FoundMovie[] search = searchResult.getResults();
         TableLayout mTable = findViewById(R.id.searchTable);
 
         mTable.removeAllViewsInLayout();
@@ -149,7 +149,7 @@ public class SearchActivity extends AppCompatActivity {
 
         final Typeface font = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
 
-        for (SearchMovieBuilder aSearch : search) {
+        for (FoundMovie aSearch : search) {
             RelativeLayout tr = new RelativeLayout(SearchActivity.this);
 
             final String movieId = String.valueOf(aSearch.getId());
@@ -188,7 +188,8 @@ public class SearchActivity extends AppCompatActivity {
                 genresString = new StringBuilder("not defined");
             else {
                 for (Integer genreId : aSearch.getGenreIds()) {
-                    genresString.append(genres.get(genreId)[s.isChecked() ? 0 : 1]).append("\n");
+                    genresString
+                            .append(genres.get(genreId)[mSwitch.isChecked() ? 0 : 1]).append("\n");
                 }
             }
             TextView mGenres = new TextView(SearchActivity.this);
@@ -262,7 +263,7 @@ public class SearchActivity extends AppCompatActivity {
             mTable.addView(tr);
         }
         progressBar.setVisibility(View.INVISIBLE);
-        Log.e(Const.DEBUG, "we're on the onPostExecute");
+        Log.i(Const.DEBUG, "we're on the onPostExecute");
 
     }
 
@@ -271,12 +272,12 @@ public class SearchActivity extends AppCompatActivity {
         ApiInterface apiService =
                 ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
-        Call<MovieBuilder> call =
-                apiService.getMovie(Integer.parseInt(movieId),(s.isChecked()?EN:RU), API.KEY);
-        call.enqueue(new Callback<MovieBuilder>() {
+        Call<Movie> call =
+                apiService.getMovie(Integer.parseInt(movieId),(mSwitch.isChecked()?EN:RU), API.KEY);
+        call.enqueue(new Callback<Movie>() {
             @Override
-            public void onResponse(@NonNull Call<MovieBuilder>call, @NonNull Response<MovieBuilder> response) {
-                MovieBuilder movie = response.body();
+            public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {
+                Movie movie = response.body();
                 assert movie != null;
 
                 mRealm.beginTransaction();
@@ -289,11 +290,11 @@ public class SearchActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(SearchActivity.this, "Movie \""+ movie.getTitle() + "\" added to the wish list", Toast.LENGTH_SHORT).show();
-                Log.e(Const.DEBUG, "we're on the onPostExecute of the movie");
+                Log.i(Const.DEBUG, "we're on the onPostExecute of the movie");
             }
 
             @Override
-            public void onFailure(@NonNull Call<MovieBuilder>call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Movie>call, @NonNull Throwable t) {
                 Log.e(SEE, t.toString());
             }
         });

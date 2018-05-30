@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +77,7 @@ public class MovieActivity extends AppCompatActivity {
 
     private void setMovieInfo(String movieId, String dataLang) {
 
-        MovieBuilder curMovie = mRealm.where(MovieBuilder.class)
+        Movie curMovie = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
                 .equalTo("savedLang", dataLang)
                 .findFirst();
