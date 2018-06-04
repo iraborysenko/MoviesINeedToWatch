@@ -12,6 +12,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.adaprer.RecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
@@ -63,6 +66,26 @@ public class MainActivity extends AppCompatActivity {
 
         displayListOfMovies();
 
+
+        String[] myDataset = getDataSet();
+
+        RecyclerView mRecyclerView = findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.Adapter mAdapter = new RecyclerAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    private String[] getDataSet() {
+
+        String[] mDataSet = new String[100];
+        for (int i = 0; i < 50; i++) {
+            mDataSet[i] = "item" + i;
+        }
+        return mDataSet;
     }
 
     @SuppressLint("ResourceType")
