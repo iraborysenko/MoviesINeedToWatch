@@ -1,6 +1,5 @@
 package com.example.aurora.moviesineedtowatch.adaprer;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
-import com.example.aurora.moviesineedtowatch.ui.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,11 +34,12 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+    private static ClickListener clickListener;
     private RealmResults<Movie> mMovies;
     private Context mContext;
     private Resources mResources;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView mPoster;
         TextView mTitle;
         TextView mTagline;
@@ -50,6 +49,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         ViewHolder(View v) {
             super(v);
+            v.setOnClickListener(this);
+            v.setOnLongClickListener(this);
             mPoster = v.findViewById(R.id.movie_poster);
             mTitle = v.findViewById(R.id.movie_title);
             mTagline = v.findViewById(R.id.movie_tagline);
@@ -57,6 +58,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             mYear = v.findViewById(R.id.movie_year);
             mImdb = v.findViewById(R.id.movie_imdb);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.onItemLongClick(getAdapterPosition(), v);
+            return false;
         }
     }
 
@@ -121,6 +133,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mMovies.size();
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        RecyclerAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
     }
 
     private int chooseColor(String imdbRating) {

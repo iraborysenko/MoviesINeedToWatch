@@ -5,6 +5,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
+import static com.example.aurora.moviesineedtowatch.adaprer.RecyclerAdapter.ClickListener;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -73,15 +74,23 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        String[] myDataset = getDataSet();
-
-        RecyclerView mRecyclerView = findViewById(R.id.my_recycler_view);
-//        mRecyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        RecyclerView.Adapter mAdapter = new RecyclerAdapter(movies, getApplicationContext(), getResources());
+        RecyclerView mRecyclerView = findViewById(R.id.movie_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerAdapter mAdapter = new RecyclerAdapter(movies, getApplicationContext(), getResources());
         mRecyclerView.setAdapter(mAdapter);
+
+
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.e(Const.TAG, "onItemClick position: " + position);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+                Log.e(Const.TAG, "onItemLongClick pos = " + position);
+            }
+        });
 
     }
 
