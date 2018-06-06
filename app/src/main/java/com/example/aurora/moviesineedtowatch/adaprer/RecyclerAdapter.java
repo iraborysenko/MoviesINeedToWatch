@@ -1,13 +1,32 @@
 package com.example.aurora.moviesineedtowatch.adaprer;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.ui.MainActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.Objects;
+
+import io.realm.RealmResults;
+
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
 
 /**
  * Created by Android Studio.
@@ -17,25 +36,39 @@ import com.example.aurora.moviesineedtowatch.R;
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    private String[] mDataset;
+    private RealmResults<Movie> mMovies;
+    private Context mContext;
+    private Resources mResources;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
+        ImageView mPoster;
+        TextView mTitle;
+        TextView mTagline;
+        TextView mGenres;
+        TextView mYear;
+        TextView mImdb;
 
         ViewHolder(View v) {
             super(v);
-            mTextView = v.findViewById(R.id.tv_recycler_item);
+            mPoster = v.findViewById(R.id.movie_poster);
+            mTitle = v.findViewById(R.id.movie_title);
+            mTagline = v.findViewById(R.id.movie_tagline);
+            mGenres = v.findViewById(R.id.movie_genres);
+            mYear = v.findViewById(R.id.movie_year);
+            mImdb = v.findViewById(R.id.movie_imdb);
+
         }
     }
 
-    public RecyclerAdapter(String[] dataset) {
-        mDataset = dataset;
+    public RecyclerAdapter(RealmResults<Movie> movies, Context context, Resources resources) {
+        mMovies = movies;
+        mContext = context;
+        mResources = resources;
     }
 
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                          int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_item, parent, false);
 
@@ -43,14 +76,82 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder movieViewHolder, int i) {
 
-        holder.mTextView.setText(mDataset[position]);
+        Movie movie = mMovies.get(i);
+        assert movie != null;
+
+        // get poster
+        RequestOptions options = new RequestOptions()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(stringToBitmap(movie.getPosterBitmap()))
+                .apply(options)
+                .into(movieViewHolder.mPoster);
+
+        //get genres
+        StringBuilder genresString = new StringBuilder();
+        try {
+            JSONArray ids = new JSONArray(movie.getGenresIds());
+            if (ids.length() == 0) {
+                genresString = new StringBuilder("not defined");
+            } else {
+                int index = (Objects.equals(movie.getSavedLang(), "true"))?0:1;
+                for (int j=0; j<ids.length(); j++)
+                    genresString.append(genres.get(ids.get(j))[index]).append("\n");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        movieViewHolder.mGenres.setText(String.valueOf(genresString.toString()));
+
+        //get imdb rating and according color
+        movieViewHolder.mImdb.setText(movie.getImdb());
+        movieViewHolder.mImdb.setBackgroundColor(mResources.getColor(chooseColor(movie.getImdb())));
+
+        //get the remaining items
+        movieViewHolder.mTitle.setText(movie.getTitle());
+        movieViewHolder.mTagline.setText(movie.getTagline());
+        movieViewHolder.mYear.setText(movie.getReleaseDate());
 
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mMovies.size();
+    }
+
+    private int chooseColor(String imdbRating) {
+        int color = R.color.OutOfBound;
+        if (imdbRating.equals("none")) {
+            color = R.color.NoMovie;
+        } else {
+            float rating = Float.parseFloat(imdbRating);
+            if (rating<5.0f) {
+                color = R.color.VeryBad;
+            } else if (5.0f<= rating && rating<=5.9f) {
+                color = R.color.Bad;
+            } else if (6.0f<= rating && rating<=6.5f) {
+                color = R.color.Avarage;
+            } else if (6.6f<= rating && rating<=6.8f) {
+                color = R.color.AboveAvarage;
+            } else if (6.9f<= rating && rating<=7.2f) {
+                color = R.color.Intermediate;
+            } else if (7.3f<= rating && rating<=7.7f) {
+                color = R.color.Good;
+            } else if (7.8f<= rating && rating<=8.1f) {
+                color = R.color.VeryGood;
+            } else if (8.2f<= rating && rating<=8.5f) {
+                color = R.color.Great;
+            } else if (8.6f<= rating && rating<=8.9f) {
+                color = R.color.Adept;
+            } else if ( rating >= 9.0f) {
+                color = R.color.Unicum;
+            }
+        }
+
+        return color;
     }
 }

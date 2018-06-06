@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="123dp"
+        android:layout_height="230dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/movie_tagline"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/movie_poster" />
 
     <TextView
-        android:id="@+id/tv_recycler_item"
-        android:text="text"
-        android:layout_width="wrap_content"
+        android:id="@+id/movie_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="7dp"
-        android:textSize="18sp" />
+        android:fontFamily="@font/comic_relief"
+        android:gravity="center"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/movie_tagline"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/movie_genres"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/comic_relief"
+        android:textSize="16sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/movie_genres"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/movie_poster"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="115dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/comic_relief"
+        android:textColor="@color/colorLightBlue"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/movie_year"
+        android:layout_width="91dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/movie_poster"
+        android:layout_alignStart="@+id/movie_imdb"
+        android:fontFamily="@font/comic_relief"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/movie_imdb"
+        android:layout_width="92dp"
+        android:layout_height="147dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/movie_genres"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/comic_relief"
+        android:gravity="center"
+        android:textColor="@color/colorBeige"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
