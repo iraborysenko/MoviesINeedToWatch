@@ -35,7 +35,7 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
-    private RealmResults<Movie> mMovies;
+    private static RealmResults<Movie> mMovies;
     private Context mContext;
     private Resources mResources;
 
@@ -46,6 +46,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView mGenres;
         TextView mYear;
         TextView mImdb;
+        String movieId;
+        String dataLang;
 
         ViewHolder(View v) {
             super(v);
@@ -62,13 +64,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
-            clickListener.onItemClick(getAdapterPosition(), v);
+            movieId = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getId();
+            dataLang = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getSavedLang();
+            clickListener.onItemClick(v, movieId, dataLang);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            clickListener.onItemLongClick(getAdapterPosition(), v);
-            return false;
+            movieId = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getId();
+            dataLang = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getSavedLang();
+            clickListener.onItemLongClick(v, movieId, dataLang);
+            return true;
         }
     }
 
@@ -78,6 +84,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         mResources = resources;
     }
 
+    @NonNull
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                          int viewType) {
@@ -140,8 +147,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public interface ClickListener {
-        void onItemClick(int position, View v);
-        void onItemLongClick(int position, View v);
+        void onItemClick(View v, String movieId, String dataLang);
+        void onItemLongClick(View v, String movieId, String dataLang);
     }
 
     private int chooseColor(String imdbRating) {
