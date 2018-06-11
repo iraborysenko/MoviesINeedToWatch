@@ -32,7 +32,7 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
  * Date: 04/06/18
  * Time: 19:13
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
     private static RealmResults<Movie> mMovies;
@@ -78,7 +78,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
 
-    public RecyclerAdapter(RealmResults<Movie> movies, Context context, Resources resources) {
+    public MainRecyclerAdapter(RealmResults<Movie> movies, Context context, Resources resources) {
         mMovies = movies;
         mContext = context;
         mResources = resources;
@@ -86,10 +86,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+    public MainRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_item, parent, false);
+                .inflate(R.layout.main_recycler_item, parent, false);
 
         return new ViewHolder(v);
     }
@@ -143,7 +143,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public void setOnItemClickListener(ClickListener clickListener) {
-        RecyclerAdapter.clickListener = clickListener;
+        MainRecyclerAdapter.clickListener = clickListener;
     }
 
     public interface ClickListener {

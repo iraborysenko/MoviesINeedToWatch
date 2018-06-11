@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.adaprer.RecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         initRealm();
         final RealmResults<Movie> movies = getMoviesFromDB();
-        final RecyclerAdapter mAdapter = initRecyclerView(movies);
+        final MainRecyclerAdapter mAdapter = initRecyclerView(movies);
 
         movies.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Movie>>() {
             @Override
@@ -79,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
         return movies;
     }
 
-    private RecyclerAdapter initRecyclerView(RealmResults<Movie> movies) {
-        final RecyclerView mRecyclerView = findViewById(R.id.movie_recycler_view);
+    private MainRecyclerAdapter initRecyclerView(RealmResults<Movie> movies) {
+        final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final RecyclerAdapter mAdapter = new RecyclerAdapter(movies, getApplicationContext(), getResources());
+        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext(), getResources());
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new RecyclerAdapter.ClickListener() {
+        mAdapter.setOnItemClickListener(new MainRecyclerAdapter.ClickListener() {
             @Override
             public void onItemClick(View v, String movieId, String dataLang) {
                 movieTMDB(movieId, dataLang);
