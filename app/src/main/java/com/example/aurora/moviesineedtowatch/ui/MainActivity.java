@@ -2,7 +2,6 @@ package com.example.aurora.moviesineedtowatch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
@@ -19,6 +17,8 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.Objects;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
@@ -27,22 +27,13 @@ import io.realm.RealmResults;
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Realm sRealm;
-    Typeface mFont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
-        mFont = Typeface.createFromAsset(getAssets(), "comic_relief.ttf");
-
-        ImageButton searchButton = findViewById(R.id.main_search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                searchTMDB();
-            }
-        });
+        ButterKnife.bind(this);
 
         initRealm();
         final RealmResults<Movie> movies = getMoviesFromDB();
@@ -55,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @OnClick(R.id.main_search_button)
+    void searchTMDB() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -112,8 +109,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void searchTMDB() {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-    }
 }

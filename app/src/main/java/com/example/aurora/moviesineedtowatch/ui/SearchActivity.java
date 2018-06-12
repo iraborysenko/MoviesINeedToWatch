@@ -32,6 +32,11 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 
+import org.w3c.dom.Text;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 import retrofit2.Call;
@@ -47,26 +52,29 @@ import java.util.Objects;
  * Time: 20:41
  */
 public class SearchActivity extends AppCompatActivity {
-    private Switch mSwitch;
-    public ProgressBar progressBar;
-    private TextView mNotificationField;
+
     private Realm mRealm;
+
+    @BindView(R.id.switchToEN)
+    Switch mSwitch;
+
+    @BindView(R.id.notificationField)
+    TextView mNotificationField;
+
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_search);
-
-        final EditText editText = findViewById(R.id.search_query);
-        ImageButton button = findViewById(R.id.search_button);
-        mNotificationField = findViewById(R.id.notificationField);
-        progressBar = findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
 
         mRealm = MainActivity.getRealm();
 
+        final EditText editText = findViewById(R.id.search_query);
         editText.setOnKeyListener(new View.OnKeyListener() {
-
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(event.getAction() == KeyEvent.ACTION_DOWN &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -77,30 +85,13 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                runSearch(editText);
-            }
-        });
-
-        mSwitch = findViewById(R.id.switchToEN);
         SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean set = settings.getBoolean("lang_key", false);
         mSwitch.setChecked(set);
-
-        mSwitch.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
-                editor.putBoolean("lang_key", mSwitch.isChecked());
-                editor.apply();
-            }
-        });
-
     }
 
-    private void runSearch(EditText editText) {
+    @OnClick(R.id.search_button)
+    void runSearch(EditText editText) {
 
         String searchQuery = editText.getText().toString();
         Log.d(Const.SEE, searchQuery);
@@ -108,7 +99,7 @@ public class SearchActivity extends AppCompatActivity {
         ApiInterface apiService =
                 ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
-        progressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         Call<SearchResult> call = apiService.getSearchResult((mSwitch.isChecked()?EN:RU),
                 API.KEY, searchQuery);
@@ -122,7 +113,7 @@ public class SearchActivity extends AppCompatActivity {
                 mNotificationField.setTextSize(20);
                 FoundMovie[] search = result.getResults();
                 initRecyclerView(search);
-                progressBar.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -131,6 +122,14 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.switchToEN)
+    void saveSwitchState() {
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
+        editor.putBoolean("lang_key", mSwitch.isChecked());
+        editor.apply();
+    }
+
 
     private void initRecyclerView(FoundMovie[] search) {
         final RecyclerView mRecyclerView = findViewById(R.id.search_recycler_view);
@@ -153,7 +152,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadMovieInfo(String movieId) {
-        progressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
         ApiInterface apiService =
                 ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
@@ -169,7 +168,7 @@ public class SearchActivity extends AppCompatActivity {
                 mRealm.copyToRealm(movie);
                 mRealm.commitTransaction();
 
-                progressBar.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(SearchActivity.this, "Movie \""+ movie.getTitle()
                         + "\" added to the wish list", Toast.LENGTH_SHORT).show();
             }
