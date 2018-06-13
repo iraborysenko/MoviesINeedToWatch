@@ -21,6 +21,8 @@ import org.json.JSONException;
 
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
@@ -40,12 +42,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private Resources mResources;
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        ImageView mPoster;
-        TextView mTitle;
-        TextView mTagline;
-        TextView mGenres;
-        TextView mYear;
-        TextView mImdb;
+        @BindView(R.id.movie_poster) ImageView mPoster;
+        @BindView(R.id.movie_title) TextView mTitle;
+        @BindView(R.id.movie_tagline) TextView mTagline;
+        @BindView(R.id.movie_genres) TextView mGenres;
+        @BindView(R.id.movie_year) TextView mYear;
+        @BindView(R.id.movie_imdb) TextView mImdb;
         String movieId;
         String dataLang;
 
@@ -53,13 +55,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             super(v);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
-            mPoster = v.findViewById(R.id.movie_poster);
-            mTitle = v.findViewById(R.id.movie_title);
-            mTagline = v.findViewById(R.id.movie_tagline);
-            mGenres = v.findViewById(R.id.movie_genres);
-            mYear = v.findViewById(R.id.movie_year);
-            mImdb = v.findViewById(R.id.movie_imdb);
-
+            ButterKnife.bind(this, v);
         }
 
         @Override

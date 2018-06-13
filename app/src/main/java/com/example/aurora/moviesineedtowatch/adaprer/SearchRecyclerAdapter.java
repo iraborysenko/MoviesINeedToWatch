@@ -17,6 +17,9 @@ import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
@@ -35,25 +38,19 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     private Switch mSwitch;
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        ImageView mPoster;
-        TextView mTitle;
-        TextView mOTitle;
-        TextView mGenres;
-        TextView mYear;
-        TextView mTmdb;
+        @BindView(R.id.s_movie_poster) ImageView mPoster;
+        @BindView(R.id.s_movie_title) TextView mTitle;
+        @BindView(R.id.s_movie_original_title) TextView mOTitle;
+        @BindView(R.id.s_movie_genres) TextView mGenres;
+        @BindView(R.id.s_movie_year) TextView mYear;
+        @BindView(R.id.s_movie_tmdb) TextView mTmdb;
         String movieId;
 
         ViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
-            mPoster = v.findViewById(R.id.s_movie_poster);
-            mTitle = v.findViewById(R.id.s_movie_title);
-            mOTitle = v.findViewById(R.id.s_movie_original_title);
-            mGenres = v.findViewById(R.id.s_movie_genres);
-            mYear = v.findViewById(R.id.s_movie_year);
-            mTmdb = v.findViewById(R.id.s_movie_tmdb);
-
+            ButterKnife.bind(this, v);
         }
 
         @Override
