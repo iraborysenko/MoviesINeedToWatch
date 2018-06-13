@@ -21,7 +21,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text=""
-            android:textColorLink="?attr/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark"
             tools:ignore="LabelFor" />
 
         <ImageButton

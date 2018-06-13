@@ -168,6 +168,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
             arrCountries.add(jObject.get("iso_3166_1").getAsString());
         }
 
+        assert img != null;
         return new Movie(
                 id,
                 imdbId,
