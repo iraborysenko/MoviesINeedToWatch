@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,8 +30,6 @@ import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,14 +52,10 @@ public class SearchActivity extends AppCompatActivity {
 
     private Realm mRealm;
 
-    @BindView(R.id.switchToEN)
-    Switch mSwitch;
-
-    @BindView(R.id.notificationField)
-    TextView mNotificationField;
-
-    @BindView(R.id.progressBar)
-    ProgressBar mProgressBar;
+    @BindView(R.id.switchToEN) Switch mSwitch;
+    @BindView(R.id.notificationField) TextView mNotificationField;
+    @BindView(R.id.progressBar) ProgressBar mProgressBar;
+    @BindView(R.id.search_query) EditText editText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,16 +66,13 @@ public class SearchActivity extends AppCompatActivity {
 
         mRealm = MainActivity.getRealm();
 
-        final EditText editText = findViewById(R.id.search_query);
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(event.getAction() == KeyEvent.ACTION_DOWN &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    runSearch(editText);
-                    return true;
-                }
-                return false;
+        editText.setOnKeyListener((v, keyCode, event) -> {
+            if(event.getAction() == KeyEvent.ACTION_DOWN &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                runSearch(editText);
+                return true;
             }
+            return false;
         });
 
         SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
@@ -129,7 +119,6 @@ public class SearchActivity extends AppCompatActivity {
         editor.putBoolean("lang_key", mSwitch.isChecked());
         editor.apply();
     }
-
 
     private void initRecyclerView(FoundMovie[] search) {
         final RecyclerView mRecyclerView = findViewById(R.id.search_recycler_view);

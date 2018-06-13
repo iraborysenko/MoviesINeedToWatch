@@ -3,24 +3,19 @@ package com.example.aurora.moviesineedtowatch.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.tmdb.Const;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.OrderedCollectionChangeSet;
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -39,13 +34,7 @@ public class MainActivity extends AppCompatActivity {
         final RealmResults<Movie> movies = getMoviesFromDB();
         final MainRecyclerAdapter mAdapter = initRecyclerView(movies);
 
-        movies.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<Movie>>() {
-            @Override
-            public void onChange(@NonNull RealmResults<Movie> results,
-                                 @NonNull OrderedCollectionChangeSet changeSet) {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        movies.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
     }
 
     @OnClick(R.id.main_search_button)
