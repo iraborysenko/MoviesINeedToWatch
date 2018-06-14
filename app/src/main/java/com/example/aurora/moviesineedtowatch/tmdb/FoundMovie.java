@@ -8,8 +8,7 @@ import java.util.ArrayList;
  * Date: 23/01/18
  * Time:
  */
-
-public class SearchMovieBuilder {
+public class FoundMovie {
     private String id;
     private String title;
     private String originalTitle;
@@ -18,7 +17,7 @@ public class SearchMovieBuilder {
     private String voteAverage;
     private ArrayList<Integer> genreIds;
 
-    public SearchMovieBuilder(String id, String title, String originalTitle, String posterPath,
+    public FoundMovie(String id, String title, String originalTitle, String posterPath,
                               String releaseDate, String voteAverage, ArrayList<Integer> genreIds) {
         this.id = id;
         this.title = title;

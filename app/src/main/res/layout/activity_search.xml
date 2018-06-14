@@ -21,7 +21,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text=""
-            android:textColorLink="?attr/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark"
             tools:ignore="LabelFor" />
 
         <ImageButton
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
             android:visibility="invisible"/>
 
         <ProgressBar
@@ -93,14 +93,17 @@
                     android:textStyle="bold"
                     tools:ignore="ObsoleteLayoutParam" />
 
-                <TableLayout
-                    android:id="@+id/searchTable"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/notificationField"
-                    android:layout_marginTop="15dp"
-                    tools:ignore="ObsoleteLayoutParam">
-                </TableLayout>
+                    android:layout_marginTop="60dp" >
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/search_recycler_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

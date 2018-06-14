@@ -1,5 +1,8 @@
 package com.example.aurora.moviesineedtowatch.ui;
 
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,19 +15,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import io.realm.Realm;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Objects;
-
-import io.realm.Realm;
-
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
 
 /**
  * Created by Android Studio.
@@ -32,7 +32,6 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
  * Date: 25/01/18
  * Time: 20:43
  */
-
 public class MovieActivity extends AppCompatActivity {
 
     private TextView mTitle;
@@ -53,7 +52,7 @@ public class MovieActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_movie);
 
         mTitle = findViewById(R.id.title);
@@ -78,7 +77,7 @@ public class MovieActivity extends AppCompatActivity {
 
     private void setMovieInfo(String movieId, String dataLang) {
 
-        MovieBuilder curMovie = mRealm.where(MovieBuilder.class)
+        Movie curMovie = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
                 .equalTo("savedLang", dataLang)
                 .findFirst();

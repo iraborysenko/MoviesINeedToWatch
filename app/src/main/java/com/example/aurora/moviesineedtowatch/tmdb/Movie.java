@@ -1,7 +1,7 @@
 package com.example.aurora.moviesineedtowatch.tmdb;
 
-import io.realm.RealmObject;
 import io.realm.annotations.Required;
+import io.realm.RealmObject;
 
 /**
  * Created by Android Studio.
@@ -9,8 +9,7 @@ import io.realm.annotations.Required;
  * Date: 23/01/18
  * Time:
  */
-
-public class MovieBuilder extends RealmObject {
+public class Movie extends RealmObject {
 
     @Required
     private String id;
@@ -37,7 +36,7 @@ public class MovieBuilder extends RealmObject {
     private Boolean isWatched;
     private String comment;
 
-    public MovieBuilder(String id, String imdbID, String imdb, String title, String originalTitle,
+    public Movie(String id, String imdbID, String imdb, String title, String originalTitle,
                         String originalLanguage, String overview, String posterPath,
                         String posterBitmap, String releaseDate, String tagline,
                         String runtime, String voteAverage, String voteCount,
@@ -63,7 +62,7 @@ public class MovieBuilder extends RealmObject {
         this.savedLang = savedLang;
     }
 
-    public MovieBuilder () {}
+    public Movie () {}
 
     public String getId() {
         return id;

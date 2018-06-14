@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.aurora.moviesineedtowatch.R;
 
+import java.util.Objects;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -16,7 +18,7 @@ public class ManageActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_manage);
     }
 }

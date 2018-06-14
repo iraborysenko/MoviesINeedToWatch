@@ -6,11 +6,11 @@ package com.example.aurora.moviesineedtowatch.tmdb;
  * Date: 15/03/18
  * Time: 20:02
  */
-public class SearchResultBuilder {
+public class SearchResult {
     private String totalResults;
-    private SearchMovieBuilder[] results;
+    private FoundMovie[] results;
 
-    public SearchResultBuilder(String totalResults, SearchMovieBuilder[] results) {
+    public SearchResult(String totalResults, FoundMovie[] results) {
         this.totalResults = totalResults;
         this.results = results;
     }
@@ -19,7 +19,7 @@ public class SearchResultBuilder {
         return totalResults;
     }
 
-    public SearchMovieBuilder[] getResults() {
+    public FoundMovie[] getResults() {
         return results;
     }
 }

@@ -1,21 +1,22 @@
 package com.example.aurora.moviesineedtowatch.gson;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.tmdb.MovieBuilder;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -27,15 +28,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
-
-import android.content.Context;
-
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Android Studio.
@@ -43,8 +40,7 @@ import android.content.Context;
  * Date: 15/03/18
  * Time: 18:41
  */
-
-public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
+public class MovieDeserializer implements JsonDeserializer<Movie> {
     private Context cntxt;
 
     public MovieDeserializer(Context context){
@@ -52,7 +48,7 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
     }
 
     @Override
-    public MovieBuilder deserialize(JsonElement json, Type typeOfT,
+    public Movie deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
@@ -172,7 +168,8 @@ public class MovieDeserializer implements JsonDeserializer<MovieBuilder> {
             arrCountries.add(jObject.get("iso_3166_1").getAsString());
         }
 
-        return new MovieBuilder(
+        assert img != null;
+        return new Movie(
                 id,
                 imdbId,
                 rating,
