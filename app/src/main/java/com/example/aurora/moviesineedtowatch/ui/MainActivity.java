@@ -6,14 +6,27 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.DatabaseRealm;
+import com.example.aurora.moviesineedtowatch.dagger.Injector;
+import com.example.aurora.moviesineedtowatch.dagger.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -23,18 +36,38 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Realm sRealm;
 
+    @Inject
+    DatabaseRealm databaseRealm;
+
+    @Inject
+    WishList wishList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
+
+        Injector.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
 
-        initRealm();
-        final RealmResults<Movie> movies = getMoviesFromDB();
-        final MainRecyclerAdapter mAdapter = initRecyclerView(movies);
+        refreshMessages();
+//        initRealm();
+//        final RealmResults<Movie> movies = getMoviesFromDB();
+//        final MainRecyclerAdapter mAdapter = initRecyclerView(movies);
+//
+//        movies.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
+    }
 
-        movies.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
+    private void refreshMessages() {
+       List<Movie> messages = wishList.findAll();
+        List<String> values = new ArrayList<>();
+        for(Movie message : messages) {
+
+            values.add(message.getTitle());
+            Log.e("ss", message.getTitle());
+        }
+
     }
 
     @OnClick(R.id.main_search_button)

@@ -19,6 +19,7 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -37,7 +38,8 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
-    private static RealmResults<Movie> mMovies;
+//    private static RealmResults<Movie> mMovies;
+    private static List<Movie> mMovies;
     private Context mContext;
     private Resources mResources;
 
@@ -74,7 +76,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }
     }
 
-    public MainRecyclerAdapter(RealmResults<Movie> movies, Context context, Resources resources) {
+    public MainRecyclerAdapter(List<Movie> movies, Context context, Resources resources) {
         mMovies = movies;
         mContext = context;
         mResources = resources;
