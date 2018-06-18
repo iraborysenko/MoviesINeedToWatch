@@ -23,12 +23,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
-    private static Realm sRealm;
 
     @Inject
     DatabaseRealm databaseRealm;
@@ -45,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
         Injector.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
 
-        initRealm();
         List<Movie> movies = getWishList();
         databaseRealm.addRealmDataChangeListener(movies, initRecyclerView(movies));
-
     }
 
     private List<Movie> getWishList() {
@@ -66,16 +61,6 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         databaseRealm.close();
-        sRealm.close();
-    }
-
-    public static Realm getRealm() {
-        return sRealm;
-    }
-
-    private void initRealm() {
-        Realm.init(this);
-        sRealm = Realm.getDefaultInstance();
     }
 
     private MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
@@ -92,13 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View v, String movieId, String dataLang) {
-                sRealm.beginTransaction();
-                RealmResults<Movie> result = sRealm.where(Movie.class)
-                        .equalTo("id", movieId)
-                        .equalTo("savedLang", dataLang)
-                        .findAll();
-                result.deleteAllFromRealm();
-                sRealm.commitTransaction();
+                wishList.deleteSelectedMovie(movieId, dataLang);
             }
         });
         return mAdapter;
@@ -110,5 +89,4 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("EXTRA_DATA_LANG", dataLang);
         startActivity(intent);
     }
-
 }

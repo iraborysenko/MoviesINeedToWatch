@@ -25,4 +25,19 @@ public class WishListImpl implements WishList {
     public List<Movie> findAll() {
         return databaseRealm.findAll(Movie.class);
     }
+
+    @Override
+    public void addSelectedMovie(Movie movie) {
+        databaseRealm.add(movie);
+    }
+
+    @Override
+    public void deleteSelectedMovie(String movieId, String dataLang) {
+        databaseRealm.delete(movieId, dataLang);
+    }
+
+    @Override
+    public Movie chooseSelectedMovie(String movieId, String dataLang) {
+        return databaseRealm.choose(movieId, dataLang);
+    }
 }

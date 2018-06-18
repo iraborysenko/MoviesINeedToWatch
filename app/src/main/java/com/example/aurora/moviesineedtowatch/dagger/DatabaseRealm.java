@@ -3,6 +3,7 @@ package com.example.aurora.moviesineedtowatch.dagger;
 import android.content.Context;
 
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
 
@@ -66,5 +67,26 @@ public class DatabaseRealm {
 
     public void close() {
         getRealmInstance().close();
+    }
+
+    public void delete(String movieId, String dataLang) {
+        Realm realm = getRealmInstance();
+        realm.beginTransaction();
+        RealmResults<Movie> result = realm.where(Movie.class)
+                .equalTo("id", movieId)
+                .equalTo("savedLang", dataLang)
+                .findAll();
+        result.deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    public Movie choose(String movieId, String dataLang) {
+        Realm realm = getRealmInstance();
+        Movie curMovie = realm.where(Movie.class)
+                .equalTo("id", movieId)
+                .equalTo("savedLang", dataLang)
+                .findFirst();
+        assert curMovie != null;
+        return curMovie;
     }
 }

@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.Injector;
+import com.example.aurora.moviesineedtowatch.dagger.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
@@ -42,6 +44,8 @@ import retrofit2.Response;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -50,7 +54,8 @@ import java.util.Objects;
  */
 public class SearchActivity extends AppCompatActivity {
 
-    private Realm mRealm;
+    @Inject
+    WishList wishList;
 
     @BindView(R.id.switchToEN) Switch mSwitch;
     @BindView(R.id.notificationField) TextView mNotificationField;
@@ -62,9 +67,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_search);
+        Injector.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
-
-        mRealm = MainActivity.getRealm();
 
         editText.setOnKeyListener((v, keyCode, event) -> {
             if(event.getAction() == KeyEvent.ACTION_DOWN &&
@@ -152,11 +156,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {
                 Movie movie = response.body();
                 assert movie != null;
-
-                mRealm.beginTransaction();
-                mRealm.copyToRealm(movie);
-                mRealm.commitTransaction();
-
+                wishList.addSelectedMovie(movie);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(SearchActivity.this, "Movie \""+ movie.getTitle()
                         + "\" added to the wish list", Toast.LENGTH_SHORT).show();

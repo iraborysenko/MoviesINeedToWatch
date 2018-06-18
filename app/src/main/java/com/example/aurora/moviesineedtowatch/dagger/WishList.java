@@ -14,4 +14,9 @@ public interface WishList {
 
     List<Movie> findAll();
 
+    void addSelectedMovie(Movie movie);
+
+    void deleteSelectedMovie(String movieId, String dataLang);
+
+    Movie chooseSelectedMovie(String movieId, String dataLang);
 }

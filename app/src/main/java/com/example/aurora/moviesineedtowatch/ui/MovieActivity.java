@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.dagger.Injector;
+import com.example.aurora.moviesineedtowatch.dagger.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
@@ -25,6 +27,8 @@ import io.realm.Realm;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 /**
  * Created by Android Studio.
@@ -47,13 +51,15 @@ public class MovieActivity extends AppCompatActivity {
     private TextView mCountries;
     private TextView mCompanies;
 
-    private Realm mRealm;
+    @Inject
+    WishList wishList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_movie);
+        Injector.getApplicationComponent().inject(this);
 
         mTitle = findViewById(R.id.title);
         mOTitle = findViewById(R.id.otitle);
@@ -68,8 +74,6 @@ public class MovieActivity extends AppCompatActivity {
         mCountries = findViewById(R.id.countries);
         mCompanies = findViewById(R.id.companies);
 
-        mRealm = MainActivity.getRealm();
-
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
         String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
         setMovieInfo(movieId, dataLang);
@@ -77,11 +81,7 @@ public class MovieActivity extends AppCompatActivity {
 
     private void setMovieInfo(String movieId, String dataLang) {
 
-        Movie curMovie = mRealm.where(Movie.class)
-                .equalTo("id", movieId)
-                .equalTo("savedLang", dataLang)
-                .findFirst();
-        assert curMovie != null;
+        Movie curMovie = wishList.chooseSelectedMovie(movieId, dataLang);
 
         mTitle.setText(curMovie.getTitle());
         mOTitle.setText(String.format("%s %s", curMovie.getOriginalLanguage(), curMovie.getOriginalTitle()));
