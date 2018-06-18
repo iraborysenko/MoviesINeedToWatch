@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
@@ -19,14 +16,11 @@ import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.dagger.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-import butterknife.BindString;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -51,22 +45,14 @@ public class MainActivity extends AppCompatActivity {
         Injector.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
 
-        refreshMessages();
-//        initRealm();
-//        final RealmResults<Movie> movies = getMoviesFromDB();
-//        final MainRecyclerAdapter mAdapter = initRecyclerView(movies);
-//
-//        movies.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
+        initRealm();
+        List<Movie> movies = getWishList();
+        databaseRealm.addRealmDataChangeListener(movies, initRecyclerView(movies));
+
     }
 
-    private void refreshMessages() {
-       List<Movie> messages = wishList.findAll();
-        List<String> values = new ArrayList<>();
-        for(Movie message : messages) {
-
-            values.add(message.getTitle());
-            Log.e("ss", message.getTitle());
-        }
+    private List<Movie> getWishList() {
+        return wishList.findAll();
 
     }
 
@@ -79,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        databaseRealm.close();
         sRealm.close();
     }
 
@@ -91,14 +78,7 @@ public class MainActivity extends AppCompatActivity {
         sRealm = Realm.getDefaultInstance();
     }
 
-    private RealmResults<Movie> getMoviesFromDB() {
-        sRealm.beginTransaction();
-        RealmResults<Movie> movies = sRealm.where(Movie.class).findAll();
-        sRealm.commitTransaction();
-        return movies;
-    }
-
-    private MainRecyclerAdapter initRecyclerView(RealmResults<Movie> movies) {
+    private MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
         final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext(), getResources());

@@ -2,6 +2,8 @@ package com.example.aurora.moviesineedtowatch.dagger;
 
 import android.content.Context;
 
+import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +11,7 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by Android Studio.
@@ -30,7 +33,9 @@ public class DatabaseRealm {
     public void setup() {
         Realm.init(mContext);
         if (realmConfiguration == null) {
-            realmConfiguration = new RealmConfiguration.Builder().build();
+            realmConfiguration = new RealmConfiguration.Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
             Realm.setDefaultConfiguration(realmConfiguration);
         } else {
             throw new IllegalStateException("database already configured");
@@ -49,8 +54,14 @@ public class DatabaseRealm {
         return model;
     }
 
-    public <T extends RealmObject> List<T> findAll(Class<T> clazz) {
-        return getRealmInstance().where(clazz).findAll();
+    public <T extends RealmObject> List<T> findAll(Class<T> tClass) {
+        return getRealmInstance().where(tClass).findAll();
+    }
+
+    public <T extends RealmObject> void addRealmDataChangeListener(List<T> movies,
+                                                                   MainRecyclerAdapter mAdapter) {
+        RealmResults<T> list = (RealmResults<T>) movies;
+        list.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
     }
 
     public void close() {
