@@ -2,7 +2,7 @@ package com.example.aurora.moviesineedtowatch;
 
 import android.app.Application;
 
-import com.example.aurora.moviesineedtowatch.dagger.DatabaseRealm;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.DatabaseRealm;
 import com.example.aurora.moviesineedtowatch.dagger.Injector;
 
 import javax.inject.Inject;

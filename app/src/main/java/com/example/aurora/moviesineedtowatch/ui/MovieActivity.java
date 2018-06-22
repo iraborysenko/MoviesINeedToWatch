@@ -16,13 +16,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.dagger.Injector;
-import com.example.aurora.moviesineedtowatch.dagger.WishList;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import io.realm.Realm;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;

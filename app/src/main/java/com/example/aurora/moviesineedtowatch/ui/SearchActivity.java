@@ -24,8 +24,7 @@ import android.widget.Toast;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.Injector;
-import com.example.aurora.moviesineedtowatch.dagger.WishList;
-import com.example.aurora.moviesineedtowatch.retrofit.ApiClient;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
 import com.example.aurora.moviesineedtowatch.tmdb.Const;
@@ -36,7 +35,6 @@ import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +54,9 @@ public class SearchActivity extends AppCompatActivity {
 
     @Inject
     WishList wishList;
+
+    @Inject
+    ApiInterface apiInterface;
 
     @BindView(R.id.switchToEN) Switch mSwitch;
     @BindView(R.id.notificationField) TextView mNotificationField;
@@ -90,12 +91,9 @@ public class SearchActivity extends AppCompatActivity {
         String searchQuery = editText.getText().toString();
         Log.d(Const.SEE, searchQuery);
 
-        ApiInterface apiService =
-                ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
-
         mProgressBar.setVisibility(View.VISIBLE);
 
-        Call<SearchResult> call = apiService.getSearchResult((mSwitch.isChecked()?EN:RU),
+        Call<SearchResult> call = apiInterface.getSearchResult((mSwitch.isChecked()?EN:RU),
                 API.KEY, searchQuery);
         call.enqueue(new Callback<SearchResult>() {
             @Override
@@ -146,11 +144,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadMovieInfo(String movieId) {
         mProgressBar.setVisibility(View.VISIBLE);
-        ApiInterface apiService =
-                ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
 
         Call<Movie> call =
-                apiService.getMovie(Integer.parseInt(movieId),(mSwitch.isChecked()?EN:RU), API.KEY);
+                apiInterface.getMovie(Integer.parseInt(movieId),(mSwitch.isChecked()?EN:RU), API.KEY);
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {

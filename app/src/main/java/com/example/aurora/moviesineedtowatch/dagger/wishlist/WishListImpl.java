@@ -1,5 +1,6 @@
-package com.example.aurora.moviesineedtowatch.dagger;
+package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
+import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class WishListImpl implements WishList {
     @Inject
     DatabaseRealm databaseRealm;
 
-    WishListImpl() {
+    public WishListImpl() {
         Injector.getApplicationComponent().inject(this);
     }
 

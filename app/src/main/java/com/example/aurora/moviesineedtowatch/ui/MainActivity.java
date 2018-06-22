@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.DatabaseRealm;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.DatabaseRealm;
 import com.example.aurora.moviesineedtowatch.dagger.Injector;
-import com.example.aurora.moviesineedtowatch.dagger.WishList;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.dagger;
+package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 

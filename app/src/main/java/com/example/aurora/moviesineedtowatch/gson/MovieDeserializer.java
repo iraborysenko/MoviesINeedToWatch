@@ -11,11 +11,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -34,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -41,10 +45,12 @@ import java.util.concurrent.ExecutionException;
  * Time: 18:41
  */
 public class MovieDeserializer implements JsonDeserializer<Movie> {
-    private Context cntxt;
 
-    public MovieDeserializer(Context context){
-        this.cntxt=context;
+    @Inject
+    Context mContext;
+
+    public MovieDeserializer(){
+        Injector.getApplicationComponent().inject(this);
     }
 
     @Override
@@ -59,10 +65,13 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         String overview = jsonObject.get("overview").getAsString();
         String tagline = jsonObject.get("tagline").getAsString();
 
+        Log.e("sss", "sssssss");
+
         //get language
-        SharedPreferences settings = cntxt.getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
+        SharedPreferences settings = mContext.getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean s = settings.getBoolean("lang_key", false);
 
+        Log.e("sss", "s1111ssssss");
         String savedLang = String.valueOf(s);
 
         //parsing yearParams
@@ -130,7 +139,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                         .diskCacheStrategy(DiskCacheStrategy.NONE);
 
                 img = Glide
-                        .with(cntxt)
+                        .with(mContext)
                         .asBitmap()
                         .load(urldisplay)
                         .apply(options)
@@ -138,7 +147,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                         .get();
 
 
-            } else img = BitmapFactory.decodeResource(cntxt.getResources(), R.drawable.noposter);
+            } else img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.noposter);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

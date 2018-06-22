@@ -1,4 +1,8 @@
-package com.example.aurora.moviesineedtowatch.dagger;
+package com.example.aurora.moviesineedtowatch.dagger.module;
+
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.DatabaseRealm;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 
 import javax.inject.Singleton;
 

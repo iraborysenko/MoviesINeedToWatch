@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.dagger;
+package com.example.aurora.moviesineedtowatch.dagger.module;
 
 import android.content.Context;
 
@@ -20,7 +20,7 @@ public class ApplicationContextModule {
 
     private final CustomApplication application;
 
-    ApplicationContextModule(CustomApplication application) {
+    public ApplicationContextModule(CustomApplication application) {
         this.application = application;
     }
 

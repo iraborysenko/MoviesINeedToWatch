@@ -1,6 +1,11 @@
 package com.example.aurora.moviesineedtowatch.dagger;
 
 import com.example.aurora.moviesineedtowatch.CustomApplication;
+import com.example.aurora.moviesineedtowatch.dagger.component.ApplicationComponent;
+import com.example.aurora.moviesineedtowatch.dagger.component.DaggerApplicationComponent;
+import com.example.aurora.moviesineedtowatch.dagger.module.ApplicationContextModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.NetModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 
 import java.util.Objects;
 /**
@@ -19,6 +24,7 @@ public class Injector {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationContextModule(new ApplicationContextModule(customApplication))
                 .wishListModule(new WishListModule())
+                .netModule(new NetModule())
                 .build();
     }
 
@@ -28,4 +34,3 @@ public class Injector {
     }
 
 }
-
