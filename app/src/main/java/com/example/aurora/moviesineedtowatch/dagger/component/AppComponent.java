@@ -2,6 +2,7 @@ package com.example.aurora.moviesineedtowatch.dagger.component;
 
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.dagger.module.AppModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.dagger.module.NetModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
@@ -20,7 +21,8 @@ import dagger.Component;
  * Time: 09:39
  */
 @Singleton
-@Component(modules = {AppModule.class, WishListModule.class, NetModule.class})
+@Component(modules = {AppModule.class, WishListModule.class, NetModule.class,
+        SharedPreferencesModule.class})
 public interface AppComponent {
 
     void inject(App app);

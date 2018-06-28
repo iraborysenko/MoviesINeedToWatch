@@ -4,9 +4,7 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +22,7 @@ import android.widget.Toast;
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
@@ -58,6 +57,9 @@ public class SearchActivity extends AppCompatActivity {
     @Inject
     ApiInterface apiInterface;
 
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
+
     @BindView(R.id.switchToEN) Switch mSwitch;
     @BindView(R.id.notificationField) TextView mNotificationField;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
@@ -82,9 +84,7 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
 
-        SharedPreferences settings = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
-        boolean set = settings.getBoolean("lang_key", false);
-        mSwitch.setChecked(set);
+        mSwitch.setChecked(sharedPreferencesSettings.getData("lang_key"));
     }
 
     @OnClick(R.id.search_button)
@@ -119,9 +119,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @OnClick(R.id.switchToEN)
     void saveSwitchState() {
-        SharedPreferences.Editor editor = getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE).edit();
-        editor.putBoolean("lang_key", mSwitch.isChecked());
-        editor.apply();
+        sharedPreferencesSettings.putData("lang_key", mSwitch.isChecked());
     }
 
     private void initRecyclerView(FoundMovie[] search) {
