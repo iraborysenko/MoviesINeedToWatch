@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.ui;
+package com.example.aurora.moviesineedtowatch.ui.movie;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
@@ -57,7 +57,8 @@ public class MovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_movie);
-        Injector.getApplicationComponent().inject(this);
+
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
 
         mTitle = findViewById(R.id.title);
         mOTitle = findViewById(R.id.otitle);

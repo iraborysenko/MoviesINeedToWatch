@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.ui;
+package com.example.aurora.moviesineedtowatch.ui.main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,12 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.wishlist.DatabaseRealm;
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
+import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
 
     @Inject
-    DatabaseRealm databaseRealm;
+    RealmImpl realmImpl;
 
     @Inject
     WishList wishList;
@@ -38,16 +40,16 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
 
-        Injector.getApplicationComponent().inject(this);
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
+
         ButterKnife.bind(this);
 
         List<Movie> movies = getWishList();
-        databaseRealm.addRealmDataChangeListener(movies, initRecyclerView(movies));
+        realmImpl.addRealmDataChangeListener(movies, initRecyclerView(movies));
     }
 
     private List<Movie> getWishList() {
         return wishList.findAll();
-
     }
 
     @OnClick(R.id.main_search_button)
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        databaseRealm.close();
+        realmImpl.close();
     }
 
     private MainRecyclerAdapter initRecyclerView(List<Movie> movies) {

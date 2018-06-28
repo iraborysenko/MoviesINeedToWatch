@@ -1,9 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
-import android.content.Context;
-
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
@@ -11,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
@@ -21,43 +17,24 @@ import io.realm.RealmResults;
  * Date: 18/06/18
  * Time: 09:36
  */
-public class DatabaseRealm {
+public class RealmImpl {
+
+    private Realm mRealm;
 
     @Inject
-    Context mContext;
-
-    private RealmConfiguration realmConfiguration;
-
-    public DatabaseRealm() {
-        Injector.getApplicationComponent().inject(this);
-    }
-
-    public void setup() {
-        Realm.init(mContext);
-        if (realmConfiguration == null) {
-            realmConfiguration = new RealmConfiguration.Builder()
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
-            Realm.setDefaultConfiguration(realmConfiguration);
-        } else {
-            throw new IllegalStateException("database already configured");
-        }
-    }
-
-    private Realm getRealmInstance() {
-        return Realm.getDefaultInstance();
+    public RealmImpl() {
+        this.mRealm = Realm.getDefaultInstance();
     }
 
     public <T extends RealmObject> T add(T model) {
-        Realm realm = getRealmInstance();
-        realm.beginTransaction();
-        realm.copyToRealm(model);
-        realm.commitTransaction();
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(model);
+        mRealm.commitTransaction();
         return model;
     }
 
     public <T extends RealmObject> List<T> findAll(Class<T> tClass) {
-        return getRealmInstance().where(tClass).findAll();
+        return mRealm.where(tClass).findAll();
     }
 
     public <T extends RealmObject> void addRealmDataChangeListener(List<T> movies,
@@ -67,23 +44,21 @@ public class DatabaseRealm {
     }
 
     public void close() {
-        getRealmInstance().close();
+        mRealm.close();
     }
 
     public void delete(String movieId, String dataLang) {
-        Realm realm = getRealmInstance();
-        realm.beginTransaction();
-        RealmResults<Movie> result = realm.where(Movie.class)
+        mRealm.beginTransaction();
+        RealmResults<Movie> result = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
                 .equalTo("savedLang", dataLang)
                 .findAll();
         result.deleteAllFromRealm();
-        realm.commitTransaction();
+        mRealm.commitTransaction();
     }
 
     public Movie choose(String movieId, String dataLang) {
-        Realm realm = getRealmInstance();
-        Movie curMovie = realm.where(Movie.class)
+        Movie curMovie = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
                 .equalTo("savedLang", dataLang)
                 .findFirst();

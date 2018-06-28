@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.ui;
+package com.example.aurora.moviesineedtowatch.ui.search;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
@@ -21,9 +21,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.retrofit.API;
@@ -68,7 +68,9 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_search);
-        Injector.getApplicationComponent().inject(this);
+
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
+
         ButterKnife.bind(this);
 
         editText.setOnKeyListener((v, keyCode, event) -> {

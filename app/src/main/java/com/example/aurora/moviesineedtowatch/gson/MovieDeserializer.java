@@ -5,7 +5,8 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
+import static com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity.bitmapToString;
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,8 +17,8 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -50,7 +51,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
     Context mContext;
 
     public MovieDeserializer(){
-        Injector.getApplicationComponent().inject(this);
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
     }
 
     @Override

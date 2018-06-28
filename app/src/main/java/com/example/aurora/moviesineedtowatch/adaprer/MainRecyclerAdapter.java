@@ -24,10 +24,9 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBitmap;
+import static com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity.stringToBitmap;
 
 /**
  * Created by Android Studio.
@@ -38,7 +37,6 @@ import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.stringToBit
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
-//    private static RealmResults<Movie> mMovies;
     private static List<Movie> mMovies;
     private Context mContext;
     private Resources mResources;

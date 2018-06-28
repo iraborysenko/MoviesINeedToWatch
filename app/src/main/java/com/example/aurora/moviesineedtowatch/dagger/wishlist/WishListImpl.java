@@ -1,11 +1,13 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
-import com.example.aurora.moviesineedtowatch.dagger.Injector;
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * Created by Android Studio.
@@ -16,29 +18,29 @@ import javax.inject.Inject;
 public class WishListImpl implements WishList {
 
     @Inject
-    DatabaseRealm databaseRealm;
+    RealmImpl realmImpl;
 
     public WishListImpl() {
-        Injector.getApplicationComponent().inject(this);
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
     }
 
     @Override
     public List<Movie> findAll() {
-        return databaseRealm.findAll(Movie.class);
+        return realmImpl.findAll(Movie.class);
     }
 
     @Override
     public void addSelectedMovie(Movie movie) {
-        databaseRealm.add(movie);
+        realmImpl.add(movie);
     }
 
     @Override
     public void deleteSelectedMovie(String movieId, String dataLang) {
-        databaseRealm.delete(movieId, dataLang);
+        realmImpl.delete(movieId, dataLang);
     }
 
     @Override
     public Movie chooseSelectedMovie(String movieId, String dataLang) {
-        return databaseRealm.choose(movieId, dataLang);
+        return realmImpl.choose(movieId, dataLang);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.module;
 
-import com.example.aurora.moviesineedtowatch.dagger.wishlist.DatabaseRealm;
+import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 
@@ -25,7 +25,7 @@ public class WishListModule {
 
     @Provides
     @Singleton
-    public DatabaseRealm provideDatabaseRealm() {
-        return new DatabaseRealm();
+    public RealmImpl provideDatabaseRealm() {
+        return new RealmImpl();
     }
 }
