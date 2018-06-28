@@ -58,16 +58,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realmImpl.close();
-    }
-
     private MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
         final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext(), getResources());
+        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new MainRecyclerAdapter.ClickListener() {

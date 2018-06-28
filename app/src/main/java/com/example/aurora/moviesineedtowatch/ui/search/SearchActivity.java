@@ -1,9 +1,8 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.DEBUG;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SEE;
+import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_LANG_KEY;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -84,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
 
-        mSwitch.setChecked(sharedPreferencesSettings.getData("lang_key"));
+        mSwitch.setChecked(sharedPreferencesSettings.getData(SHARED_LANG_KEY));
     }
 
     @OnClick(R.id.search_button)
@@ -112,14 +111,14 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<SearchResult>call, @NonNull Throwable t) {
-                Log.e(SEE, t.toString());
+                Log.e(Const.SEE, t.toString());
             }
         });
     }
 
     @OnClick(R.id.switchToEN)
     void saveSwitchState() {
-        sharedPreferencesSettings.putData("lang_key", mSwitch.isChecked());
+        sharedPreferencesSettings.putData(SHARED_LANG_KEY, mSwitch.isChecked());
     }
 
     private void initRecyclerView(FoundMovie[] search) {
@@ -132,7 +131,7 @@ public class SearchActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new SearchRecyclerAdapter.ClickListener() {
             @Override
             public void onItemClick(View v, String movieId) {
-                Log.d(DEBUG, "It's onclick");
+                Log.d(Const.DEBUG, "It's onclick");
             }
 
             @Override
@@ -160,7 +159,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Movie>call, @NonNull Throwable t) {
-                Log.e(SEE, t.toString());
+                Log.e(Const.SEE, t.toString());
             }
         });
     }

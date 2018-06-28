@@ -2,8 +2,6 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorTurquoise">#66ffe0</color>
     <color name="colorDarkGreen">#01685e</color>
     <color name="colorLightBlue">#66b3ff</color>
     <color name="colorBlue">#0000b3</color>

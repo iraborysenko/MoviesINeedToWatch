@@ -10,46 +10,35 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/scroll"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/mainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/comic_relief"
+                android:padding="13dp"
+                android:text="@string/movies_to_watch"
+                android:textColor="@color/colorBlue"
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
 
-                <TextView
-                    android:id="@+id/mainTitle"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp" >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_recycler_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/comic_relief"
-                    android:padding="13dp"
-                    android:text="@string/movies_to_watch"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="24sp"
-                    android:textStyle="normal|bold" />
-
-
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp" >
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/main_recycler_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-            </RelativeLayout>
-        </ScrollView>
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
 
         <ImageButton
             android:id="@+id/main_search_button"

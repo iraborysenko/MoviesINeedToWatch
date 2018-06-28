@@ -1,7 +1,6 @@
 package com.example.aurora.moviesineedtowatch.adaprer;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,7 +38,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private static ClickListener clickListener;
     private static List<Movie> mMovies;
     private Context mContext;
-    private Resources mResources;
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         @BindView(R.id.movie_poster) ImageView mPoster;
@@ -74,10 +72,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }
     }
 
-    public MainRecyclerAdapter(List<Movie> movies, Context context, Resources resources) {
+    public MainRecyclerAdapter(List<Movie> movies, Context context) {
         mMovies = movies;
         mContext = context;
-        mResources = resources;
     }
 
     @NonNull
@@ -124,7 +121,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         //get imdb rating and according color
         movieViewHolder.mImdb.setText(movie.getImdb());
-        movieViewHolder.mImdb.setBackgroundColor(mResources.getColor(chooseColor(movie.getImdb())));
+        movieViewHolder.mImdb.setBackgroundColor(mContext.getResources()
+                .getColor(chooseColor(movie.getImdb())));
 
         //get the remaining items
         movieViewHolder.mTitle.setText(movie.getTitle());

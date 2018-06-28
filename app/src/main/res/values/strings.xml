@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">MoviesToWatch</string>
-    <string name="movies_i_need_to_watch">Movies I Need To Watch</string>
-    <string name="api">API</string>
     <string name="movies_to_watch">Movies To Watch</string>
     <string name="title">Title</string>
     <string name="ru">RU</string>

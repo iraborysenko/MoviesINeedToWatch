@@ -11,8 +11,6 @@ import java.util.Locale;
  */
 public class Const {
     public final static String DEBUG = "TMDBQM";
-    public final static String TAG = "TAG";
-    public final static String ERR = "VALUES";
     public final static String SEE = "LOOK HERE";
 
     public final static String TMDB_BASE = "http://api.themoviedb.org/3/";
@@ -22,6 +20,7 @@ public class Const {
     public final static String EN = "en-US";
     public final static String RU = "ru-RU";
     public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";
+    public final static String SHARED_LANG_KEY = "lang_key";
 
     public final static HashMap<String, Locale> lang = new HashMap<String, Locale>() {
         {
