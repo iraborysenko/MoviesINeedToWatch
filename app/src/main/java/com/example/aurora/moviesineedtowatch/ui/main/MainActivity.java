@@ -8,9 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMainScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.module.MainScreenModule;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
@@ -25,7 +26,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements MainScreen.View {
     @SuppressLint("StaticFieldLeak")
 
     @Inject
@@ -34,18 +35,25 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     WishList wishList;
 
+    @Inject
+    MainPresenter mainPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
 
-        ((App) getApplicationContext()).getApplicationComponent().inject(this);
+        DaggerMainScreenComponent.builder()
+                .mainScreenModule(new MainScreenModule(this))
+                .build().inject(this);
 
         ButterKnife.bind(this);
 
         List<Movie> movies = getWishList();
         realmImpl.addRealmDataChangeListener(movies, initRecyclerView(movies));
+
+        mainPresenter.loadMovies();
     }
 
     private List<Movie> getWishList() {
@@ -83,5 +91,10 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("EXTRA_MOVIE_ID", movieId);
         intent.putExtra("EXTRA_DATA_LANG", dataLang);
         startActivity(intent);
+    }
+
+    @Override
+    public void showMovies() {
+
     }
 }

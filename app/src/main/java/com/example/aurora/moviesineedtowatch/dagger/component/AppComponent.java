@@ -7,7 +7,6 @@ import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.dagger.module.NetModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
-import com.example.aurora.moviesineedtowatch.ui.main.MainActivity;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 
@@ -26,7 +25,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(App app);
-    void inject(MainActivity mainActivity);
     void inject(SearchActivity searchActivity);
     void inject(MovieActivity movieActivity);
 

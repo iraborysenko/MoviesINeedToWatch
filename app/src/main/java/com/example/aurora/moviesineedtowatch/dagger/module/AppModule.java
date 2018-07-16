@@ -16,7 +16,7 @@ import io.realm.Realm;
  * Date: 18/06/18
  * Time: 09:41
  */
-@Module
+@Module(includes = WishListModule.class)
 public class AppModule {
 
     private final App mApp;
