@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
         editText.setOnKeyListener((v, keyCode, event) -> {
             if(event.getAction() == KeyEvent.ACTION_DOWN &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                runSearch(editText);
+                runSearch();
                 return true;
             }
             return false;
@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.search_button)
-    void runSearch(EditText editText) {
+    void runSearch() {
 
         String searchQuery = editText.getText().toString();
         Log.d(Const.SEE, searchQuery);
