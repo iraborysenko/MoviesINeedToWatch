@@ -5,9 +5,6 @@ import android.app.Application;
 import com.example.aurora.moviesineedtowatch.dagger.component.AppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.component.DaggerAppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.module.AppModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.NetModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -25,14 +22,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         initRealm();
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .wishListModule(new WishListModule())
-                .netModule(new NetModule())
                 .build();
     }
 
