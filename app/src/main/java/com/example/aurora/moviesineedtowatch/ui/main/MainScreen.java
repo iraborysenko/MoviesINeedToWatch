@@ -1,5 +1,10 @@
 package com.example.aurora.moviesineedtowatch.ui.main;
 
+import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+
+import java.util.List;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -8,10 +13,13 @@ package com.example.aurora.moviesineedtowatch.ui.main;
  */
 public interface MainScreen {
     interface View {
-        void showMovies();
+        MainRecyclerAdapter initRecyclerView(List<Movie> movies);
+        void movieTMDB(String movieId, String dataLang);
+        void searchTMDB();
     }
 
     interface Presenter {
         void loadMovies();
+        void searchButton();
     }
 }

@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMainScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.module.MainScreenModule;
-import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
-import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
@@ -30,12 +27,6 @@ public class MainActivity extends AppCompatActivity  implements MainScreen.View 
     @SuppressLint("StaticFieldLeak")
 
     @Inject
-    RealmImpl realmImpl;
-
-    @Inject
-    WishList wishList;
-
-    @Inject
     MainPresenter mainPresenter;
 
     @Override
@@ -50,43 +41,22 @@ public class MainActivity extends AppCompatActivity  implements MainScreen.View 
 
         ButterKnife.bind(this);
 
-        List<Movie> movies = getWishList();
-        realmImpl.addRealmDataChangeListener(movies, initRecyclerView(movies));
-
         mainPresenter.loadMovies();
     }
 
-    private List<Movie> getWishList() {
-        return wishList.findAll();
+    @OnClick(R.id.main_search_button)
+    public void searchButtonClicked() {
+        mainPresenter.searchButton();
     }
 
-    @OnClick(R.id.main_search_button)
-    void searchTMDB() {
+    @Override
+    public void searchTMDB() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
 
-    private MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
-        final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new MainRecyclerAdapter.ClickListener() {
-            @Override
-            public void onItemClick(View v, String movieId, String dataLang) {
-                movieTMDB(movieId, dataLang);
-            }
-
-            @Override
-            public void onItemLongClick(View v, String movieId, String dataLang) {
-                wishList.deleteSelectedMovie(movieId, dataLang);
-            }
-        });
-        return mAdapter;
-    }
-
-    private void movieTMDB(String movieId, String dataLang) {
+    @Override
+    public void movieTMDB(String movieId, String dataLang) {
         Intent intent = new Intent(this, MovieActivity.class);
         intent.putExtra("EXTRA_MOVIE_ID", movieId);
         intent.putExtra("EXTRA_DATA_LANG", dataLang);
@@ -94,7 +64,11 @@ public class MainActivity extends AppCompatActivity  implements MainScreen.View 
     }
 
     @Override
-    public void showMovies() {
-
+    public MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
+        final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
+        return mAdapter;
     }
 }
