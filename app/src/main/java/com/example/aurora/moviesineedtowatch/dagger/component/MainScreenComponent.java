@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.component;
 
-import com.example.aurora.moviesineedtowatch.dagger.module.MainScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.screens.MainScreenModule;
 import com.example.aurora.moviesineedtowatch.ui.main.MainActivity;
 
 import javax.inject.Singleton;

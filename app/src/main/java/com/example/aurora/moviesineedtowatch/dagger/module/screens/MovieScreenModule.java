@@ -1,5 +1,6 @@
-package com.example.aurora.moviesineedtowatch.dagger.module;
+package com.example.aurora.moviesineedtowatch.dagger.module.screens;
 
+import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieScreen;
 
 import dagger.Module;
