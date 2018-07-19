@@ -2,7 +2,6 @@ package com.example.aurora.moviesineedtowatch.ui.main;
 
 import android.view.View;
 
-import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
@@ -11,8 +10,6 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * Created by Android Studio.
@@ -33,7 +30,6 @@ public class MainPresenter implements MainScreen.Presenter{
     @Inject
     MainPresenter(MainScreen.View mView) {
         this.mView = mView;
-        ((App) getApplicationContext()).getApplicationComponent().inject(this);
     }
 
     @Override

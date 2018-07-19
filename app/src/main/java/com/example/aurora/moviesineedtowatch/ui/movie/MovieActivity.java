@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
+import com.example.aurora.moviesineedtowatch.dagger.module.MovieScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMovieScreenComponent;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
@@ -34,7 +34,7 @@ import javax.inject.Inject;
  * Date: 25/01/18
  * Time: 20:43
  */
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends AppCompatActivity implements MovieScreen.View {
 
     private TextView mTitle;
     private TextView mOTitle;
@@ -50,15 +50,13 @@ public class MovieActivity extends AppCompatActivity {
     private TextView mCompanies;
 
     @Inject
-    WishList wishList;
+    MoviePresenter moviePresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_movie);
-
-        ((App) getApplicationContext()).getApplicationComponent().inject(this);
 
         mTitle = findViewById(R.id.title);
         mOTitle = findViewById(R.id.otitle);
@@ -73,14 +71,18 @@ public class MovieActivity extends AppCompatActivity {
         mCountries = findViewById(R.id.countries);
         mCompanies = findViewById(R.id.companies);
 
+        DaggerMovieScreenComponent.builder()
+                .movieScreenModule(new MovieScreenModule(this))
+                .build().inject(this);
+
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
         String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
-        setMovieInfo(movieId, dataLang);
+
+        moviePresenter.loadSelectedMovie(movieId, dataLang);
     }
 
-    private void setMovieInfo(String movieId, String dataLang) {
-
-        Movie curMovie = wishList.chooseSelectedMovie(movieId, dataLang);
+    @Override
+    public void setMovieInfo(Movie curMovie) {
 
         mTitle.setText(curMovie.getTitle());
         mOTitle.setText(String.format("%s %s", curMovie.getOriginalLanguage(), curMovie.getOriginalTitle()));
@@ -108,7 +110,7 @@ public class MovieActivity extends AppCompatActivity {
             if (ids.length() == 0) {
                 genresString = new StringBuilder("not defined");
             } else {
-                int index = (Objects.equals(dataLang, "true"))?0:1;
+                int index = (Objects.equals(curMovie.getSavedLang(), "true"))?0:1;
                 for (int i=0; i<ids.length(); i++)
                     genresString.append(genres.get(ids.get(i))[index]).append("\n");
             }
@@ -126,7 +128,7 @@ public class MovieActivity extends AppCompatActivity {
             } else {
                 for (int i=0; i<ids.length(); i++) {
                     Locale obj = new Locale("", ids.get(i).toString());
-                    countriesString.append(obj.getDisplayCountry(lang.get(dataLang))).append("\n");
+                    countriesString.append(obj.getDisplayCountry(lang.get(curMovie.getSavedLang()))).append("\n");
                 }
             }
             mCountries.setText(countriesString.toString());
@@ -152,6 +154,7 @@ public class MovieActivity extends AppCompatActivity {
         in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
     }
+
     public static Bitmap stringToBitmap(String in){
         byte[] bytes = Base64.decode(in, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
