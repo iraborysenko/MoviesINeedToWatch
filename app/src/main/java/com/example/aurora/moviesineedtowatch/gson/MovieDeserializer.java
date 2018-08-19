@@ -66,13 +66,10 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         String overview = jsonObject.get("overview").getAsString();
         String tagline = jsonObject.get("tagline").getAsString();
 
-        Log.e("sss", "sssssss");
-
         //get language
         SharedPreferences settings = mContext.getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean s = settings.getBoolean("lang_key", false);
 
-        Log.e("sss", "s1111ssssss");
         String savedLang = String.valueOf(s);
 
         //parsing yearParams
@@ -121,10 +118,10 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                 e.printStackTrace();
             }
             assert doc != null;
-            if (doc.select("span[itemprop = ratingValue]").first() == null) {
+            if (doc.select("div.ratingValue > strong > span").first()== null) {
                 rating = "none";
             } else {
-                Element rat = doc.select("span[itemprop = ratingValue]").first();
+                Element rat = doc.select("div.ratingValue > strong > span").first();
                 rating = rat.ownText();
             }
         }
