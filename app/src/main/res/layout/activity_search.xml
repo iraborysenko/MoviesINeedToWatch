@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.aurora.moviesineedtowatch.ui.SearchActivity">
+    tools:context="com.example.aurora.moviesineedtowatch.ui.search.SearchActivity">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,43 +68,34 @@
             android:visibility="invisible"
             android:layout_margin="150dp"/>
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/search_query"
-            android:layout_marginTop="20dp"
-            android:fillViewport="true"
-            android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:layout_marginTop="20dp">
 
-                <TextView
-                    android:id="@+id/notificationField"
-                    android:layout_width="400dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/notification_field"
-                    android:textColor="@color/colorDarkGrey"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:ignore="ObsoleteLayoutParam" />
+            <TextView
+                android:id="@+id/notificationField"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/notification_field"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="ObsoleteLayoutParam" />
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp" >
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp" >
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/search_recycler_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </RelativeLayout>
-        </ScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/search_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

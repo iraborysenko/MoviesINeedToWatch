@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.ui;
+package com.example.aurora.moviesineedtowatch.ui.movie;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
@@ -15,16 +15,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.dagger.module.screens.MovieScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMovieScreenComponent;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import io.realm.Realm;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 /**
  * Created by Android Studio.
@@ -32,7 +34,7 @@ import java.util.Objects;
  * Date: 25/01/18
  * Time: 20:43
  */
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends AppCompatActivity implements MovieScreen.View {
 
     private TextView mTitle;
     private TextView mOTitle;
@@ -47,7 +49,8 @@ public class MovieActivity extends AppCompatActivity {
     private TextView mCountries;
     private TextView mCompanies;
 
-    private Realm mRealm;
+    @Inject
+    MoviePresenter moviePresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,20 +71,18 @@ public class MovieActivity extends AppCompatActivity {
         mCountries = findViewById(R.id.countries);
         mCompanies = findViewById(R.id.companies);
 
-        mRealm = MainActivity.getRealm();
+        DaggerMovieScreenComponent.builder()
+                .movieScreenModule(new MovieScreenModule(this))
+                .build().inject(this);
 
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
         String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
-        setMovieInfo(movieId, dataLang);
+
+        moviePresenter.loadSelectedMovie(movieId, dataLang);
     }
 
-    private void setMovieInfo(String movieId, String dataLang) {
-
-        Movie curMovie = mRealm.where(Movie.class)
-                .equalTo("id", movieId)
-                .equalTo("savedLang", dataLang)
-                .findFirst();
-        assert curMovie != null;
+    @Override
+    public void setMovieInfo(Movie curMovie) {
 
         mTitle.setText(curMovie.getTitle());
         mOTitle.setText(String.format("%s %s", curMovie.getOriginalLanguage(), curMovie.getOriginalTitle()));
@@ -109,7 +110,7 @@ public class MovieActivity extends AppCompatActivity {
             if (ids.length() == 0) {
                 genresString = new StringBuilder("not defined");
             } else {
-                int index = (Objects.equals(dataLang, "true"))?0:1;
+                int index = (Objects.equals(curMovie.getSavedLang(), "true"))?0:1;
                 for (int i=0; i<ids.length(); i++)
                     genresString.append(genres.get(ids.get(i))[index]).append("\n");
             }
@@ -127,7 +128,7 @@ public class MovieActivity extends AppCompatActivity {
             } else {
                 for (int i=0; i<ids.length(); i++) {
                     Locale obj = new Locale("", ids.get(i).toString());
-                    countriesString.append(obj.getDisplayCountry(lang.get(dataLang))).append("\n");
+                    countriesString.append(obj.getDisplayCountry(lang.get(curMovie.getSavedLang()))).append("\n");
                 }
             }
             mCountries.setText(countriesString.toString());
@@ -153,6 +154,7 @@ public class MovieActivity extends AppCompatActivity {
         in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
     }
+
     public static Bitmap stringToBitmap(String in){
         byte[] bytes = Base64.decode(in, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

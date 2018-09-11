@@ -6,11 +6,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorDarkGreen</item>
         <item name="fontFamily">@font/comic_relief</item>
-        <item name="android:windowBackground">@color/colorBeige</item>
+        <item name="android:windowBackground">@color/colorMainLight</item>
     </style>
 
     <style name="LangSwitch.text" parent="@android:style/TextAppearance" >
-        <item name="android:textColor">@color/colorBeige</item>
+        <item name="android:textColor">@color/colorMainLight</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold|italic</item>
     </style>

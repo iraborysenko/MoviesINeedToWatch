@@ -5,16 +5,19 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.ui.MovieActivity.bitmapToString;
+import static com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity.bitmapToString;
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.google.gson.JsonArray;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -41,10 +46,12 @@ import java.util.concurrent.ExecutionException;
  * Time: 18:41
  */
 public class MovieDeserializer implements JsonDeserializer<Movie> {
-    private Context cntxt;
 
-    public MovieDeserializer(Context context){
-        this.cntxt=context;
+    @Inject
+    Context mContext;
+
+    public MovieDeserializer(){
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
     }
 
     @Override
@@ -60,7 +67,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         String tagline = jsonObject.get("tagline").getAsString();
 
         //get language
-        SharedPreferences settings = cntxt.getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
+        SharedPreferences settings = mContext.getSharedPreferences(SHARED_REFERENCES, MODE_PRIVATE);
         boolean s = settings.getBoolean("lang_key", false);
 
         String savedLang = String.valueOf(s);
@@ -111,10 +118,10 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                 e.printStackTrace();
             }
             assert doc != null;
-            if (doc.select("span[itemprop = ratingValue]").first() == null) {
+            if (doc.select("div.ratingValue > strong > span").first()== null) {
                 rating = "none";
             } else {
-                Element rat = doc.select("span[itemprop = ratingValue]").first();
+                Element rat = doc.select("div.ratingValue > strong > span").first();
                 rating = rat.ownText();
             }
         }
@@ -130,7 +137,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                         .diskCacheStrategy(DiskCacheStrategy.NONE);
 
                 img = Glide
-                        .with(cntxt)
+                        .with(mContext)
                         .asBitmap()
                         .load(urldisplay)
                         .apply(options)
@@ -138,7 +145,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                         .get();
 
 
-            } else img = BitmapFactory.decodeResource(cntxt.getResources(), R.drawable.noposter);
+            } else img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.noposter);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
