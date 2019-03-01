@@ -3,6 +3,7 @@ package com.example.aurora.moviesineedtowatch.ui.main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,14 +21,17 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity  implements MainScreen.View {
     @SuppressLint("StaticFieldLeak")
 
     @Inject
     MainPresenter mainPresenter;
+
+    @BindView(R.id.main_search_button)
+    FloatingActionButton mMainSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +45,9 @@ public class MainActivity extends AppCompatActivity  implements MainScreen.View 
 
         ButterKnife.bind(this);
 
-        mainPresenter.loadMovies();
-    }
+        mMainSearch.setOnClickListener(view -> mainPresenter.searchButton());
 
-    @OnClick(R.id.main_search_button)
-    public void searchButtonClicked() {
-        mainPresenter.searchButton();
+        mainPresenter.loadMovies();
     }
 
     @Override
