@@ -89,7 +89,9 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text="@string/comment"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
 
         <TextView
             android:id="@+id/my_rating"

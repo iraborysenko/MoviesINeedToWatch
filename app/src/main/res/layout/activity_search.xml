@@ -9,7 +9,11 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
         <EditText
             android:id="@+id/search_query"
@@ -22,7 +26,9 @@
             android:inputType="textPersonName"
             android:text=""
             android:textColorLink="@color/colorPrimaryDark"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
 
         <ImageButton
             android:id="@+id/search_button"
@@ -49,7 +55,8 @@
             android:textOff="@string/ru"
             android:textOn="@string/en"
             android:thumb="@drawable/switch_language"
-            android:track="@drawable/switch_track" />
+            android:track="@drawable/switch_track"
+            tools:targetApi="lollipop" />
 
         <ProgressBar
             android:id="@+id/progressBar1"

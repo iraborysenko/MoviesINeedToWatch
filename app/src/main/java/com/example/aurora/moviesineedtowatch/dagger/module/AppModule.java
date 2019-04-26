@@ -33,7 +33,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public Context applicationContext() {
+    Context applicationContext() {
         return mApp.getApplicationContext();
     }
 

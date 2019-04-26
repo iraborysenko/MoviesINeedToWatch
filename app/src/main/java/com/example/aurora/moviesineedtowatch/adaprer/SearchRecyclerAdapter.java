@@ -107,7 +107,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         else {
             for (Integer genreId : movie.getGenreIds()) {
                 genresString
-                        .append(genres.get(genreId)[mSwitch.isChecked() ? 0 : 1]).append("\n");
+                        .append(Objects.requireNonNull(genres.get(genreId))[mSwitch.isChecked() ? 0 : 1]).append("\n");
             }
         }
         movieViewHolder.mGenres.setText(String.valueOf(genresString.toString()));

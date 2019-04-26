@@ -19,13 +19,13 @@ public class WishListModule {
 
     @Provides
     @Singleton
-    public WishList provideWishList() {
+    WishList provideWishList() {
         return new WishListImpl();
     }
 
     @Provides
     @Singleton
-    public RealmImpl provideDatabaseRealm() {
+    RealmImpl provideDatabaseRealm() {
         return new RealmImpl();
     }
 }

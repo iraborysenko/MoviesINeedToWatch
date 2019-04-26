@@ -26,15 +26,14 @@ public class RealmImpl {
         this.mRealm = Realm.getDefaultInstance();
     }
 
-    public <T extends RealmObject> T add(T model) {
+    <T extends RealmObject> void add(T model) {
         mRealm.beginTransaction();
         mRealm.copyToRealm(model);
         mRealm.commitTransaction();
-        return model;
     }
 
-    public <T extends RealmObject> List<T> findAll(Class<T> tClass) {
-        return mRealm.where(tClass).findAll();
+    <T extends RealmObject> List<T> findAll() {
+        return mRealm.where((Class<T>) Movie.class).findAll();
     }
 
     public <T extends RealmObject> void addRealmDataChangeListener(List<T> movies,
@@ -47,7 +46,7 @@ public class RealmImpl {
         mRealm.close();
     }
 
-    public void delete(String movieId, String dataLang) {
+    void delete(String movieId, String dataLang) {
         mRealm.beginTransaction();
         RealmResults<Movie> result = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
@@ -57,7 +56,7 @@ public class RealmImpl {
         mRealm.commitTransaction();
     }
 
-    public Movie choose(String movieId, String dataLang) {
+    Movie choose(String movieId, String dataLang) {
         Movie curMovie = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
                 .equalTo("savedLang", dataLang)

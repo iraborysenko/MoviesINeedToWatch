@@ -26,7 +26,7 @@ public class WishListImpl implements WishList {
 
     @Override
     public List<Movie> findAll() {
-        return realmImpl.findAll(Movie.class);
+        return realmImpl.findAll();
     }
 
     @Override

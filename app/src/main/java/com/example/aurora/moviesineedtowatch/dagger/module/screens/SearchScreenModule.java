@@ -1,7 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.module.screens;
 
 import com.example.aurora.moviesineedtowatch.dagger.module.NetModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchScreen;
 
