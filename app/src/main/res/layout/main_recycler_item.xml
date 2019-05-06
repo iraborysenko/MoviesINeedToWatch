@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
     <ImageView
@@ -16,61 +17,50 @@
 
     <TextView
         android:id="@+id/movie_title"
+        style="@style/TextBold.DarkGreen.20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/comic_relief"
-        android:gravity="center"
-        android:textColor="@color/colorDarkGreen"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/movie_tagline"
+        style="@style/TextBoldItalic.DarkGrey.16"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/movie_genres"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:fontFamily="@font/comic_relief"
-        android:textSize="16sp"
-        android:textStyle="bold|italic" />
+        android:layout_marginEnd="10dp" />
 
     <TextView
         android:id="@+id/movie_genres"
+        style="@style/TextBold.BlueLight.16"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/movie_poster"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="115dp"
         android:layout_marginTop="77dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/comic_relief"
-        android:textColor="@color/colorLightBlue"
-        android:textStyle="bold" />
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/movie_year"
+        style="@style/TextBold.DarkGrey.16"
         android:layout_width="91dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/movie_poster"
         android:layout_alignStart="@+id/movie_imdb"
-        android:fontFamily="@font/comic_relief"
-        android:gravity="center"
-        android:textStyle="bold" />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/movie_imdb"
+        style="@style/TextBold.MainLight.18"
         android:layout_width="92dp"
         android:layout_height="147dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/movie_genres"
         android:layout_marginEnd="12dp"
-        android:fontFamily="@font/comic_relief"
-        android:gravity="center"
-        android:textColor="@color/colorMainLight"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:gravity="center" />
 
 </RelativeLayout>

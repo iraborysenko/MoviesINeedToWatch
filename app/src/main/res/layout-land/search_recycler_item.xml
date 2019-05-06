@@ -17,14 +17,11 @@
 
     <TextView
         android:id="@+id/s_movie_title"
+        style="@style/TextBold.Blue.20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/comic_relief"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:textColor="@color/colorBlue"
-        android:textSize="16sp"
-        android:textStyle="bold"
         android:layout_marginStart="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="0dp"
@@ -32,6 +29,7 @@
 
     <TextView
         android:id="@+id/s_movie_original_title"
+        style="@style/TextItalic.DarkGrey.16"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/s_movie_title"
@@ -39,42 +37,34 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@id/s_movie_poster"
-        android:fontFamily="@font/comic_relief"
-        android:textSize="16sp"
-        android:textStyle="italic" />
+        android:layout_toEndOf="@id/s_movie_poster" />
 
     <TextView
         android:id="@+id/s_movie_genres"
+        style="@style/TextBold.BlueLight.16"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/s_movie_original_title"
-        android:layout_marginTop="83dp"
-        android:fontFamily="@font/comic_relief"
-        android:textColor="@color/colorLightBlue"
-        android:textStyle="bold" />
+        android:layout_marginTop="83dp" />
 
     <TextView
         android:id="@+id/s_movie_year"
+        style="@style/TextBold.DarkGrey.16"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="39dp"
-        android:layout_marginTop="121dp"
-        android:fontFamily="@font/comic_relief"
-        android:textStyle="bold" />
+        android:layout_marginTop="121dp" />
 
     <TextView
         android:id="@+id/s_movie_tmdb"
+        style="@style/TextBold.DarkGrey.18"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/s_movie_genres"
-        android:layout_marginEnd="21dp"
-        android:fontFamily="@font/comic_relief"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_marginEnd="21dp" />
 
 </RelativeLayout>

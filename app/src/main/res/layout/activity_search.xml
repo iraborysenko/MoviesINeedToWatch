@@ -17,6 +17,7 @@
 
         <EditText
             android:id="@+id/search_query"
+            style="@style/SearchEditTextStyle"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -83,13 +84,11 @@
 
             <TextView
                 android:id="@+id/notificationField"
+                style="@style/TextBold.DarkGrey.18"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/notification_field"
-                android:textColor="@color/colorDarkGrey"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 tools:ignore="ObsoleteLayoutParam" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
