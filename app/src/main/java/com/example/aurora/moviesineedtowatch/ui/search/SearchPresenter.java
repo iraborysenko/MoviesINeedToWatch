@@ -6,9 +6,8 @@ import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
-import com.example.aurora.moviesineedtowatch.retrofit.API;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
-import com.example.aurora.moviesineedtowatch.tmdb.Const;
+import com.example.aurora.moviesineedtowatch.tools.Constants;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
@@ -19,8 +18,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.EN;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.RU;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.EN;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.RU;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.TMDB_KEY;
 
 /**
  * Created by Android Studio.
@@ -47,7 +47,7 @@ public class SearchPresenter implements SearchScreen.Presenter {
         mAdapter.setOnItemClickListener(new SearchRecyclerAdapter.ClickListener() {
             @Override
             public void onItemClick(View v, String movieId) {
-                Log.d(Const.DEBUG, "It's onclick");
+                Log.d(Constants.DEBUG, "It's onclick");
             }
 
             @Override
@@ -61,7 +61,7 @@ public class SearchPresenter implements SearchScreen.Presenter {
     public void editSearchField(String searchQuery) {
         mView.setProgressBarVisible();
         Call<SearchResult> call = apiInterface.getSearchResult((mView.getSwitchValue()?EN:RU),
-                API.KEY, searchQuery);
+                TMDB_KEY, searchQuery);
         call.enqueue(new Callback<SearchResult>() {
             @Override
             public void onResponse(@NonNull Call<SearchResult>call, @NonNull Response<SearchResult> response) {
@@ -75,7 +75,7 @@ public class SearchPresenter implements SearchScreen.Presenter {
 
             @Override
             public void onFailure(@NonNull Call<SearchResult>call, @NonNull Throwable t) {
-                Log.e(Const.SEE, t.toString());
+                Log.e(Constants.SEE, t.toString());
             }
         });
     }
@@ -84,7 +84,7 @@ public class SearchPresenter implements SearchScreen.Presenter {
         mView.setProgressBarVisible();
 
         Call<Movie> call =
-                apiInterface.getMovie(Integer.parseInt(movieId),(mView.getSwitchValue()?EN:RU), API.KEY);
+                apiInterface.getMovie(Integer.parseInt(movieId),(mView.getSwitchValue()?EN:RU), TMDB_KEY);
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {
@@ -97,7 +97,7 @@ public class SearchPresenter implements SearchScreen.Presenter {
 
             @Override
             public void onFailure(@NonNull Call<Movie>call, @NonNull Throwable t) {
-                Log.e(Const.SEE, t.toString());
+                Log.e(Constants.SEE, t.toString());
             }
         });
     }

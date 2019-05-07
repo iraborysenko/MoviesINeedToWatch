@@ -1,4 +1,6 @@
-package com.example.aurora.moviesineedtowatch.tmdb;
+package com.example.aurora.moviesineedtowatch.tools;
+
+import com.example.aurora.moviesineedtowatch.BuildConfig;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -9,9 +11,11 @@ import java.util.Locale;
  * Date: 25/01/18
  * Time:
  */
-public class Const {
+public class Constants {
     public final static String DEBUG = "TMDBQM";
     public final static String SEE = "LOOK HERE";
+
+    public static final String TMDB_KEY = BuildConfig.TMDB_KEY;
 
     public final static String TMDB_BASE = "http://api.themoviedb.org/3/";
     public final static String IMDb_MOVIE = "http://www.imdb.com/title/";

@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_LANG_KEY;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_LANG_KEY;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

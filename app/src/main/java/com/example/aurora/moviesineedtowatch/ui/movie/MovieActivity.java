@@ -1,7 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.movie;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.lang;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.lang;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

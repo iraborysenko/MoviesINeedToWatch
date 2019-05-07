@@ -2,7 +2,7 @@ package com.example.aurora.moviesineedtowatch.dagger.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_REFERENCES;
 
 import dagger.Module;
 import dagger.Provides;

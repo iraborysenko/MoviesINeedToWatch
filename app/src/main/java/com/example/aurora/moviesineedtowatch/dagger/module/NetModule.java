@@ -17,7 +17,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.TMDB_BASE;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.TMDB_BASE;
 
 /**
  * Created by Android Studio.

@@ -2,10 +2,12 @@ package com.example.aurora.moviesineedtowatch;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.aurora.moviesineedtowatch.dagger.component.AppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.component.DaggerAppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.module.AppModule;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -22,6 +24,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         initRealm();
 
         mAppComponent = DaggerAppComponent.builder()

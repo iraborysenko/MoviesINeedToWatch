@@ -1,10 +1,10 @@
 package com.example.aurora.moviesineedtowatch.gson;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMDb_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_REFERENCES;
 import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 import android.content.Context;

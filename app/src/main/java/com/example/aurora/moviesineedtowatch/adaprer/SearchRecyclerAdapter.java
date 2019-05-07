@@ -20,9 +20,9 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
-import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMAGE_PATH;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMAGE_SIZE;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
 
 /**
  * Created by Android Studio.
