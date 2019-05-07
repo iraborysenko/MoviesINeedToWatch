@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <TextView
             android:id="@+id/manage_movie_title"
             android:layout_width="wrap_content"
@@ -22,8 +22,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="149dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/editing_movie" />
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/title_movie"
@@ -31,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/manage_movie_title"
             android:layout_below="@+id/manage_movie_title"
-            android:layout_marginTop="18dp"
-            android:text="@string/title" />
+            android:layout_marginTop="18dp" />
 
         <TextView
             android:id="@+id/genres_movie"
@@ -40,8 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/title_movie"
             android:layout_below="@+id/title_movie"
-            android:layout_marginTop="12dp"
-            android:text="@string/genres" />
+            android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/imdb_movie"
@@ -49,16 +46,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_movie"
             android:layout_marginStart="32dp"
-            android:layout_toEndOf="@+id/manage_movie_title"
-            android:text="@string/imdb" />
+            android:layout_toEndOf="@+id/manage_movie_title" />
 
         <TextView
             android:id="@+id/year_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/imdb_movie"
-            android:layout_below="@+id/genres_movie"
-            android:text="@string/year" />
+            android:layout_below="@+id/genres_movie" />
 
         <ImageView
             android:id="@+id/poster_movie"
@@ -68,7 +63,7 @@
             android:layout_alignTop="@+id/title_movie"
             android:layout_marginStart="16dp"
             app:srcCompat="@drawable/noposter"
-            android:contentDescription="@string/movie_poster" />
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/add_title"
@@ -77,8 +72,7 @@
             android:layout_alignEnd="@+id/year_movie"
             android:layout_below="@+id/poster_movie"
             android:layout_marginEnd="9dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/adding_movie_to_watched" />
+            android:layout_marginTop="8dp" />
 
         <EditText
             android:id="@+id/edit_comment"
@@ -98,8 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/imdb_movie"
-            android:layout_centerVertical="true"
-            android:text="@string/my_rating" />
+            android:layout_centerVertical="true" />
 
         <Button
             android:id="@+id/add_button"
@@ -115,16 +108,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/add_button"
-            android:layout_below="@+id/add_button"
-            android:text="@string/edit_movie_info" />
+            android:layout_below="@+id/add_button" />
 
         <TextView
             android:id="@+id/tagline_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/edit_comment"
-            android:layout_below="@+id/edit_title"
-            android:text="@string/tagline" />
+            android:layout_below="@+id/edit_title" />
 
         <TextView
             android:id="@+id/runtime_movie"
@@ -132,8 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/tagline_movie"
             android:layout_below="@+id/tagline_movie"
-            android:layout_marginTop="8dp"
-            android:text="@string/runtime" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/overview_movie"
@@ -141,8 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/runtime_movie"
             android:layout_below="@+id/runtime_movie"
-            android:layout_marginTop="9dp"
-            android:text="@string/overview" />
+            android:layout_marginTop="9dp" />
 
         <Button
             android:id="@+id/edit_button"
@@ -181,4 +170,4 @@
             app:srcCompat="@android:drawable/ic_menu_delete" />
     </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

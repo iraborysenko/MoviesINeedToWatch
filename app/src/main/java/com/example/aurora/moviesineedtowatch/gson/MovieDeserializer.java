@@ -5,7 +5,6 @@ import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_PATH;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMAGE_SIZE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.IMDb_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.SHARED_REFERENCES;
-import static com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity.bitmapToString;
 import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 import android.content.Context;
@@ -19,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tools.Extensions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -46,6 +46,8 @@ import javax.inject.Inject;
  */
 public class MovieDeserializer implements JsonDeserializer<Movie> {
 
+    ////ToDo: Я ты он она
+
     @Inject
     Context mContext;
 
@@ -55,7 +57,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
 
     @Override
     public Movie deserialize(JsonElement json, Type typeOfT,
-                                    JsonDeserializationContext context) throws JsonParseException {
+                             JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
         String id = jsonObject.get("id").getAsString();
@@ -130,7 +132,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         Bitmap img = null;
         try {
             if (!Objects.equals(posterPath, "null")) {
-                String urldisplay = IMAGE_PATH + IMAGE_SIZE[3] + posterPath;
+                String urlDisplay = IMAGE_PATH + IMAGE_SIZE[3] + posterPath;
                 RequestOptions options = new RequestOptions()
                         .skipMemoryCache(true)
                         .diskCacheStrategy(DiskCacheStrategy.NONE);
@@ -138,7 +140,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                 img = Glide
                         .with(mContext)
                         .asBitmap()
-                        .load(urldisplay)
+                        .load(urlDisplay)
                         .apply(options)
                         .submit()
                         .get();
@@ -184,7 +186,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                 originalLanguage,
                 overview,
                 posterPath,
-                bitmapToString(img),
+                Extensions.bitmapToString(img),
                 releaseDate,
                 tagline,
                 runtime,

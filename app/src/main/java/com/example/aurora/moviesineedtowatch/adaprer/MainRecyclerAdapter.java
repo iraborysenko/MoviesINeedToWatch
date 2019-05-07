@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.aurora.moviesineedtowatch.tmdb.Const.genres;
-import static com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity.stringToBitmap;
 
 /**
  * Created by Android Studio.
@@ -80,7 +80,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @NonNull
     @Override
     public MainRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                         int viewType) {
+                                                             int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.main_recycler_item, parent, false);
 
@@ -93,13 +93,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         Movie movie = mMovies.get(i);
         assert movie != null;
 
+        // get tagline
+        if (!movie.getTagline().equals(""))
+            movieViewHolder.mTagline.setText(movie.getTagline());
+        else movieViewHolder.mTagline.setVisibility(View.GONE);
+
         // get poster
         RequestOptions options = new RequestOptions()
                 .skipMemoryCache(true)
+                .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(mContext)
                 .asBitmap()
-                .load(stringToBitmap(movie.getPosterBitmap()))
+                .load(Extensions.stringToBitmap(movie.getPosterBitmap()))
                 .apply(options)
                 .into(movieViewHolder.mPoster);
 
@@ -112,7 +118,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             } else {
                 int index = (Objects.equals(movie.getSavedLang(), "true"))?0:1;
                 for (int j=0; j<ids.length(); j++)
-                    genresString.append(genres.get(ids.get(j))[index]).append("\n");
+                    genresString.append(Objects.requireNonNull(genres.get(ids.get(j)))[index]).append("\n");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -122,13 +128,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         //get imdb rating and according color
         movieViewHolder.mImdb.setText(movie.getImdb());
         movieViewHolder.mImdb.setBackgroundColor(mContext.getResources()
-                .getColor(chooseColor(movie.getImdb())));
+                .getColor(Extensions.chooseColor(movie.getImdb())));
 
         //get the remaining items
         movieViewHolder.mTitle.setText(movie.getTitle());
-        movieViewHolder.mTagline.setText(movie.getTagline());
         movieViewHolder.mYear.setText(movie.getReleaseDate());
-
     }
 
     @Override
@@ -143,37 +147,5 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public interface ClickListener {
         void onItemClick(View v, String movieId, String dataLang);
         void onItemLongClick(View v, String movieId, String dataLang);
-    }
-
-    private int chooseColor(String imdbRating) {
-        int color = R.color.OutOfBound;
-        if (imdbRating.equals("none")) {
-            color = R.color.NoMovie;
-        } else {
-            float rating = Float.parseFloat(imdbRating);
-            if (rating<5.0f) {
-                color = R.color.VeryBad;
-            } else if (5.0f<= rating && rating<=5.9f) {
-                color = R.color.Bad;
-            } else if (6.0f<= rating && rating<=6.5f) {
-                color = R.color.Avarage;
-            } else if (6.6f<= rating && rating<=6.8f) {
-                color = R.color.AboveAvarage;
-            } else if (6.9f<= rating && rating<=7.2f) {
-                color = R.color.Intermediate;
-            } else if (7.3f<= rating && rating<=7.7f) {
-                color = R.color.Good;
-            } else if (7.8f<= rating && rating<=8.1f) {
-                color = R.color.VeryGood;
-            } else if (8.2f<= rating && rating<=8.5f) {
-                color = R.color.Great;
-            } else if (8.6f<= rating && rating<=8.9f) {
-                color = R.color.Adept;
-            } else if ( rating >= 9.0f) {
-                color = R.color.Unicum;
-            }
-        }
-
-        return color;
     }
 }

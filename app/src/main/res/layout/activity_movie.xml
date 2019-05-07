@@ -1,177 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity"
-    tools:layout_editor_absoluteY="81dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
     <ScrollView
-        android:id="@+id/myview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.03" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.97" />
 
             <TextView
                 android:id="@+id/title"
                 style="@style/TextBold.DarkGreen.30"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd" />
+
+            <TextView
+                android:id="@+id/original_title"
+                style="@style/TextItalic.DarkGrey.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/min_height"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd" />
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="0dp"
+                android:layout_height="201dp"
+                android:contentDescription="@string/movie_poster"
+                app:layout_constraintTop_toBottomOf="@id/original_title"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVerticalLeft"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/title"
-                tools:layout_editor_absoluteX="150dp"
-                tools:layout_editor_absoluteY="10dp" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.43" />
 
             <TextView
                 android:id="@+id/imdb"
                 style="@style/TextBold.DarkGreen.18"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tmdb"
-                android:layout_alignBottom="@+id/tmdb"
-                android:layout_alignStart="@+id/genres"
-                android:layout_marginStart="10dp"
                 android:background="#FFE135"
                 android:padding="10dp"
                 android:radius="15dp"
-                android:text="@string/imdb"
-                tools:layout_editor_absoluteX="187dp"
-                tools:layout_editor_absoluteY="87dp" />
+                android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintTop_toBottomOf="@id/original_title"
+                app:layout_constraintEnd_toStartOf="@id/tmdb"
+                app:layout_constraintStart_toStartOf="@id/guidelineVerticalRight"/>
 
             <TextView
                 android:id="@+id/tmdb"
                 style="@style/TextBold.MainLight.18"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/tagline"
-                android:layout_alignTop="@+id/poster"
-                android:layout_marginEnd="16dp"
                 android:background="#0E7C61"
                 android:padding="10dp"
-                android:text="@string/tmdb"
-                tools:layout_editor_absoluteX="273dp"
-                tools:layout_editor_absoluteY="87dp" />
+                android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintTop_toBottomOf="@id/original_title"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/imdb"/>
 
             <TextView
                 android:id="@+id/tagline"
-                style="@style/TextItalic.DarkGreen.16"
-                android:layout_width="165dp"
+                style="@style/TextBoldItalic.DarkGreen.16"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/genres"
-                android:layout_below="@+id/imdb"
-                android:layout_marginTop="15dp"
-                android:text="@string/tagline"
-                tools:layout_editor_absoluteX="179dp"
-                tools:layout_editor_absoluteY="148dp" />
+                android:paddingTop="@dimen/main_padding"
+                app:layout_constraintTop_toBottomOf="@id/imdb"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight"/>
 
             <TextView
                 android:id="@+id/runtime"
-                style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="wrap_content"
+                style="@style/TextBold.DarkGrey.16"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tagline"
-                android:layout_below="@+id/tagline"
-                android:layout_marginTop="14dp"
-                android:text="@string/runtime"
-                tools:layout_editor_absoluteX="197dp"
-                tools:layout_editor_absoluteY="187dp" />
+                android:minHeight="@dimen/min_height"
+                android:gravity="center_vertical|start"
+                app:layout_constraintTop_toBottomOf="@id/tagline"
+                app:layout_constraintEnd_toStartOf="@id/year"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight" />
 
             <TextView
                 android:id="@+id/year"
-                style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="wrap_content"
+                style="@style/TextBold.DarkGrey.16"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/runtime"
-                android:layout_alignBottom="@+id/runtime"
-                android:layout_alignEnd="@+id/tmdb"
-                android:text="@string/year"
-                tools:layout_editor_absoluteX="293dp"
-                tools:layout_editor_absoluteY="187dp" />
+                android:minHeight="@dimen/min_height"
+                android:gravity="center_vertical|end"
+                app:layout_constraintTop_toBottomOf="@id/tagline"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/runtime" />
 
             <TextView
                 android:id="@+id/genres"
                 style="@style/TextBold.BlueLight.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/runtime"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/runtime"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/poster"
-                android:text="@string/genres"
-                tools:layout_editor_absoluteX="180dp"
-                tools:layout_editor_absoluteY="222dp" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="poster,genres" />
 
             <TextView
-                android:id="@+id/otitle"
-                style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_alignStart="@+id/overview"
-                android:layout_below="@+id/title"
-                android:layout_marginBottom="5dp"
-                android:paddingStart="25dp"
-                android:paddingEnd="20dp"
-                android:text="@string/original_title"
-                tools:layout_editor_absoluteX="161dp"
-                tools:layout_editor_absoluteY="59dp" />
-
+                android:id="@+id/overview"
+                style="@style/TextItalic.DarkGrey.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/fab_margin"
+                app:layout_constraintTop_toBottomOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
             <TextView
                 android:id="@+id/countries"
                 style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="154dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/companies"
-                android:layout_alignBottom="@+id/companies"
-                android:layout_alignStart="@+id/poster"
-                android:layout_marginBottom="25dp"
-                android:text="@string/countries"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="307dp" />
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintEnd_toStartOf="@id/companies"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"/>
 
             <TextView
                 android:id="@+id/companies"
                 style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="164dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/imdb"
-                android:layout_below="@+id/overview"
-                android:layout_marginTop="19dp"
-                android:layout_marginBottom="25dp"
-                android:text="@string/companies"
-                tools:layout_editor_absoluteX="180dp"
-                tools:layout_editor_absoluteY="307dp"/>
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/countries"/>
 
-            <ImageView
-                android:id="@+id/poster"
-                android:layout_width="145dp"
-                android:layout_height="201dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/otitle"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="12dp"
-                android:contentDescription="@string/movie_poster"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="62dp" />
-
-            <TextView
-                android:id="@+id/overview"
-                style="@style/TextRegular.DarkGrey.16"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/poster"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="28dp"
-                android:text="@string/overview"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="272dp" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
