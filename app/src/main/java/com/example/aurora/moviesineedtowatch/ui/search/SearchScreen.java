@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 
 /**

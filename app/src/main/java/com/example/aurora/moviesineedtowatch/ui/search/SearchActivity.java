@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.searchscreen.DaggerSearchScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;

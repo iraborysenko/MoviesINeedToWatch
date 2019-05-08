@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
-import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class RealmImpl {
     }
 
     public <T extends RealmObject> void addRealmDataChangeListener(List<T> movies,
-                                                                   MainRecyclerAdapter mAdapter) {
+                                                                   ToWatchRecyclerAdapter mAdapter) {
         RealmResults<T> list = (RealmResults<T>) movies;
         list.addChangeListener((results, changeSet) -> mAdapter.notifyDataSetChanged());
     }

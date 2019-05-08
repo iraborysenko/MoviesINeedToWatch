@@ -1,5 +1,6 @@
-package com.example.aurora.moviesineedtowatch.dagger.blocks.towatchfragment;
+package com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment;
 
+import com.example.aurora.moviesineedtowatch.dagger.module.WishListModule;
 import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragmentScreen;
 
 import dagger.Module;
@@ -11,7 +12,7 @@ import dagger.Provides;
  * Date: 08/05/19
  * Time: 21:15
  */
-@Module
+@Module(includes = WishListModule.class)
 public class ToWatchFragmentScreenModule {
     private final ToWatchFragmentScreen.View mView;
 
@@ -24,4 +25,3 @@ public class ToWatchFragmentScreenModule {
         return mView;
     }
 }
-

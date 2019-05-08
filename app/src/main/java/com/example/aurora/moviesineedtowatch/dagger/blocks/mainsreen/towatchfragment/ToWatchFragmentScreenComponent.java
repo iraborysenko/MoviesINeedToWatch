@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.dagger.blocks.towatchfragment;
+package com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment;
 
 import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragment;
 

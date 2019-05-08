@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
-import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
 import com.example.aurora.moviesineedtowatch.tools.Constants;

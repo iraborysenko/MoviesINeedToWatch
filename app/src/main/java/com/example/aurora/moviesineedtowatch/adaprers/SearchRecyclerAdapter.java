@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.adaprer;
+package com.example.aurora.moviesineedtowatch.adaprers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -4,34 +4,27 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.DaggerMainScreenComponent;
-import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.MainScreenModule;
-import com.example.aurora.moviesineedtowatch.tmdb.Movie;
-import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
+import com.example.aurora.moviesineedtowatch.adaprers.TabsViewPagerAdapter;
+import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragment;
+import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 
-import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity  implements MainScreen.View {
+public class MainActivity extends AppCompatActivity {
+
     @SuppressLint("StaticFieldLeak")
 
-    @Inject
-    MainPresenter mainPresenter;
-
-    @BindView(R.id.main_search_button)
-    FloatingActionButton mMainSearch;
+    @BindView(R.id.main_search_fab)
+    FloatingActionButton mMainSearchFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,37 +32,27 @@ public class MainActivity extends AppCompatActivity  implements MainScreen.View 
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
 
-        DaggerMainScreenComponent.builder()
-                .mainScreenModule(new MainScreenModule(this))
-                .build().inject(this);
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         ButterKnife.bind(this);
 
-        mMainSearch.setOnClickListener(view -> mainPresenter.searchButton());
-
-        mainPresenter.loadMovies();
+        mMainSearchFab.setOnClickListener(view -> searchTMDB());
     }
 
-    @Override
+    public void setupViewPager(ViewPager viewPager) {
+        TabsViewPagerAdapter tabsViewPagerAdapter = new TabsViewPagerAdapter(getSupportFragmentManager());
+        tabsViewPagerAdapter.addFragment(new ToWatchFragment(), "To Watch");
+        tabsViewPagerAdapter.addFragment(new WatchedFragment(), "Watched");
+        tabsViewPagerAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(tabsViewPagerAdapter);
+    }
+
     public void searchTMDB() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void movieTMDB(String movieId, String dataLang) {
-        Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("EXTRA_MOVIE_ID", movieId);
-        intent.putExtra("EXTRA_DATA_LANG", dataLang);
-        startActivity(intent);
-    }
-
-    @Override
-    public MainRecyclerAdapter initRecyclerView(List<Movie> movies) {
-        final RecyclerView mRecyclerView = findViewById(R.id.main_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final MainRecyclerAdapter mAdapter = new MainRecyclerAdapter(movies, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
-        return mAdapter;
     }
 }

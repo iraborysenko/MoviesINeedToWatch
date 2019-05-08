@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.adaprer;
+package com.example.aurora.moviesineedtowatch.adaprers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -33,7 +33,7 @@ import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
  * Date: 04/06/18
  * Time: 19:13
  */
-public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
+public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecyclerAdapter.ViewHolder> {
 
     private static ClickListener clickListener;
     private static List<Movie> mMovies;
@@ -72,17 +72,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }
     }
 
-    public MainRecyclerAdapter(List<Movie> movies, Context context) {
+    public ToWatchRecyclerAdapter(List<Movie> movies, Context context) {
         mMovies = movies;
         mContext = context;
     }
 
     @NonNull
     @Override
-    public MainRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                             int viewType) {
+    public ToWatchRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.main_recycler_item, parent, false);
+                .inflate(R.layout.to_watch_recycler_item, parent, false);
 
         return new ViewHolder(v);
     }
@@ -141,7 +141,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     public void setOnItemClickListener(ClickListener clickListener) {
-        MainRecyclerAdapter.clickListener = clickListener;
+        ToWatchRecyclerAdapter.clickListener = clickListener;
     }
 
     public interface ClickListener {

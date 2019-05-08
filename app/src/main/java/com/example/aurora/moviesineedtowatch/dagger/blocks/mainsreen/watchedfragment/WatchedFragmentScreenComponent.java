@@ -1,4 +1,4 @@
-package com.example.aurora.moviesineedtowatch.dagger.blocks.watchedfragment;
+package com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.watchedfragment;
 
 import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 
