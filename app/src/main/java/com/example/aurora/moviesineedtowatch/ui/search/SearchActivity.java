@@ -19,6 +19,7 @@ import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.component.DaggerSearchScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.screens.SearchScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
@@ -59,6 +60,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
         DaggerSearchScreenComponent.builder()
                 .searchScreenModule(new SearchScreenModule(this))
                 .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .contextModule(new ContextModule(this))
                 .build().inject(this);
 
         ButterKnife.bind(this);

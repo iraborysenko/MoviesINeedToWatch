@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.component;
 
+import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.screens.SearchScreenModule;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
@@ -15,7 +16,7 @@ import dagger.Component;
  * Time: 15:53
  */
 @Singleton
-@Component(modules = {SearchScreenModule.class, SharedPreferencesModule.class})
+@Component(modules = {ContextModule.class, SearchScreenModule.class, SharedPreferencesModule.class})
 public interface SearchScreenComponent {
     void inject(SearchActivity searchActivity);
 }
