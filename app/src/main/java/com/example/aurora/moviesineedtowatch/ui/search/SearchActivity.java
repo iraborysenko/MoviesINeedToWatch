@@ -65,7 +65,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
         editText.setOnKeyListener((v, keyCode, event) -> {
             if(event.getAction() == KeyEvent.ACTION_DOWN &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                searchPresenter.editSearchField(editText.getText().toString());
+                verifyEditTextValue();
                 return true;
             }
             return false;
@@ -81,7 +81,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
 
     @OnClick(R.id.search_button)
     void searchFieldButtonClicked() {
-        searchPresenter.editSearchField(editText.getText().toString());
+        verifyEditTextValue();
     }
 
     @Override
@@ -119,5 +119,13 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     public void showAddedMovieToast(String movieTitle) {
         Toast.makeText(SearchActivity.this, "Movie \""+ movieTitle
                 + "\" added to the wish list", Toast.LENGTH_SHORT).show();
+    }
+
+    private void verifyEditTextValue() {
+        if (!editText.getText().toString().equals(""))
+            searchPresenter.editSearchField(editText.getText().toString());
+        else
+            Toast.makeText(SearchActivity.this, "Enter some data for search",
+                    Toast.LENGTH_SHORT).show();
     }
 }
