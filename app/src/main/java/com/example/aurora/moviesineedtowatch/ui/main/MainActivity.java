@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.MainRecyclerAdapter;
-import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMainScreenComponent;
-import com.example.aurora.moviesineedtowatch.dagger.module.screens.MainScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.DaggerMainScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.MainScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;

@@ -18,10 +18,10 @@ import android.widget.Toast;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprer.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
-import com.example.aurora.moviesineedtowatch.dagger.component.DaggerSearchScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.searchscreen.DaggerSearchScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.screens.SearchScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.searchscreen.SearchScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 
 import butterknife.BindView;

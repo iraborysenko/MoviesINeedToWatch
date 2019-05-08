@@ -1,7 +1,6 @@
-package com.example.aurora.moviesineedtowatch.dagger.component;
+package com.example.aurora.moviesineedtowatch.dagger.blocks.app;
 
 import com.example.aurora.moviesineedtowatch.App;
-import com.example.aurora.moviesineedtowatch.dagger.module.AppModule;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
 

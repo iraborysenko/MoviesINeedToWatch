@@ -1,8 +1,7 @@
-package com.example.aurora.moviesineedtowatch.dagger.component;
+package com.example.aurora.moviesineedtowatch.dagger.blocks.searchscreen;
 
 import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
-import com.example.aurora.moviesineedtowatch.dagger.module.screens.SearchScreenModule;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 
 import javax.inject.Singleton;

@@ -3,9 +3,9 @@ package com.example.aurora.moviesineedtowatch;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.aurora.moviesineedtowatch.dagger.component.AppComponent;
-import com.example.aurora.moviesineedtowatch.dagger.component.DaggerAppComponent;
-import com.example.aurora.moviesineedtowatch.dagger.module.AppModule;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppModule;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.app.DaggerAppComponent;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;

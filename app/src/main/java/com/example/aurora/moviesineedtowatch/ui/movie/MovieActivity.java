@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
-import com.example.aurora.moviesineedtowatch.dagger.module.screens.MovieScreenModule;
-import com.example.aurora.moviesineedtowatch.dagger.component.DaggerMovieScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.moviescreen.DaggerMovieScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.moviescreen.MovieScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
