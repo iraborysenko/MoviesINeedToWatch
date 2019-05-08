@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
+import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_NO_SEARCH_DATA;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_LANG_KEY;
 
 import android.os.Bundle;
@@ -95,8 +96,8 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     }
 
     @Override
-    public void setNotificationField(String totalResult) {
-        mNotificationField.setText(String.format("Total amount: %s", totalResult));
+    public void setNotificationField(String requiredString) {
+        mNotificationField.setText(requiredString);
         mNotificationField.setTextSize(20);
     }
 
@@ -116,16 +117,15 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     }
 
     @Override
-    public void showAddedMovieToast(String movieTitle) {
-        Toast.makeText(SearchActivity.this, "Movie \""+ movieTitle
-                + "\" added to the wish list", Toast.LENGTH_SHORT).show();
+    public void showAddedMovieToast(String movieAddMessage) {
+        Toast.makeText(SearchActivity.this, movieAddMessage, Toast.LENGTH_SHORT).show();
     }
 
     private void verifyEditTextValue() {
         if (!editText.getText().toString().equals(""))
             searchPresenter.editSearchField(editText.getText().toString());
         else
-            Toast.makeText(SearchActivity.this, "Enter some data for search",
+            Toast.makeText(SearchActivity.this, MESSAGE_NO_SEARCH_DATA,
                     Toast.LENGTH_SHORT).show();
     }
 }

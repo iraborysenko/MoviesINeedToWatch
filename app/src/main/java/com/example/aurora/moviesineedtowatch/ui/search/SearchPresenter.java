@@ -19,8 +19,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.EN;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_ERROR_ADDING_MOVIE;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_ERROR_GETTING_DATA;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_NO_CONNECTION;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.RU;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.TMDB_KEY;
+import static com.example.aurora.moviesineedtowatch.tools.Extensions.*;
 
 /**
  * Created by Android Studio.
@@ -66,16 +70,25 @@ public class SearchPresenter implements SearchScreen.Presenter {
             @Override
             public void onResponse(@NonNull Call<SearchResult>call, @NonNull Response<SearchResult> response) {
                 SearchResult result = response.body();
-                assert result != null;
-                mView.setNotificationField(result.getTotalResults());
-                FoundMovie[] search = result.getResults();
-                mView.initRecyclerView(search);
-                mView.setProgressBarInvisible();
+                if (result != null) {
+                    mView.setNotificationField(returnTotalResultString(result.getTotalResults()));
+                    FoundMovie[] search = result.getResults();
+                    mView.initRecyclerView(search);
+                    mView.setProgressBarInvisible();
+                } else {
+                    if (isOffline())
+                        mView.setNotificationField(MESSAGE_NO_CONNECTION);
+                    else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
+                    mView.setProgressBarInvisible();
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<SearchResult>call, @NonNull Throwable t) {
-                Log.e(Constants.SEE, t.toString());
+                if (isOffline())
+                    mView.setNotificationField(MESSAGE_NO_CONNECTION);
+                else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
+                mView.setProgressBarInvisible();
             }
         });
     }
@@ -89,15 +102,24 @@ public class SearchPresenter implements SearchScreen.Presenter {
             @Override
             public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {
                 Movie movie = response.body();
-                assert movie != null;
-                wishList.addSelectedMovie(movie);
-                mView.setProgressBarInvisible();
-                mView.showAddedMovieToast(movie.getTitle());
+                if(movie != null) {
+                    wishList.addSelectedMovie(movie);
+                    mView.setProgressBarInvisible();
+                    mView.showAddedMovieToast(returnAddMovieString(movie.getTitle()));
+                } else {
+                    if (isOffline())
+                        mView.setNotificationField(MESSAGE_NO_CONNECTION);
+                    else mView.setNotificationField(MESSAGE_ERROR_ADDING_MOVIE);
+                    mView.setProgressBarInvisible();
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<Movie>call, @NonNull Throwable t) {
-                Log.e(Constants.SEE, t.toString());
+                if (isOffline())
+                    mView.setNotificationField(MESSAGE_NO_CONNECTION);
+                else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
+                mView.setProgressBarInvisible();
             }
         });
     }

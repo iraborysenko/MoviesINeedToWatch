@@ -7,6 +7,8 @@ import android.util.Base64;
 import com.example.aurora.moviesineedtowatch.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 
 /**
  * Created by Android Studio.
@@ -15,6 +17,15 @@ import java.io.ByteArrayOutputStream;
  * Time: 21:39
  */
 public class Extensions {
+
+    public static String returnTotalResultString(String totalSearchResult) {
+        return String.format("Total amount: %s", totalSearchResult);
+    }
+
+    public static String returnAddMovieString(String movieTitle) {
+        return "Movie \""+ movieTitle + "\" added to the wish list";
+    }
+
     public static String bitmapToString(Bitmap in){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
@@ -55,5 +66,19 @@ public class Extensions {
             }
         }
         return color;
+    }
+
+    public static boolean isOffline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue != 0);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) { e.printStackTrace(); }
+
+        return true;
     }
 }
