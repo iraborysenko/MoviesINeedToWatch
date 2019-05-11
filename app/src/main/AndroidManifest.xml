@@ -22,21 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.aurora.moviesineedtowatch.ui.search.SearchActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity" />
+        <activity android:name="com.example.aurora.moviesineedtowatch.ui.search.SearchActivity" />
+        <activity android:name="com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity" />
+        <activity android:name="com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity" />
     </application>
 
 </manifest>

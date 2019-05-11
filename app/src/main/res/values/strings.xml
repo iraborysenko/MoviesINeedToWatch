@@ -16,4 +16,17 @@
     <string name="delete_question">Are you sure?</string>
     <string name="delete_button">delete_button</string>
     <string name="notification_field">Bellow will be displays a list of movies</string>
+    <string name="settings">Settings</string>
+    <string name="save_via_wifi">Save data only via WIFI</string>
+    <string name="apply_dark_theme">Apply Dark Theme</string>
+    <string name="base_movies_layout">Extended base movies layout</string>
+    <string name="app_language">App language</string>
+    <string name="export_my_movies_list">Export my movies list</string>
+
+    <string-array name="language_list">
+        <item>EN</item>
+        <item>RU</item>
+        <item>UA</item>
+    </string-array>
+
 </resources>

@@ -56,6 +56,10 @@
         <item name="android:textColor">@color/colorDarkGrey</item>
     </style>
 
+    <style name="TextRegular.DarkGrey.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="TextRegular.DarkGrey.16">
         <item name="android:textSize">16sp</item>
     </style>

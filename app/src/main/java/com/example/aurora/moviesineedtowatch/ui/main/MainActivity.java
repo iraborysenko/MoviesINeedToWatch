@@ -1,6 +1,5 @@
 package com.example.aurora.moviesineedtowatch.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -15,13 +14,12 @@ import com.example.aurora.moviesineedtowatch.adaprers.TabsViewPagerAdapter;
 import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragment;
 import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
+import com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-    @SuppressLint("StaticFieldLeak")
 
     @BindView(R.id.viewpager)
     ViewPager viewPager;
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.settings_button:
-//                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
 
             default:
