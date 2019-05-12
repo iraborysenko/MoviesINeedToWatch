@@ -10,13 +10,11 @@ import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.App;
-import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 import com.google.gson.JsonArray;
@@ -80,10 +78,12 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
 
         //parsing runtime
         String runtime;
-        String jsonRuntime = jsonObject.get("runtime").getAsString();
-        if(Objects.equals(jsonRuntime, "null") || Objects.equals(jsonRuntime, "0")) {
+        JsonElement jsonRuntime = jsonObject.get("runtime");
+        if(jsonRuntime.isJsonNull()) {
             runtime = "unknown";
-        }else {
+        } else if (Objects.equals(jsonRuntime.getAsString(), "0")) {
+            runtime = "unknown";
+        } else {
             int duration = Integer.parseInt(jsonObject.get("runtime").getAsString());
             int hours = duration / 60;
             int minutes = duration % 60;
@@ -103,8 +103,8 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         //get imdb rating
         String imdbId;
         String rating;
-        String json_IMDB_result = jsonObject.get("imdb_id").getAsString();
-        if(json_IMDB_result.equals("null") || json_IMDB_result.equals("") ){
+        JsonElement json_IMDB_result = jsonObject.get("imdb_id");
+        if(json_IMDB_result.isJsonNull() || json_IMDB_result.getAsString().equals("") ){
             imdbId = "none";
             rating = "none";
         } else {
@@ -112,7 +112,7 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
 
             Document doc = null;
             try {
-                doc = Jsoup.connect(IMDb_MOVIE + json_IMDB_result).get();
+                doc = Jsoup.connect(IMDb_MOVIE + json_IMDB_result.getAsString()).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,10 +126,12 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         }
 
         //get picture bitmap
-        String posterPath = jsonObject.get("poster_path").getAsString();
+        String posterPath = null;
+        JsonElement posterPathElement = jsonObject.get("poster_path");
         Bitmap img = null;
         try {
-            if (!Objects.equals(posterPath, "null")) {
+            if (!posterPathElement.isJsonNull()) {
+                posterPath = posterPathElement.getAsString();
                 String urlDisplay = IMAGE_PATH + IMAGE_SIZE[3] + posterPath;
                 RequestOptions options = new RequestOptions()
                         .skipMemoryCache(true)
@@ -142,13 +144,10 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                         .apply(options)
                         .submit()
                         .get();
-
-
-            } else img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.noposter);
+            }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
 
         //parsing genres ids
         JsonArray ids = jsonObject.get("genres").getAsJsonArray();
@@ -174,7 +173,6 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
             arrCountries.add(jObject.get("iso_3166_1").getAsString());
         }
 
-        assert img != null;
         return new Movie(
                 id,
                 imdbId,

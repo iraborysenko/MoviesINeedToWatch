@@ -27,14 +27,18 @@ public class Extensions {
     }
 
     public static String bitmapToString(Bitmap in){
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-        return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
+        if (in!=null) {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+            return Base64.encodeToString(bytes.toByteArray(),Base64.DEFAULT);
+        } else return null;
     }
 
     public static Bitmap stringToBitmap(String in){
-        byte[] bytes = Base64.decode(in, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        if (in!=null) {
+            byte[] bytes = Base64.decode(in, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        } else return null;
     }
 
     public static int chooseColor(String imdbRating) {

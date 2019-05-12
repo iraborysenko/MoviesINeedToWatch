@@ -102,6 +102,7 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
 
         // get poster
         RequestOptions options = new RequestOptions()
+                .error(R.drawable.noposter)
                 .skipMemoryCache(true)
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
