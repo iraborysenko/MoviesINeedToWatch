@@ -11,6 +11,7 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -86,6 +87,7 @@ public class NetModule {
         return new Retrofit.Builder()
                 .baseUrl(TMDB_BASE)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
     }

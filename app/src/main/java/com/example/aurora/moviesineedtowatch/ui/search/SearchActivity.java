@@ -50,6 +50,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     @BindView(R.id.notificationField) TextView mNotificationField;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @BindView(R.id.search_query) EditText editText;
+    @BindView(R.id.search_recycler_view) RecyclerView mRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,12 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
         mSwitch.setChecked(sharedPreferencesSettings.getData(SHARED_LANG_KEY));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        searchPresenter.clearDisposable();
+    }
+
     @OnClick(R.id.switchToEN)
     void saveSwitchState() {
         sharedPreferencesSettings.putData(SHARED_LANG_KEY, mSwitch.isChecked());
@@ -89,7 +96,6 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
 
     @Override
     public void initRecyclerView(FoundMovie[] search) {
-        final RecyclerView mRecyclerView = findViewById(R.id.search_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final SearchRecyclerAdapter mAdapter =
                 new SearchRecyclerAdapter(search, getApplicationContext(), mSwitch);

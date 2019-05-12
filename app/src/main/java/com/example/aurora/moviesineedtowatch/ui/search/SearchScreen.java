@@ -22,5 +22,6 @@ public interface SearchScreen {
     interface Presenter {
         void recyclerViewListener(SearchRecyclerAdapter mAdapter);
         void editSearchField(String searchQuery);
+        void clearDisposable();
     }
 }

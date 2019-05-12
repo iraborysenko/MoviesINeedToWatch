@@ -1,12 +1,13 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
+import com.example.aurora.moviesineedtowatch.rxjava.RxJava2ApiCallback;
+import com.example.aurora.moviesineedtowatch.rxjava.RxJava2FlowableApiCallHelper;
 import com.example.aurora.moviesineedtowatch.tools.Constants;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
@@ -14,12 +15,14 @@ import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.EN;
-import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_ERROR_ADDING_MOVIE;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_ERROR_GETTING_DATA;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_NO_CONNECTION;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.RU;
@@ -46,6 +49,8 @@ public class SearchPresenter implements SearchScreen.Presenter {
         this.mView = mView;
     }
 
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
     @Override
     public void recyclerViewListener(SearchRecyclerAdapter mAdapter) {
         mAdapter.setOnItemClickListener(new SearchRecyclerAdapter.ClickListener() {
@@ -64,63 +69,52 @@ public class SearchPresenter implements SearchScreen.Presenter {
     @Override
     public void editSearchField(String searchQuery) {
         mView.setProgressBarVisible();
-        Call<SearchResult> call = apiInterface.getSearchResult((mView.getSwitchValue()?EN:RU),
-                TMDB_KEY, searchQuery);
-        call.enqueue(new Callback<SearchResult>() {
-            @Override
-            public void onResponse(@NonNull Call<SearchResult>call, @NonNull Response<SearchResult> response) {
-                SearchResult result = response.body();
-                if (result != null) {
-                    mView.setNotificationField(returnTotalResultString(result.getTotalResults()));
-                    FoundMovie[] search = result.getResults();
-                    mView.initRecyclerView(search);
-                    mView.setProgressBarInvisible();
-                } else {
-                    if (isOffline())
-                        mView.setNotificationField(MESSAGE_NO_CONNECTION);
-                    else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
-                    mView.setProgressBarInvisible();
-                }
-            }
 
+        Flowable<SearchResult> flowable =
+                apiInterface.getSearchResult((mView.getSwitchValue()?EN:RU), TMDB_KEY, searchQuery);
+        Disposable disposable = RxJava2FlowableApiCallHelper.call(flowable, new RxJava2ApiCallback<SearchResult>() {
             @Override
-            public void onFailure(@NonNull Call<SearchResult>call, @NonNull Throwable t) {
+            public void onSuccess(SearchResult jsonArray) {
+                mView.setNotificationField(returnTotalResultString(jsonArray.getTotalResults()));
+                FoundMovie[] search = jsonArray.getResults();
+                mView.initRecyclerView(search);
+                mView.setProgressBarInvisible();
+            }
+            @Override
+            public void onFailed(Throwable throwable) {
                 if (isOffline())
                     mView.setNotificationField(MESSAGE_NO_CONNECTION);
                 else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
                 mView.setProgressBarInvisible();
             }
         });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void clearDisposable() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.dispose();
+        }
     }
 
     private void loadMovieInfo(String movieId) {
         mView.setProgressBarVisible();
 
-        Call<Movie> call =
+        Observable<Movie> observable =
                 apiInterface.getMovie(Integer.parseInt(movieId),(mView.getSwitchValue()?EN:RU), TMDB_KEY);
-        call.enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(@NonNull Call<Movie>call, @NonNull Response<Movie> response) {
-                Movie movie = response.body();
-                if(movie != null) {
+        Disposable subscribe = observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(movie -> {
                     wishList.addSelectedMovie(movie);
                     mView.setProgressBarInvisible();
                     mView.showAddedMovieToast(returnAddMovieString(movie.getTitle()));
-                } else {
+                }, throwable -> {
                     if (isOffline())
                         mView.setNotificationField(MESSAGE_NO_CONNECTION);
-                    else mView.setNotificationField(MESSAGE_ERROR_ADDING_MOVIE);
+                    else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
                     mView.setProgressBarInvisible();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Movie>call, @NonNull Throwable t) {
-                if (isOffline())
-                    mView.setNotificationField(MESSAGE_NO_CONNECTION);
-                else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
-                mView.setProgressBarInvisible();
-            }
-        });
+                });
     }
 }

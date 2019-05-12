@@ -3,7 +3,8 @@ package com.example.aurora.moviesineedtowatch.retrofit;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 
-import retrofit2.Call;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -16,12 +17,12 @@ import retrofit2.http.Query;
  */
 public interface ApiInterface {
     @GET("search/movie")
-    Call<SearchResult> getSearchResult(@Query("language") String lang,
-                                              @Query("api_key") String apiKey,
-                                              @Query("query") String query);
+    Flowable<SearchResult> getSearchResult(@Query("language") String lang,
+                                           @Query("api_key") String apiKey,
+                                           @Query("query") String query);
 
     @GET("movie/{id}")
-    Call<Movie> getMovie(@Path("id") int id,
-                                @Query("language") String lang,
-                                @Query("api_key") String apiKey);
+    Observable<Movie> getMovie(@Path("id") int id,
+                               @Query("language") String lang,
+                               @Query("api_key") String apiKey);
 }
