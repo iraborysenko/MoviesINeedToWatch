@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="main_padding">10dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="small_margin">5dp</dimen>
-    <dimen name="min_height">40dp</dimen>
-    <dimen name="min_height_title">50dp</dimen>
+    <!--padding-->
+    <dimen name="padding_10dp">10dp</dimen>
+    <!--margin    -->
     <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <!--min height-->
+    <dimen name="min_height_50dp">50dp</dimen>
+    <dimen name="min_height_40dp">40dp</dimen>
 </resources>
