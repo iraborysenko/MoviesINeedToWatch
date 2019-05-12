@@ -152,17 +152,26 @@
                 style="@style/TextItalic.DarkGrey.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/fab_margin"
                 app:layout_constraintTop_toBottomOf="@id/barrier"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+
+            <TextView
+                android:id="@+id/release_date"
+                style="@style/TextBold.DarkGrey.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"/>
 
             <TextView
                 android:id="@+id/countries"
                 style="@style/TextRegular.DarkGrey.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintTop_toBottomOf="@id/release_date"
                 app:layout_constraintEnd_toStartOf="@id/companies"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"/>
 
@@ -171,9 +180,10 @@
                 style="@style/TextRegular.DarkGrey.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/overview"
+                android:paddingBottom="@dimen/main_padding"
+                app:layout_constraintTop_toBottomOf="@id/release_date"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toEndOf="@id/countries"/>
+                app:layout_constraintStart_toEndOf="@id/countries" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -46,6 +46,7 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
     private TextView mOverview;
     private TextView mCountries;
     private TextView mCompanies;
+    private TextView mReleaseDate;
 
     @Inject
     MoviePresenter moviePresenter;
@@ -68,6 +69,7 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
         mOverview = findViewById(R.id.overview);
         mCountries = findViewById(R.id.countries);
         mCompanies = findViewById(R.id.companies);
+        mReleaseDate = findViewById(R.id.release_date);
 
         DaggerMovieScreenComponent.builder()
                 .movieScreenModule(new MovieScreenModule(this))
@@ -87,7 +89,10 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
         mTMDb.setText(curMovie.getVoteAverage());
         mIMDb.setText(curMovie.getImdb());
         mRuntime.setText(curMovie.getRuntime());
-        mYear.setText(curMovie.getReleaseDate());
+        mReleaseDate.setText(curMovie.getReleaseDate());
+
+        //get year
+        mYear.setText(curMovie.getReleaseDate().subSequence(0, 4));
 
         //get tagline
         if (!curMovie.getTagline().equals(""))

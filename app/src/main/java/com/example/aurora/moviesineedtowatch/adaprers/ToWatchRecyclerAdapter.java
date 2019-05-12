@@ -93,6 +93,8 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
         Movie movie = mMovies.get(i);
         assert movie != null;
 
+        movieViewHolder.mTitle.setText(movie.getTitle());
+
         // get tagline
         if (!movie.getTagline().equals(""))
             movieViewHolder.mTagline.setText(movie.getTagline());
@@ -123,16 +125,15 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        movieViewHolder.mGenres.setText(String.valueOf(genresString.toString()));
+        movieViewHolder.mGenres.setText(genresString.toString());
 
         //get imdb rating and according color
         movieViewHolder.mImdb.setText(movie.getImdb());
         movieViewHolder.mImdb.setBackgroundColor(mContext.getResources()
                 .getColor(Extensions.chooseColor(movie.getImdb())));
 
-        //get the remaining items
-        movieViewHolder.mTitle.setText(movie.getTitle());
-        movieViewHolder.mYear.setText(movie.getReleaseDate());
+        //get year
+        movieViewHolder.mYear.setText(movie.getReleaseDate().subSequence(0, 4));
     }
 
     @Override

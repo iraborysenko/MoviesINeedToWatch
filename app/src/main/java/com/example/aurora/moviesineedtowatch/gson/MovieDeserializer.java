@@ -46,8 +46,6 @@ import javax.inject.Inject;
  */
 public class MovieDeserializer implements JsonDeserializer<Movie> {
 
-    ////ToDo: Я ты он она
-
     @Inject
     Context mContext;
 
@@ -76,9 +74,9 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
         //parsing yearParams
         String releaseDate;
         if (Objects.equals(jsonObject.get("release_date").getAsString(), ""))
-            releaseDate = "----";
+            releaseDate = "none";
         else
-            releaseDate = (String) jsonObject.get("release_date").getAsString().subSequence(0, 4);
+            releaseDate = jsonObject.get("release_date").getAsString();
 
         //parsing runtime
         String runtime;
