@@ -25,6 +25,7 @@ public class Constants {
     public final static String RU = "ru-RU";
     public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";
     public final static String SHARED_LANG_KEY = "lang_key";
+    final static String SHARED_SELECTED_LANGUAGE = "lang_selected";
 
     public final static String MESSAGE_NO_CONNECTION = "No internet connection available";
     public final static String MESSAGE_ERROR_GETTING_DATA = "Error receiving data by your request";

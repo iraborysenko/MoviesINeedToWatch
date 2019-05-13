@@ -27,12 +27,12 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:src="@drawable/ic_search_magnifier"
-        android:contentDescription="@string/go"
         app:layout_constraintWidth_percent="0.1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/notificationField"
         app:layout_constraintEnd_toStartOf="@id/switchToEN"
-        app:layout_constraintStart_toEndOf="@id/search_query" />
+        app:layout_constraintStart_toEndOf="@id/search_query"
+        tools:ignore="ContentDescription" />
 
     <Switch
         android:id="@+id/switchToEN"

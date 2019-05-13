@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movies_to_watch">Фильмы на просмотр</string>
+    <string name="notification_field">Ниже будет показан список фильмов</string>
+    <string name="settings">Настройки</string>
+    <string name="save_via_wifi">Сохранять данные только через WIFI</string>
+    <string name="apply_dark_theme">Активировать темную тему</string>
+    <string name="base_movies_layout">Базовая раскладка - расширенная</string>
+    <string name="app_language">Язык приложения</string>
+    <string name="export_my_movies_list">Экспортировать список фильмов</string>
+    <string name="to_watch_tab">На просмотр</string>
+    <string name="watched_tab">Просмотренные</string>
+
+    <string name="app_name">MoviesToWatch</string>
+    <string name="ru">RU</string>
+    <string name="en">EN</string>
+
+</resources>

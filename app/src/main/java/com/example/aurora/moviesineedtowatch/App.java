@@ -1,11 +1,13 @@
 package com.example.aurora.moviesineedtowatch;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppModule;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.DaggerAppComponent;
+import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -30,6 +32,11 @@ public class App extends Application {
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase, "en"));
     }
 
     protected void initRealm() {
