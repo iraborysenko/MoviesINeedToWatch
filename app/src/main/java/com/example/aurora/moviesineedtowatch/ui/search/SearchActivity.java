@@ -2,9 +2,13 @@ package com.example.aurora.moviesineedtowatch.ui.search;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_LANG_KEY;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +57,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @BindView(R.id.search_recycler_view) RecyclerView mRecyclerView;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +69,13 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
                 .contextModule(new ContextModule(this))
                 .build().inject(this);
 
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorSearchScreen));
+
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setCustomView(R.layout.switch_lang_layout);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources()
+                .getColor(R.color.colorSearchScreen)));
 
         ButterKnife.bind(this);
 

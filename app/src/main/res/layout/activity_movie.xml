@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorToWatchTabLight"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
     <ScrollView
@@ -29,7 +30,7 @@
 
             <TextView
                 android:id="@+id/title"
-                style="@style/TextBold.DarkGreen.30"
+                style="@style/TextBold.ToWatchTab.30"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -39,7 +40,7 @@
 
             <TextView
                 android:id="@+id/original_title"
-                style="@style/TextItalic.DarkGrey.18"
+                style="@style/TextItalic.MainTextColor.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -73,10 +74,10 @@
 
             <TextView
                 android:id="@+id/imdb"
-                style="@style/TextBold.DarkGreen.18"
+                style="@style/TextBold.ToWatchTabMiddle.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="#FFE135"
+                android:background="@color/colorImdb"
                 android:padding="@dimen/padding_10dp"
                 android:radius="15dp"
                 android:gravity="center"
@@ -87,7 +88,7 @@
 
             <TextView
                 android:id="@+id/tmdb"
-                style="@style/TextBold.MainLight.18"
+                style="@style/TextBold.MainAppLight.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#0E7C61"
@@ -100,7 +101,7 @@
 
             <TextView
                 android:id="@+id/tagline"
-                style="@style/TextBoldItalic.DarkGreen.16"
+                style="@style/TextBoldItalic.ToWatchTabMiddle.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/padding_10dp"
@@ -110,7 +111,7 @@
 
             <TextView
                 android:id="@+id/runtime"
-                style="@style/TextBold.DarkGrey.16"
+                style="@style/TextBold.MainTextColor.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -121,7 +122,7 @@
 
             <TextView
                 android:id="@+id/year"
-                style="@style/TextBold.DarkGrey.16"
+                style="@style/TextBold.MainTextColor.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -132,7 +133,7 @@
 
             <TextView
                 android:id="@+id/genres"
-                style="@style/TextBold.BlueLight.16"
+                style="@style/TextBold.ToWatchTabMiddle.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -149,7 +150,7 @@
 
             <TextView
                 android:id="@+id/overview"
-                style="@style/TextItalic.DarkGrey.18"
+                style="@style/TextItalic.MainTextColor.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/barrier"
@@ -158,7 +159,7 @@
 
             <TextView
                 android:id="@+id/release_date"
-                style="@style/TextBold.DarkGrey.16"
+                style="@style/TextBold.MainTextColor.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -168,7 +169,7 @@
 
             <TextView
                 android:id="@+id/countries"
-                style="@style/TextRegular.DarkGrey.16"
+                style="@style/TextRegular.MainTextColor.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/release_date"
@@ -177,7 +178,7 @@
 
             <TextView
                 android:id="@+id/companies"
-                style="@style/TextRegular.DarkGrey.16"
+                style="@style/TextRegular.MainTextColor.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_10dp"

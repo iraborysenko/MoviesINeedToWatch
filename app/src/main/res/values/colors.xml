@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorDarkGreen">#006666</color>
-    <color name="colorLightBlue">#66b3ff</color>
-    <color name="colorBlue">#0000b3</color>
-    <color name="colorMainLight">#F5FFFA</color>
+    <!--main colors-->
+    <color name="colorMainApp">#1d23d1</color>
+    <color name="colorMainAppMiddle">#4F56F5</color>
+    <color name="colorMainAppLight">#e9e9fc</color>
+
+    <color name="colorSearchScreen">#1370eb</color>
+    <color name="colorSearchScreenMiddle">#71aaf4</color>
+    <color name="colorSearchScreenLight">#e7f1fd</color>
+
+    <color name="colorToWatchTab">#6d17fa</color>
+    <color name="colorToWatchTabMiddle">#a169fc</color>
+    <color name="colorToWatchTabLight">#e7f1fd</color>
+
+    <color name="colorWatchedTab">#0d664f</color>
+    <color name="colorWatchedTabMiddle">#17b58b</color>
+    <color name="colorWatchedTabLight">#e8fcf7</color>
+
+    <!--additional colors-->
     <color name="colorDarkGrey">#545455</color>
-    <color name="colorLightGrey">#D5D5D5</color>
+    <color name="colorLightGrey">#AFAFB6</color>
+    <color name="colorImdb">#FFE135</color>
 
     <!--imdb rating colors-->
     <color name="VeryBad">#992600</color>

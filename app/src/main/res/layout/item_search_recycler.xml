@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/s_movie_title"
-        style="@style/TextBold.Blue.20"
+        style="@style/TextBold.SearchScreen.20"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/s_movie_original_title"
-        style="@style/TextItalic.DarkGrey.16"
+        style="@style/TextItalic.MainTextColor.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/s_movie_genres"
-        style="@style/TextBold.BlueLight.16"
+        style="@style/TextBold.SearchScreenMiddle.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -63,7 +63,7 @@
 
     <TextView
         android:id="@+id/s_movie_tmdb"
-        style="@style/TextBold.DarkGrey.18"
+        style="@style/TextBold.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -75,7 +75,7 @@
 
     <TextView
         android:id="@+id/s_movie_year"
-        style="@style/TextBold.DarkGrey.16"
+        style="@style/TextBold.MainTextColor.16"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"

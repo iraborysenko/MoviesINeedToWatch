@@ -82,7 +82,7 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
     public ToWatchRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                                 int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.to_watch_recycler_item, parent, false);
+                .inflate(R.layout.item_to_watch_recycler, parent, false);
 
         return new ViewHolder(v);
     }

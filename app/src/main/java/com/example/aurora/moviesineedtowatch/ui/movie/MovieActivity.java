@@ -3,7 +3,10 @@ package com.example.aurora.moviesineedtowatch.ui.movie;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.lang;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,11 +54,13 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
     @Inject
     MoviePresenter moviePresenter;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_movie);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorToWatchTab));
 
         mTitle = findViewById(R.id.title);
         mOTitle = findViewById(R.id.original_title);

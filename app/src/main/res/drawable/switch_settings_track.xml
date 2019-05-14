@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-       android:shape="rectangle"
-       android:visible="true"
-       android:dither="true"
-       android:useLevel="false">
+    android:shape="rectangle"
+    android:visible="true"
+    android:dither="true"
+    android:useLevel="false">
 
     <solid
-            android:color="@color/colorMainLight"/>
+        android:color="@color/colorMainAppLight"/>
     <corners
-            android:radius="20dp"/>
+        android:radius="20dp"/>
     <stroke android:width="1dip" android:color="@color/colorDarkGrey" />
     <size
-            android:width="40dp"
-            android:height="10dp" />
+        android:width="40dp"
+        android:height="10dp" />
 </shape>

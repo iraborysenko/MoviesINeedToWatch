@@ -5,11 +5,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSearchScreenLight"
     tools:context=".ui.settings.SettingsActivity">
 
     <TextView
         android:id="@+id/save_via_wifi"
-        style="@style/TextRegular.DarkGrey.18"
+        style="@style/TextRegular.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -37,7 +38,7 @@
 
     <TextView
         android:id="@+id/dark_theme"
-        style="@style/TextRegular.DarkGrey.18"
+        style="@style/TextRegular.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_30dp"
@@ -61,7 +62,7 @@
 
     <TextView
         android:id="@+id/base_list_layout"
-        style="@style/TextRegular.DarkGrey.18"
+        style="@style/TextRegular.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_30dp"
@@ -85,7 +86,7 @@
 
     <TextView
         android:id="@+id/app_language"
-        style="@style/TextRegular.DarkGrey.18"
+        style="@style/TextRegular.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_30dp"
@@ -106,7 +107,7 @@
 
     <TextView
         android:id="@+id/export_movies"
-        style="@style/TextRegular.DarkGrey.18"
+        style="@style/TextRegular.MainTextColor.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
