@@ -14,5 +14,7 @@
     <string name="app_name">MoviesToWatch</string>
     <string name="ru">RU</string>
     <string name="en">EN</string>
+    <string name="search_action">Search Action</string>
+    <string name="search_hint">Поиск…</string>
 
 </resources>

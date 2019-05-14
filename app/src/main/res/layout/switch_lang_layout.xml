@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+
+    <Switch
+        android:id="@+id/switchToEN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:switchTextAppearance="@style/LangSwitch.text"
+        android:showText="true"
+        android:textOff="@string/ru"
+        android:textOn="@string/en"
+        android:thumb="@drawable/switch_language_thumb"
+        android:track="@drawable/switch_language_track"
+        tools:targetApi="lollipop"/>
+
+</RelativeLayout>

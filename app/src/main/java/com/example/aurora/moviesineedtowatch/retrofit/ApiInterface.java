@@ -17,7 +17,7 @@ import retrofit2.http.Query;
  */
 public interface ApiInterface {
     @GET("search/movie")
-    Flowable<SearchResult> getSearchResult(@Query("language") String lang,
+    Observable<SearchResult> getSearchResult(@Query("language") String lang,
                                            @Query("api_key") String apiKey,
                                            @Query("query") String query);
 

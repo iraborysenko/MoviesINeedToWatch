@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
+import android.support.v7.widget.SearchView;
+
 import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 
@@ -21,7 +23,6 @@ public interface SearchScreen {
 
     interface Presenter {
         void recyclerViewListener(SearchRecyclerAdapter mAdapter);
-        void editSearchField(String searchQuery);
-        void clearDisposable();
+        void getResultsBasedOnQuery(SearchView searchView);
     }
 }

@@ -23,7 +23,15 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity" />
-        <activity android:name="com.example.aurora.moviesineedtowatch.ui.search.SearchActivity" />
+        <activity android:name="com.example.aurora.moviesineedtowatch.ui.search.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name="com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity" />
         <activity android:name="com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity" />
     </application>

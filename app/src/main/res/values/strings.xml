@@ -13,6 +13,8 @@
     <string name="export_my_movies_list">Export my movies list</string>
     <string name="to_watch_tab">To Watch</string>
     <string name="watched_tab">Watched</string>
+    <string name="search_action">Search Action</string>
+    <string name="search_hint">Search…</string>
 
     <string-array name="language_list">
         <item>EN</item>

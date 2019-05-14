@@ -1,26 +1,31 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 
 import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 import com.example.aurora.moviesineedtowatch.retrofit.ApiInterface;
-import com.example.aurora.moviesineedtowatch.rxjava.RxJava2ApiCallback;
-import com.example.aurora.moviesineedtowatch.rxjava.RxJava2FlowableApiCallHelper;
 import com.example.aurora.moviesineedtowatch.tools.Constants;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tmdb.SearchResult;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.EN;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.MESSAGE_ERROR_GETTING_DATA;
@@ -49,8 +54,6 @@ public class SearchPresenter implements SearchScreen.Presenter {
         this.mView = mView;
     }
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-
     @Override
     public void recyclerViewListener(SearchRecyclerAdapter mAdapter) {
         mAdapter.setOnItemClickListener(new SearchRecyclerAdapter.ClickListener() {
@@ -67,35 +70,67 @@ public class SearchPresenter implements SearchScreen.Presenter {
     }
 
     @Override
-    public void editSearchField(String searchQuery) {
-        mView.setProgressBarVisible();
+    public void getResultsBasedOnQuery(SearchView searchView) {
+        DisposableObserver<SearchResult> searchResultDisposableObserver =
+                getObservableQuery(searchView)
+                .filter((Predicate<? super String>) s -> !s.equals(""))
+                .debounce(2, TimeUnit.SECONDS)
+                .distinctUntilChanged()
+                .switchMap((Function<String, ObservableSource<SearchResult>>) s ->
+                        apiInterface.getSearchResult((mView.getSwitchValue() ? EN : RU), TMDB_KEY, s))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getObserver());
+    }
 
-        Flowable<SearchResult> flowable =
-                apiInterface.getSearchResult((mView.getSwitchValue()?EN:RU), TMDB_KEY, searchQuery);
-        Disposable disposable = RxJava2FlowableApiCallHelper.call(flowable, new RxJava2ApiCallback<SearchResult>() {
+    private Observable<String> getObservableQuery(SearchView searchView){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onSuccess(SearchResult jsonArray) {
-                mView.setNotificationField(returnTotalResultString(jsonArray.getTotalResults()));
-                FoundMovie[] search = jsonArray.getResults();
+            public boolean onQueryTextSubmit(String query) {
+                mView.setProgressBarVisible();
+                publishSubject.onNext(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mView.setProgressBarVisible();
+                publishSubject.onNext(newText);
+                return true;
+            }
+        });
+
+        return publishSubject;
+    }
+
+    private DisposableObserver<SearchResult> getObserver(){
+        return new DisposableObserver<SearchResult>() {
+
+            @Override
+            public void onNext(SearchResult searchResult) {
+                mView.setNotificationField(returnTotalResultString(searchResult.getTotalResults()));
+                FoundMovie[] search = searchResult.getResults();
                 mView.initRecyclerView(search);
                 mView.setProgressBarInvisible();
             }
+
             @Override
-            public void onFailed(Throwable throwable) {
+            public void onError(@NonNull Throwable e) {
+                e.printStackTrace();
                 if (isOffline())
                     mView.setNotificationField(MESSAGE_NO_CONNECTION);
                 else mView.setNotificationField(MESSAGE_ERROR_GETTING_DATA);
                 mView.setProgressBarInvisible();
             }
-        });
-        mCompositeDisposable.add(disposable);
-    }
 
-    @Override
-    public void clearDisposable() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.dispose();
-        }
+            @Override
+            public void onComplete() {
+                mView.setProgressBarInvisible();
+            }
+        };
     }
 
     private void loadMovieInfo(String movieId) {
