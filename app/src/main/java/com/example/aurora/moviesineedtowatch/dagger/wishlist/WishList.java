@@ -19,4 +19,6 @@ public interface WishList {
     void deleteSelectedMovie(String movieId, String dataLang);
 
     Movie chooseSelectedMovie(String movieId, String dataLang);
+
+    void moveToWatched(String movieId);
 }

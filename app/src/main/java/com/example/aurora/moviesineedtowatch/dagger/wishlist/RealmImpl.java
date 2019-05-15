@@ -64,4 +64,13 @@ public class RealmImpl {
         assert curMovie != null;
         return curMovie;
     }
+
+    void move(String movieId) {
+        mRealm.beginTransaction();
+        Movie movie = mRealm.where(Movie.class).equalTo("id", movieId).findFirst();
+        if (movie != null) {
+            movie.setWatched(true);
+        }
+        mRealm.commitTransaction();
+    }
 }

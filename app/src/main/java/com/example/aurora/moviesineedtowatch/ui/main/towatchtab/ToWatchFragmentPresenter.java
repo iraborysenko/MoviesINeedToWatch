@@ -57,6 +57,11 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
             public void onItemLongClick(View v, String movieId, String dataLang) {
                 wishList.deleteSelectedMovie(movieId, dataLang);
             }
+
+            @Override
+            public void onAddEditButtonClick(String movieId) {
+                wishList.moveToWatched(movieId);
+            }
         });
         return mAdapter;
     }

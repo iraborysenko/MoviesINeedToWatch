@@ -43,4 +43,9 @@ public class WishListImpl implements WishList {
     public Movie chooseSelectedMovie(String movieId, String dataLang) {
         return realmImpl.choose(movieId, dataLang);
     }
+
+    @Override
+    public void moveToWatched(String movieId) {
+        realmImpl.move(movieId);
+    }
 }

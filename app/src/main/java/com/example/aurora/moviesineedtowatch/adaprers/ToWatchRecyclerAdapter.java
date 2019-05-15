@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
     private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        @BindView(R.id.movie_add_edit_button) ImageButton mAddEditButton;
         @BindView(R.id.movie_poster) ImageView mPoster;
         @BindView(R.id.movie_title) TextView mTitle;
         @BindView(R.id.movie_tagline) TextView mTagline;
@@ -135,6 +137,11 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
 
         //get year
         movieViewHolder.mYear.setText(movie.getReleaseDate().subSequence(0, 4));
+
+        //add-edit button click listener
+        movieViewHolder.mAddEditButton.setOnClickListener(view ->
+            clickListener.onAddEditButtonClick(movie.getId())
+        );
     }
 
     @Override
@@ -149,5 +156,6 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
     public interface ClickListener {
         void onItemClick(View v, String movieId, String dataLang);
         void onItemLongClick(View v, String movieId, String dataLang);
+        void onAddEditButtonClick(String movieId);
     }
 }
