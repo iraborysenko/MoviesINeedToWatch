@@ -16,5 +16,7 @@
     <string name="en">EN</string>
     <string name="search_action">Search Action</string>
     <string name="search_hint">Пошук…</string>
+    <string name="my_rating">Мій рейтинг</string>
+    <string name="type_comment">Введіть свій коментар…</string>
 
 </resources>

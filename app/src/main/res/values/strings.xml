@@ -15,6 +15,8 @@
     <string name="watched_tab">Watched</string>
     <string name="search_action">Search Action</string>
     <string name="search_hint">Search…</string>
+    <string name="my_rating">My Rating</string>
+    <string name="type_comment">Type comment here…</string>
 
     <string-array name="language_list">
         <item>EN</item>

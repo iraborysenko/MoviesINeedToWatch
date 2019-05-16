@@ -29,6 +29,9 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -37,19 +40,19 @@ import javax.inject.Inject;
  */
 public class MovieActivity extends AppCompatActivity implements MovieScreen.View {
 
-    private TextView mTitle;
-    private TextView mOTitle;
-    private TextView mIMDb;
-    private TextView mTMDb;
-    private ImageView mImage;
-    private TextView mTagline;
-    private TextView mYear;
-    private TextView mRuntime;
-    private TextView mGenres;
-    private TextView mOverview;
-    private TextView mCountries;
-    private TextView mCompanies;
-    private TextView mReleaseDate;
+    @BindView(R.id.poster) ImageView mImage;
+    @BindView(R.id.title) TextView mTitle;
+    @BindView(R.id.original_title) TextView mOTitle;
+    @BindView(R.id.imdb) TextView mImdb;
+    @BindView(R.id.tmdb) TextView mTmdb;
+    @BindView(R.id.tagline) TextView mTagline;
+    @BindView(R.id.year) TextView mYear;
+    @BindView(R.id.runtime) TextView mRuntime;
+    @BindView(R.id.genres) TextView mGenres;
+    @BindView(R.id.overview) TextView mOverview;
+    @BindView(R.id.countries) TextView mCountries;
+    @BindView(R.id.companies) TextView mCompanies;
+    @BindView(R.id.release_date) TextView mReleaseDate;
 
     @Inject
     MoviePresenter moviePresenter;
@@ -62,19 +65,7 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
         setContentView(R.layout.activity_movie);
         getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorToWatchTab));
 
-        mTitle = findViewById(R.id.title);
-        mOTitle = findViewById(R.id.original_title);
-        mImage = findViewById(R.id.poster);
-        mIMDb = findViewById(R.id.imdb);
-        mTMDb = findViewById(R.id.tmdb);
-        mTagline = findViewById(R.id.tagline);
-        mYear = findViewById(R.id.year);
-        mRuntime = findViewById(R.id.runtime);
-        mGenres = findViewById(R.id.genres);
-        mOverview = findViewById(R.id.overview);
-        mCountries = findViewById(R.id.countries);
-        mCompanies = findViewById(R.id.companies);
-        mReleaseDate = findViewById(R.id.release_date);
+        ButterKnife.bind(this);
 
         DaggerMovieScreenComponent.builder()
                 .movieScreenModule(new MovieScreenModule(this))
@@ -91,8 +82,8 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
 
         mTitle.setText(curMovie.getTitle());
         mOTitle.setText(String.format("%s %s", curMovie.getOriginalLanguage(), curMovie.getOriginalTitle()));
-        mTMDb.setText(curMovie.getVoteAverage());
-        mIMDb.setText(curMovie.getImdb());
+        mTmdb.setText(curMovie.getVoteAverage());
+        mImdb.setText(curMovie.getImdb());
         mRuntime.setText(curMovie.getRuntime());
         mReleaseDate.setText(curMovie.getReleaseDate());
 

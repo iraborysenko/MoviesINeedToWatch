@@ -88,7 +88,7 @@
 
             <TextView
                 android:id="@+id/tmdb"
-                style="@style/TextBold.MainAppLight.18"
+                style="@style/TextBold.ToWatchTabLight.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#0E7C61"
@@ -159,7 +159,7 @@
 
             <TextView
                 android:id="@+id/release_date"
-                style="@style/TextBold.MainTextColor.16"
+                style="@style/TextBold.ToWatchTab.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"

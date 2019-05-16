@@ -49,7 +49,7 @@ public class WatchedFragmentPresenter implements WatchedFragmentScreen.Presenter
         mAdapter.setOnItemClickListener(new WatchedRecyclerAdapter.ClickListener() {
             @Override
             public void onItemClick(View v, String movieId, String dataLang) {
-
+                mView.movieWatchedDetails(movieId, dataLang);
             }
 
             @Override

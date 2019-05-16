@@ -1,173 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="81dp">
+    android:background="@color/colorWatchedTabLight"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/relativeLayout"-->
-        <!--android:layout_width="391dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent">-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.03" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/manage_movie_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_marginStart="149dp"-->
-            <!--android:layout_marginTop="8dp"/>-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.97" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/title_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/manage_movie_title"-->
-            <!--android:layout_below="@+id/manage_movie_title"-->
-            <!--android:layout_marginTop="18dp" />-->
+            <TextView
+                android:id="@+id/title"
+                style="@style/TextBold.WatchedTab.30"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toStartOf="@id/my_rating" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/genres_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/title_movie"-->
-            <!--android:layout_below="@+id/title_movie"-->
-            <!--android:layout_marginTop="12dp" />-->
+            <TextView
+                android:id="@+id/original_title"
+                style="@style/TextItalic.MainTextColor.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/min_height_40dp"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toStartOf="@id/my_rating" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/imdb_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/title_movie"-->
-            <!--android:layout_marginStart="32dp"-->
-            <!--android:layout_toEndOf="@+id/manage_movie_title" />-->
+            <TextView
+                android:id="@+id/my_rating"
+                style="@style/TextBold.WatchedTabLight.18"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorWatchedTabMiddle"
+                android:radius="15dp"
+                android:gravity="center"
+                android:text="@string/my_rating"
+                android:layout_marginTop="@dimen/margin_10dp"
+                app:layout_constraintWidth_percent="0.2"
+                app:layout_constraintTop_toTopOf="@id/title"
+                app:layout_constraintBottom_toBottomOf="@id/original_title"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/year_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignEnd="@+id/imdb_movie"-->
-            <!--android:layout_below="@+id/genres_movie" />-->
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="0dp"
+                android:layout_height="201dp"
+                app:layout_constraintTop_toBottomOf="@id/original_title"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVerticalLeft"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                tools:ignore="ContentDescription" />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/poster_movie"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignTop="@+id/title_movie"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--app:srcCompat="@drawable/noposter"-->
-            <!--tools:ignore="ContentDescription" />-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/add_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignEnd="@+id/year_movie"-->
-            <!--android:layout_below="@+id/poster_movie"-->
-            <!--android:layout_marginEnd="9dp"-->
-            <!--android:layout_marginTop="8dp" />-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.43" />
 
-        <!--<EditText-->
-            <!--android:id="@+id/edit_comment"-->
-            <!--android:layout_width="180dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/poster_movie"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:ems="10"-->
-            <!--android:inputType="textPersonName"-->
-            <!--android:text="@string/comment"-->
-            <!--tools:ignore="LabelFor"-->
-            <!--android:importantForAutofill="no"-->
-            <!--tools:targetApi="o" />-->
+            <TextView
+                android:id="@+id/tagline"
+                style="@style/TextBoldItalic.WatchedTabMiddle.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_10dp"
+                app:layout_constraintTop_toTopOf="@id/poster"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/my_rating"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/imdb_movie"-->
-            <!--android:layout_centerVertical="true" />-->
+            <TextView
+                android:id="@+id/runtime"
+                style="@style/TextBold.MainTextColor.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height_40dp"
+                android:gravity="center_vertical|start"
+                app:layout_constraintTop_toBottomOf="@id/tagline"
+                app:layout_constraintEnd_toStartOf="@id/year"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight" />
 
-        <!--<Button-->
-            <!--android:id="@+id/add_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/add_title"-->
-            <!--android:layout_below="@+id/edit_comment"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:text="@string/add" />-->
+            <TextView
+                android:id="@+id/year"
+                style="@style/TextBold.MainTextColor.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height_40dp"
+                android:gravity="center_vertical|end"
+                app:layout_constraintTop_toBottomOf="@id/tagline"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/runtime" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/edit_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignEnd="@+id/add_button"-->
-            <!--android:layout_below="@+id/add_button" />-->
+            <TextView
+                android:id="@+id/genres"
+                style="@style/TextBold.WatchedTabMiddle.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/runtime"
+                app:layout_constraintEnd_toStartOf="@id/imdb"
+                app:layout_constraintStart_toEndOf="@id/guidelineVerticalRight" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/tagline_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/edit_comment"-->
-            <!--android:layout_below="@+id/edit_title" />-->
+            <TextView
+                android:id="@+id/imdb"
+                style="@style/TextBold.WatchedTabMiddle.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorImdb"
+                android:padding="@dimen/padding_10dp"
+                android:radius="15dp"
+                android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintTop_toBottomOf="@id/year"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintBottom_toBottomOf="@id/poster"
+                app:layout_constraintStart_toEndOf="@id/genres"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/runtime_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignEnd="@+id/tagline_movie"-->
-            <!--android:layout_below="@+id/tagline_movie"-->
-            <!--android:layout_marginTop="8dp" />-->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="poster,genres"
+                tools:layout_editor_absoluteY="289dp" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/overview_movie"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/runtime_movie"-->
-            <!--android:layout_below="@+id/runtime_movie"-->
-            <!--android:layout_marginTop="9dp" />-->
+            <TextView
+                android:id="@+id/comment"
+                style="@style/TextItalic.MainTextColor.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/type_comment"
+                app:layout_constraintTop_toBottomOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
-        <!--<Button-->
-            <!--android:id="@+id/edit_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/tagline_movie"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:layout_toEndOf="@+id/manage_movie_title"-->
-            <!--android:text="@string/edit" />-->
+            <TextView
+                android:id="@+id/overview"
+                style="@style/TextItalic.MainTextColor.18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/comment"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/deleting_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/add_button"-->
-            <!--android:layout_below="@+id/overview_movie"-->
-            <!--android:layout_marginTop="12dp"-->
-            <!--android:text="@string/deleting_movie" />-->
+            <TextView
+                android:id="@+id/release_date"
+                style="@style/TextBold.WatchedTab.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height_40dp"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/question_field"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/tagline_movie"-->
-            <!--android:layout_below="@+id/deleting_title"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:text="@string/delete_question" />-->
+            <TextView
+                android:id="@+id/countries"
+                style="@style/TextRegular.MainTextColor.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/release_date"
+                app:layout_constraintEnd_toStartOf="@id/companies"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"/>
 
-        <!--<ImageButton-->
-            <!--android:id="@+id/delete_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignEnd="@+id/edit_button"-->
-            <!--android:layout_below="@+id/deleting_title"-->
-            <!--android:contentDescription="@string/delete_button"-->
-            <!--app:srcCompat="@android:drawable/ic_menu_delete" />-->
-    <!--</RelativeLayout>-->
+            <TextView
+                android:id="@+id/companies"
+                style="@style/TextRegular.MainTextColor.16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_10dp"
+                app:layout_constraintTop_toBottomOf="@id/release_date"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@id/countries" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

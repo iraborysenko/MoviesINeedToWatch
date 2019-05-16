@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.main.watchedtab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.watchedfragment.DaggerWatchedFragmentScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.watchedfragment.WatchedFragmentScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity;
 
 import java.util.List;
 
@@ -65,6 +67,9 @@ public class WatchedFragment extends Fragment implements WatchedFragmentScreen.V
 
     @Override
     public void movieWatchedDetails(String movieId, String dataLang) {
-
+        Intent intent = new Intent(getActivity(), ManageActivity.class);
+        intent.putExtra("EXTRA_MOVIE_ID", movieId);
+        intent.putExtra("EXTRA_DATA_LANG", dataLang);
+        startActivity(intent);
     }
 }

@@ -53,12 +53,20 @@
         <item name="android:textColor">@color/colorToWatchTabMiddle</item>
     </style>
 
+    <style name="TextBold.ToWatchTabLight">
+        <item name="android:textColor">@color/colorToWatchTabLight</item>
+    </style>
+
     <style name="TextBold.WatchedTab">
         <item name="android:textColor">@color/colorWatchedTab</item>
     </style>
 
     <style name="TextBold.WatchedTabMiddle">
         <item name="android:textColor">@color/colorWatchedTabMiddle</item>
+    </style>
+
+    <style name="TextBold.WatchedTabLight">
+        <item name="android:textColor">@color/colorToWatchTabLight</item>
     </style>
 
     <style name="TextBold.MainTextColor">
@@ -103,6 +111,20 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="TextBold.ToWatchTab.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="TextBold.WatchedTab.30">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TextBold.WatchedTab.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
     <style name="TextBold.ToWatchTabMiddle.18">
         <item name="android:textSize">18sp</item>
     </style>
@@ -122,6 +144,15 @@
 
     <style name="TextBold.WatchedTabMiddle.16">
         <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="TextBold.ToWatchTabLight.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBold.WatchedTabLight.18">
+        <item name="android:textSize">18sp</item>
     </style>
 
 
@@ -161,6 +192,14 @@
     </style>
 
     <style name="TextBoldItalic.ToWatchTabMiddle.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBoldItalic.WatchedTabMiddle.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBoldItalic.WatchedTabMiddle.16">
         <item name="android:textSize">16sp</item>
     </style>
 
