@@ -30,6 +30,16 @@ public class WishListImpl implements WishList {
     }
 
     @Override
+    public List<Movie> findAllToWatch() {
+        return realmImpl.findAllToWatch();
+    }
+
+    @Override
+    public List<Movie> findAllWatched() {
+        return realmImpl.findAllWatched();
+    }
+
+    @Override
     public void addSelectedMovie(Movie movie) {
         realmImpl.add(movie);
     }

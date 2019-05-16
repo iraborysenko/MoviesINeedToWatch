@@ -36,6 +36,18 @@ public class RealmImpl {
         return mRealm.where((Class<T>) Movie.class).findAll();
     }
 
+    <T extends RealmObject> List<T> findAllToWatch() {
+        return mRealm.where((Class<T>) Movie.class)
+                .equalTo("isWatched", false)
+                .findAll();
+    }
+
+    <T extends RealmObject> List<T> findAllWatched() {
+        return mRealm.where((Class<T>) Movie.class)
+                .equalTo("isWatched", true)
+                .findAll();
+    }
+
     public <T extends RealmObject> void addRealmDataChangeListener(List<T> movies,
                                                                    ToWatchRecyclerAdapter mAdapter) {
         RealmResults<T> list = (RealmResults<T>) movies;

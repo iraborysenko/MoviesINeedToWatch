@@ -60,6 +60,7 @@ public class Movie extends RealmObject {
         this.compsArr = compsArr;
         this.countrsArr = countrsArr;
         this.savedLang = savedLang;
+        this.isWatched = false;
     }
 
     public Movie () {}

@@ -40,7 +40,7 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
     }
 
     private List<Movie> getWishList() {
-        return wishList.findAll();
+        return wishList.findAllToWatch();
     }
 
     private ToWatchRecyclerAdapter recyclerViewListener(List<Movie> movies) {
