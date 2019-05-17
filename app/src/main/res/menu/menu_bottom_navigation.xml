@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_to_watch_tab"
+        android:enabled="true"
+        android:title="@string/to_watch_tab"
+        android:icon="@drawable/ic_to_watch_tab"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_watched_tab"
+        android:enabled="true"
+        android:title="@string/watched_tab"
+        android:icon="@drawable/ic_watched_tab"
+        app:showAsAction="ifRoom" />
+</menu>

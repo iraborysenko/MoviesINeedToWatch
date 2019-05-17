@@ -3,7 +3,7 @@ package com.example.aurora.moviesineedtowatch.ui.main;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,11 +25,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView mBottomNavigationView;
+
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
 
     private String previousLocale = "en";
 
@@ -42,20 +42,29 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
 
-//        LocaleHelper localeHelper = new LocaleHelper();
-//        localeHelper.lan();
+        mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_to_watch_tab:
+                    viewPager.setCurrentItem(0);
+                    break;
+                case R.id.action_watched_tab:
+                    viewPager.setCurrentItem(1);
+                    break;
+            }
+            return true;
+        });
     }
 
     public void setupViewPager(ViewPager viewPager) {
         TabsViewPagerAdapter tabsViewPagerAdapter = new TabsViewPagerAdapter(getSupportFragmentManager());
-        tabsViewPagerAdapter.addFragment(new ToWatchFragment(), getString(R.string.to_watch_tab));
-        tabsViewPagerAdapter.addFragment(new WatchedFragment(), getString(R.string.watched_tab));
+        tabsViewPagerAdapter.addFragment(new ToWatchFragment());
+        tabsViewPagerAdapter.addFragment(new WatchedFragment());
         tabsViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(tabsViewPagerAdapter);
     }
 
+    /////=======Tab Menu Part
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_buttons, menu);
@@ -82,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /////=======Language Part
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(Resources resources) {
         Objects.requireNonNull(getSupportActionBar()).setTitle(resources.getString(R.string.movies_to_watch));
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setText(resources.getString(R.string.to_watch_tab));
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setText(resources.getString(R.string.watched_tab));
+        mBottomNavigationView.getMenu().findItem(R.id.action_to_watch_tab).setTitle(resources.getString(R.string.to_watch_tab));
+        mBottomNavigationView.getMenu().findItem(R.id.action_watched_tab).setTitle(resources.getString(R.string.watched_tab));
     }
 }
