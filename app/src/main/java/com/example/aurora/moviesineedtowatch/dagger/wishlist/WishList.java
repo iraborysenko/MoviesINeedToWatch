@@ -12,17 +12,15 @@ import java.util.List;
  */
 public interface WishList {
 
-    List<Movie> findAll();
-
     List<Movie> findAllToWatch();
 
     List<Movie> findAllWatched();
 
     void addSelectedMovie(Movie movie);
 
-    void deleteSelectedMovie(String movieId, String dataLang);
+    void deleteSelectedMovie(String movieId);
 
-    Movie chooseSelectedMovie(String movieId, String dataLang);
+    Movie chooseSelectedMovie(String movieId);
 
-    void moveToWatched(String movieId);
+    void moveToOtherTab(String movieId, Boolean watchedFlag);
 }

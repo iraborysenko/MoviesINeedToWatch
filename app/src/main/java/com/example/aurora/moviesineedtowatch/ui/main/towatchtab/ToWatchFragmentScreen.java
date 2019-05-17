@@ -16,13 +16,13 @@ public interface ToWatchFragmentScreen {
 
         ToWatchRecyclerAdapter initRecyclerView(List<Movie> movies);
 
-        void movieTMDB(String movieId, String dataLang);
+        void movieToWatchDetails(String movieId);
 
     }
 
     interface Presenter {
 
-        void loadMovies();
+        void loadToWatchMovies();
 
     }
 }

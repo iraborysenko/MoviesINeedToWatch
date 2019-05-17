@@ -23,8 +23,8 @@ public class ManagePresenter implements ManageScreen.Presenter {
     }
 
     @Override
-    public void loadWatchedMovie(String movieId, String dataLang) {
-        Movie curMovie = wishList.chooseSelectedMovie(movieId, dataLang);
+    public void loadWatchedMovie(String movieId) {
+        Movie curMovie = wishList.chooseSelectedMovie(movieId);
         mView.setMovieInfo(curMovie);
     }
 }

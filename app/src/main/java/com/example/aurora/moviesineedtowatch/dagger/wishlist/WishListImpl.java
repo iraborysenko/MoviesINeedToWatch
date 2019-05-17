@@ -25,11 +25,6 @@ public class WishListImpl implements WishList {
     }
 
     @Override
-    public List<Movie> findAll() {
-        return realmImpl.findAll();
-    }
-
-    @Override
     public List<Movie> findAllToWatch() {
         return realmImpl.findAllToWatch();
     }
@@ -45,17 +40,17 @@ public class WishListImpl implements WishList {
     }
 
     @Override
-    public void deleteSelectedMovie(String movieId, String dataLang) {
-        realmImpl.delete(movieId, dataLang);
+    public void deleteSelectedMovie(String movieId) {
+        realmImpl.delete(movieId);
     }
 
     @Override
-    public Movie chooseSelectedMovie(String movieId, String dataLang) {
-        return realmImpl.choose(movieId, dataLang);
+    public Movie chooseSelectedMovie(String movieId) {
+        return realmImpl.choose(movieId);
     }
 
     @Override
-    public void moveToWatched(String movieId) {
-        realmImpl.move(movieId);
+    public void moveToOtherTab(String movieId, Boolean watchedFlag) {
+        realmImpl.move(movieId, watchedFlag);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.aurora.moviesineedtowatch.ui.main.towatchtab;
 
-import android.view.View;
-
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
@@ -34,7 +32,7 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
 
 
     @Override
-    public void loadMovies(){
+    public void loadToWatchMovies(){
         List<Movie> movies = getWishList();
         realmImpl.addRealmDataChangeListener(movies, recyclerViewListener(movies));
     }
@@ -49,18 +47,23 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
 
         mAdapter.setOnItemClickListener(new ToWatchRecyclerAdapter.ClickListener() {
             @Override
-            public void onItemClick(View v, String movieId, String dataLang) {
-                mView.movieTMDB(movieId, dataLang);
-            }
-
-            @Override
-            public void onItemLongClick(View v, String movieId, String dataLang) {
-                wishList.deleteSelectedMovie(movieId, dataLang);
+            public void onItemClick(String movieId) {
+                mView.movieToWatchDetails(movieId);
             }
 
             @Override
             public void onAddEditButtonClick(String movieId) {
-                wishList.moveToWatched(movieId);
+                wishList.moveToOtherTab(movieId, true);
+            }
+
+            @Override
+            public void onMoveToOtherTab(String movieId) {
+                wishList.moveToOtherTab(movieId, true);
+            }
+
+            @Override
+            public void onDeleteItem(String movieId) {
+                wishList.deleteSelectedMovie(movieId);
             }
         });
         return mAdapter;

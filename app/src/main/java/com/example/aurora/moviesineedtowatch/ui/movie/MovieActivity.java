@@ -72,9 +72,8 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
                 .build().inject(this);
 
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
-        String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
 
-        moviePresenter.loadSelectedMovie(movieId, dataLang);
+        moviePresenter.loadToWatchedMovie(movieId);
     }
 
     @Override
@@ -125,7 +124,7 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mGenres.setText(String.valueOf(genresString.toString()));
+        mGenres.setText(genresString.toString());
 
         //get countries
         StringBuilder countriesString = new StringBuilder();

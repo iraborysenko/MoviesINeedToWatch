@@ -3,6 +3,7 @@ package com.example.aurora.moviesineedtowatch.adaprers;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.adaprers.swipe.ItemTouchAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
@@ -34,13 +36,14 @@ import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
  * Date: 04/06/18
  * Time: 19:13
  */
-public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecyclerAdapter.ViewHolder> {
+public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecyclerAdapter.ViewHolder>
+        implements ItemTouchAdapter {
 
     private static ClickListener clickListener;
     private static List<Movie> mMovies;
     private Context mContext;
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.movie_add_edit_button) ImageButton mAddEditButton;
         @BindView(R.id.movie_poster) ImageView mPoster;
         @BindView(R.id.movie_title) TextView mTitle;
@@ -54,7 +57,6 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
         ViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
             ButterKnife.bind(this, v);
         }
 
@@ -62,15 +64,7 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
         public void onClick(View v) {
             movieId = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getId();
             dataLang = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getSavedLang();
-            clickListener.onItemClick(v, movieId, dataLang);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            movieId = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getId();
-            dataLang = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getSavedLang();
-            clickListener.onItemLongClick(v, movieId, dataLang);
-            return true;
+            clickListener.onItemClick(movieId);
         }
     }
 
@@ -154,8 +148,18 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<ToWatchRecycler
     }
 
     public interface ClickListener {
-        void onItemClick(View v, String movieId, String dataLang);
-        void onItemLongClick(View v, String movieId, String dataLang);
+        void onItemClick(String movieId);
         void onAddEditButtonClick(String movieId);
+        void onMoveToOtherTab(String movieId);
+        void onDeleteItem(String movieId);
+    }
+
+    @Override
+    public void onItemSwiped(int position, int direction) {
+        if (direction == ItemTouchHelper.START) {
+            clickListener.onDeleteItem(mMovies.get(position).getId());
+        } else if (direction == ItemTouchHelper.END) {
+            clickListener.onMoveToOtherTab(mMovies.get(position).getId());
+        }
     }
 }

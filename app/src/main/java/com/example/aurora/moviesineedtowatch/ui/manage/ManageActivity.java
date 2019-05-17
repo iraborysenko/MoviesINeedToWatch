@@ -73,9 +73,8 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
                 .build().inject(this);
 
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
-        String dataLang = getIntent().getStringExtra("EXTRA_DATA_LANG");
 
-        mPresenter.loadWatchedMovie(movieId, dataLang);
+        mPresenter.loadWatchedMovie(movieId);
     }
 
     @Override

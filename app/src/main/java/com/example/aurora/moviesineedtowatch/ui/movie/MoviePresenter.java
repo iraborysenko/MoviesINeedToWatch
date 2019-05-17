@@ -24,8 +24,8 @@ public class MoviePresenter implements MovieScreen.Presenter {
     }
 
     @Override
-    public void loadSelectedMovie(String movieId, String dataLang) {
-        Movie curMovie = wishList.chooseSelectedMovie(movieId, dataLang);
+    public void loadToWatchedMovie(String movieId) {
+        Movie curMovie = wishList.chooseSelectedMovie(movieId);
         mView.setMovieInfo(curMovie);
     }
 }

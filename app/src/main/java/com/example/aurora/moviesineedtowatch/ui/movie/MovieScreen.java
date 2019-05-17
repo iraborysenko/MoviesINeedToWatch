@@ -10,10 +10,14 @@ import com.example.aurora.moviesineedtowatch.tmdb.Movie;
  */
 public interface MovieScreen {
     interface View {
+
         void setMovieInfo(Movie curMovie);
+
     }
 
     interface Presenter {
-        void loadSelectedMovie(String movieId, String dataLang);
+
+        void loadToWatchedMovie(String movieId);
+
     }
 }

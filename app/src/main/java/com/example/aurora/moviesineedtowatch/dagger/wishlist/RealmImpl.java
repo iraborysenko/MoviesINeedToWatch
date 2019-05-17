@@ -33,10 +33,6 @@ public class RealmImpl {
         mRealm.commitTransaction();
     }
 
-    <T extends RealmObject> List<T> findAll() {
-        return mRealm.where((Class<T>) Movie.class).findAll();
-    }
-
     <T extends RealmObject> List<T> findAllToWatch() {
         return mRealm.where((Class<T>) Movie.class)
                 .equalTo("isWatched", false)
@@ -65,30 +61,28 @@ public class RealmImpl {
         mRealm.close();
     }
 
-    void delete(String movieId, String dataLang) {
+    void delete(String movieId) {
         mRealm.beginTransaction();
         RealmResults<Movie> result = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
-                .equalTo("savedLang", dataLang)
                 .findAll();
         result.deleteAllFromRealm();
         mRealm.commitTransaction();
     }
 
-    Movie choose(String movieId, String dataLang) {
+    Movie choose(String movieId) {
         Movie curMovie = mRealm.where(Movie.class)
                 .equalTo("id", movieId)
-                .equalTo("savedLang", dataLang)
                 .findFirst();
         assert curMovie != null;
         return curMovie;
     }
 
-    void move(String movieId) {
+    void move(String movieId, Boolean watchedFlag) {
         mRealm.beginTransaction();
         Movie movie = mRealm.where(Movie.class).equalTo("id", movieId).findFirst();
         if (movie != null) {
-            movie.setWatched(true);
+            movie.setWatched(watchedFlag);
         }
         mRealm.commitTransaction();
     }

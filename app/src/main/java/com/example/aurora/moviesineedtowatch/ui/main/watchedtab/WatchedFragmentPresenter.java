@@ -1,7 +1,5 @@
 package com.example.aurora.moviesineedtowatch.ui.main.watchedtab;
 
-import android.view.View;
-
 import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
@@ -47,15 +45,22 @@ public class WatchedFragmentPresenter implements WatchedFragmentScreen.Presenter
         WatchedRecyclerAdapter mAdapter = mView.initRecyclerView(movies);
 
         mAdapter.setOnItemClickListener(new WatchedRecyclerAdapter.ClickListener() {
+
             @Override
-            public void onItemClick(View v, String movieId, String dataLang) {
-                mView.movieWatchedDetails(movieId, dataLang);
+            public void onItemClick(String movieId) {
+                mView.movieWatchedDetails(movieId);
             }
 
             @Override
-            public void onItemLongClick(View v, String movieId, String dataLang) {
-                wishList.deleteSelectedMovie(movieId, dataLang);
+            public void onMoveToOtherTab(String movieId) {
+                wishList.moveToOtherTab(movieId, false);
             }
+
+            @Override
+            public void onDeleteItem(String movieId) {
+                wishList.deleteSelectedMovie(movieId);
+            }
+
         });
         return mAdapter;
     }

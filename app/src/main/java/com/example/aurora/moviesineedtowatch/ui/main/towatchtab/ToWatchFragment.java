@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.adaprers.swipe.ItemTouchCallback;
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.DaggerToWatchFragmentScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.ToWatchFragmentScreenModule;
@@ -53,15 +55,14 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_towatch, container, false);
         ButterKnife.bind(this, view);
-        mPresenter.loadMovies();
+        mPresenter.loadToWatchMovies();
         return view;
     }
 
     @Override
-    public void movieTMDB(String movieId, String dataLang) {
+    public void movieToWatchDetails(String movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra("EXTRA_MOVIE_ID", movieId);
-        intent.putExtra("EXTRA_DATA_LANG", dataLang);
         startActivity(intent);
     }
 
@@ -70,6 +71,10 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         final ToWatchRecyclerAdapter mAdapter = new ToWatchRecyclerAdapter(movies, getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelper.Callback callback = new ItemTouchCallback(mAdapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         return mAdapter;
     }
 }

@@ -16,7 +16,7 @@ public interface WatchedFragmentScreen {
 
         WatchedRecyclerAdapter initRecyclerView(List<Movie> movies);
 
-        void movieWatchedDetails(String movieId, String dataLang);
+        void movieWatchedDetails(String movieId);
 
     }
 
