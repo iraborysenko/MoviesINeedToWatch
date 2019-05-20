@@ -5,8 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +32,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.lang;
@@ -53,10 +59,15 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     @BindView(R.id.companies) TextView mCompanies;
     @BindView(R.id.release_date) TextView mReleaseDate;
     @BindView(R.id.comment) TextView mComment;
+    @BindView(R.id.type_comment_edit_text) EditText mEditTextComment;
+    @BindView(R.id.save_comment_button) ImageButton mSaveCommentButton;
     @BindView(R.id.my_rating) TextView mMyRating;
+    @BindView(R.id.rating_picker) NumberPicker ratingPicker;
 
     @Inject
     ManagePresenter mPresenter;
+
+    final String[] values= {"0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -72,9 +83,60 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
                 .manageScreenModule(new ManageScreenModule(this))
                 .build().inject(this);
 
-        String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
+        setupRatingPicker();
 
+        mEditTextComment.setOnKeyListener((v, keyCode, event) -> {
+            if(event.getAction() == KeyEvent.ACTION_DOWN &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                hideEditText();
+                return true;
+            }
+            return false;
+        });
+
+        String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
         mPresenter.loadWatchedMovie(movieId);
+    }
+
+    private void setupRatingPicker() {
+        ratingPicker.setMinValue(0);
+        ratingPicker.setMaxValue(values.length-1);
+        ratingPicker.setValue(values.length-3);
+        ratingPicker.setDisplayedValues(values);
+        ratingPicker.setWrapSelectorWheel(true);
+    }
+
+    @OnClick(R.id.rating_picker)
+    void setMyRating() {
+        String selected = values[ratingPicker.getValue()];
+        mMyRating.setText(selected);
+        mMyRating.setBackgroundColor(getResources()
+                .getColor(Extensions.chooseColor(String.valueOf(ratingPicker.getValue()))));
+        ratingPicker.setVisibility(View.GONE);
+    }
+
+    @OnLongClick(R.id.my_rating)
+    boolean displayRatingPicker() {
+        ratingPicker.setVisibility(View.VISIBLE);
+        return false;
+    }
+
+    @OnLongClick(R.id.comment)
+    boolean displayEditText() {
+        mComment.setVisibility(View.GONE);
+        mEditTextComment.setVisibility(View.VISIBLE);
+        mSaveCommentButton.setVisibility(View.VISIBLE);
+        Extensions.showSoftKeyboard(this, mEditTextComment);
+        return false;
+    }
+
+    @OnClick(R.id.save_comment_button)
+    void hideEditText() {
+        Extensions.hideSoftKeyboard(this, mSaveCommentButton);
+        mEditTextComment.setVisibility(View.GONE);
+        mSaveCommentButton.setVisibility(View.GONE);
+        mComment.setVisibility(View.VISIBLE);
+        mComment.setText(mEditTextComment.getText().toString());
     }
 
     @Override
@@ -123,7 +185,7 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mGenres.setText(String.valueOf(genresString.toString()));
+        mGenres.setText(genresString.toString());
 
         //get countries
         StringBuilder countriesString = new StringBuilder();

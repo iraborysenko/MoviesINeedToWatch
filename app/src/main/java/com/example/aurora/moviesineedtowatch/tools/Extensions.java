@@ -1,8 +1,12 @@
 package com.example.aurora.moviesineedtowatch.tools;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.aurora.moviesineedtowatch.R;
 
@@ -24,6 +28,20 @@ public class Extensions {
 
     public static String returnAddMovieString(String movieTitle) {
         return "Movie \""+ movieTitle + "\" added to the wish list";
+    }
+
+    public static void showSoftKeyboard(Activity activity, View view) {
+        if(view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity, View view) {
+        final InputMethodManager imm;
+        imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static String bitmapToString(Bitmap in){

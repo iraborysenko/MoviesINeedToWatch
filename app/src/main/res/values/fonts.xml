@@ -78,6 +78,10 @@
         <item name="android:textColor">@color/colorDarkGrey</item>
     </style>
 
+    <style name="TextItalic.WatchedTabMiddle">
+        <item name="android:textColor">@color/colorWatchedTabMiddle</item>
+    </style>
+
     <!--bold italic-->
     <style name="TextBoldItalic.MainTextColor">
         <item name="android:textColor">@color/colorDarkGrey</item>
@@ -210,5 +214,9 @@
 
     <style name="TextItalic.MainTextColor.16">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextItalic.WatchedTabMiddle.18">
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>
