@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -62,7 +63,8 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     @BindView(R.id.type_comment_edit_text) EditText mEditTextComment;
     @BindView(R.id.save_comment_button) ImageButton mSaveCommentButton;
     @BindView(R.id.my_rating) TextView mMyRating;
-    @BindView(R.id.rating_picker) NumberPicker ratingPicker;
+    @BindView(R.id.rating_picker) NumberPicker mRatingPicker;
+    @BindView(R.id.move_movie_button) Button mMoveMovieButton;
 
     @Inject
     ManagePresenter mPresenter;
@@ -99,25 +101,25 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     }
 
     private void setupRatingPicker() {
-        ratingPicker.setMinValue(0);
-        ratingPicker.setMaxValue(values.length-1);
-        ratingPicker.setValue(values.length-3);
-        ratingPicker.setDisplayedValues(values);
-        ratingPicker.setWrapSelectorWheel(true);
+        mRatingPicker.setMinValue(0);
+        mRatingPicker.setMaxValue(values.length-1);
+        mRatingPicker.setValue(values.length-3);
+        mRatingPicker.setDisplayedValues(values);
+        mRatingPicker.setWrapSelectorWheel(true);
     }
 
     @OnClick(R.id.rating_picker)
     void setMyRating() {
-        String selected = values[ratingPicker.getValue()];
+        String selected = values[mRatingPicker.getValue()];
         mMyRating.setText(selected);
         mMyRating.setBackgroundColor(getResources()
-                .getColor(Extensions.chooseColor(String.valueOf(ratingPicker.getValue()))));
-        ratingPicker.setVisibility(View.GONE);
+                .getColor(Extensions.chooseColor(String.valueOf(mRatingPicker.getValue()))));
+        mRatingPicker.setVisibility(View.GONE);
     }
 
     @OnLongClick(R.id.my_rating)
     boolean displayRatingPicker() {
-        ratingPicker.setVisibility(View.VISIBLE);
+        mRatingPicker.setVisibility(View.VISIBLE);
         return false;
     }
 
@@ -137,6 +139,11 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
         mSaveCommentButton.setVisibility(View.GONE);
         mComment.setVisibility(View.VISIBLE);
         mComment.setText(mEditTextComment.getText().toString());
+    }
+
+    @OnClick(R.id.move_movie_button)
+    void saveMovieData() {
+
     }
 
     @Override

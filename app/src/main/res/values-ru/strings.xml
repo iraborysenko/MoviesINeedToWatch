@@ -18,5 +18,6 @@
     <string name="search_hint">Поиск…</string>
     <string name="my_rating">Мой рейтинг</string>
     <string name="type_comment">Введите свой комментарий…</string>
+    <string name="move_to_watched_button">Добавить в просмотренные</string>
 
 </resources>

@@ -17,6 +17,7 @@
     <string name="search_hint">Search…</string>
     <string name="my_rating">My Rating</string>
     <string name="type_comment">Type comment here…</string>
+    <string name="move_to_watched_button">Move to Watched</string>
 
     <string-array name="language_list">
         <item>EN</item>
