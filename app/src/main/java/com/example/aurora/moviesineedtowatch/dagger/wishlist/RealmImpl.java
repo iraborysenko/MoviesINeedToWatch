@@ -86,4 +86,15 @@ public class RealmImpl {
         }
         mRealm.commitTransaction();
     }
+
+    void moveWithData(String movieId, String commentStr, String myRatingStr) {
+        mRealm.beginTransaction();
+        Movie movie = mRealm.where(Movie.class).equalTo("id", movieId).findFirst();
+        if (movie != null) {
+            movie.setWatched(true);
+            movie.setComment(commentStr);
+            movie.setMyRating(myRatingStr);
+        }
+        mRealm.commitTransaction();
+    }
 }

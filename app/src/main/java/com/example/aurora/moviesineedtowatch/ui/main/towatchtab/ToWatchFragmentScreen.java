@@ -14,6 +14,8 @@ import java.util.List;
 public interface ToWatchFragmentScreen {
     interface View {
 
+        void movieAddEditDetails(String movieId);
+
         ToWatchRecyclerAdapter initRecyclerView(List<Movie> movies);
 
         void movieToWatchDetails(String movieId);

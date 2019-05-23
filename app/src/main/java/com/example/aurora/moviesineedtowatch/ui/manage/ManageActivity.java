@@ -70,6 +70,7 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     ManagePresenter mPresenter;
 
     final String[] values= {"0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    String movieId;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -96,7 +97,7 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
             return false;
         });
 
-        String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
+        movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
         mPresenter.loadWatchedMovie(movieId);
     }
 
@@ -142,8 +143,15 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     }
 
     @OnClick(R.id.move_movie_button)
-    void saveMovieData() {
-
+    void saveUserData() {
+        String commentStr = null;
+        String myRatingStr = null;
+        if(!Objects.equals(mComment.getText().toString(), getResources().getString(R.string.type_comment)))
+            commentStr = mComment.getText().toString();
+        if(!Objects.equals(mMyRating.getText().toString(), getResources().getString(R.string.my_rating)))
+            myRatingStr = mMyRating.getText().toString();
+        mPresenter.saveUserData(movieId, commentStr, myRatingStr);
+        finish();
     }
 
     @Override
@@ -221,5 +229,16 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
             for (String token : tokens) companiesString.append(token).append("\n");
         }
         mCompanies.setText(companiesString.toString().trim());
+
+        //get comment
+        if (curMovie.getComment()!=null)
+            mComment.setText(curMovie.getComment());
+
+        //get rating
+        if (curMovie.getMyRating()!=null) {
+            mMyRating.setBackgroundColor(getResources()
+                    .getColor(Extensions.chooseColor(String.valueOf(curMovie.getMyRating()))));
+            mMyRating.setText(curMovie.getMyRating());
+        } else mMyRating.setText(getResources().getString(R.string.my_rating));
     }
 }

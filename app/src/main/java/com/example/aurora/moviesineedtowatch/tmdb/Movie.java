@@ -32,7 +32,7 @@ public class Movie extends RealmObject {
     private String compsArr;
     private String countrsArr;
 
-    private float myRating;
+    private String myRating;
     private Boolean isWatched;
     private String comment;
 
@@ -209,11 +209,11 @@ public class Movie extends RealmObject {
         this.savedLang = savedLang;
     }
 
-    public float getMyRating() {
+    public String getMyRating() {
         return myRating;
     }
 
-    public void setMyRating(float myRating) {
+    public void setMyRating(String myRating) {
         this.myRating = myRating;
     }
 

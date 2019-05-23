@@ -17,6 +17,7 @@ import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.DaggerToWatchFragmentScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.ToWatchFragmentScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 
 import java.util.List;
@@ -62,6 +63,13 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
     @Override
     public void movieToWatchDetails(String movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra("EXTRA_MOVIE_ID", movieId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void movieAddEditDetails(String movieId) {
+        Intent intent = new Intent(getActivity(), ManageActivity.class);
         intent.putExtra("EXTRA_MOVIE_ID", movieId);
         startActivity(intent);
     }

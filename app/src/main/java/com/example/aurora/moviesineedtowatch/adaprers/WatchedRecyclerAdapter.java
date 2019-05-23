@@ -102,10 +102,11 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<WatchedRecycler
                 .getColor(Extensions.chooseColor(movie.getImdb())));
 
         //get my rating and according color
-        if (movie.getMyRating()==0.0f) {
+        if (movie.getMyRating()==null) {
             movieViewHolder.mMyRating.setVisibility(View.GONE);
         } else {
-            movieViewHolder.mMyRating.setText(String.valueOf(movie.getMyRating()));
+            movieViewHolder.mMyRating.setVisibility(View.VISIBLE);
+            movieViewHolder.mMyRating.setText(movie.getMyRating());
             movieViewHolder.mMyRating.setBackgroundColor(mContext.getResources()
                     .getColor(Extensions.chooseColor(String.valueOf(movie.getMyRating()))));
         }

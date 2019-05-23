@@ -27,4 +27,9 @@ public class ManagePresenter implements ManageScreen.Presenter {
         Movie curMovie = wishList.chooseSelectedMovie(movieId);
         mView.setMovieInfo(curMovie);
     }
+
+    @Override
+    public void saveUserData(String movieId, String commentStr, String myRatingStr) {
+        wishList.saveUserData(movieId, commentStr, myRatingStr);
+    }
 }

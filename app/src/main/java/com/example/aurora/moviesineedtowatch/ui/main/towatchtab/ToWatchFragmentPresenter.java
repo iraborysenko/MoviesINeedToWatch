@@ -53,7 +53,7 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
 
             @Override
             public void onAddEditButtonClick(String movieId) {
-                wishList.moveToOtherTab(movieId, true);
+                mView.movieAddEditDetails(movieId);
             }
 
             @Override

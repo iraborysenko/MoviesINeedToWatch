@@ -53,4 +53,9 @@ public class WishListImpl implements WishList {
     public void moveToOtherTab(String movieId, Boolean watchedFlag) {
         realmImpl.move(movieId, watchedFlag);
     }
+
+    @Override
+    public void saveUserData(String movieId, String commentStr, String myRatingStr) {
+        realmImpl.moveWithData(movieId, commentStr, myRatingStr);
+    }
 }

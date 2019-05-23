@@ -19,5 +19,6 @@ public interface ManageScreen {
 
         void loadWatchedMovie(String movieId);
 
+        void saveUserData(String movieId, String commentStr, String myRatingStr);
     }
 }
