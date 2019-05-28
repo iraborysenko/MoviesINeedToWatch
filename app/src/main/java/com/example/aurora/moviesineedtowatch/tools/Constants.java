@@ -13,7 +13,6 @@ import java.util.Locale;
  */
 public class Constants {
     public final static String DEBUG = "TMDBQM";
-    public final static String SEE = "LOOK HERE";
 
     public static final String TMDB_KEY = BuildConfig.TMDB_KEY;
 
@@ -23,9 +22,13 @@ public class Constants {
     public final static String[] IMAGE_SIZE = {"w92", "w154", "w185", "w342", "w500", "w780", "original"}; //https://api.themoviedb.org/3/movie/1948/images?api_key=###
     public final static String EN = "en-US";
     public final static String RU = "ru-RU";
+
     public final static String SHARED_REFERENCES = "com.moviestowatch.PREFERENCE_FILE_KEY";
     public final static String SHARED_LANG_KEY = "lang_key";
     final static String SHARED_SELECTED_LANGUAGE = "lang_selected";
+    public final static String SHARED_TO_WATCH_LAYOUT = "lang_to_watch_layout";
+    public final static String REDUCED_LAYOUT = "reduced_layout";
+    public final static String INCREASED_LAYOUT = "increased_layout";
 
     public final static String MESSAGE_NO_CONNECTION = "No internet connection available";
     public final static String MESSAGE_ERROR_GETTING_DATA = "Error receiving data by your request";
@@ -37,7 +40,6 @@ public class Constants {
             put("false", new Locale("ru"));
             put("true", Locale.ENGLISH);
         }
-
     };
 
     public final static HashMap<Integer, String[]> genres = new HashMap<Integer, String[]>() {

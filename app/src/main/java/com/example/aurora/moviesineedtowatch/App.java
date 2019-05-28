@@ -7,6 +7,7 @@ import com.crashlytics.android.Crashlytics;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.AppModule;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.app.DaggerAppComponent;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 
 import io.fabric.sdk.android.Fabric;
@@ -31,6 +32,7 @@ public class App extends Application {
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build();
     }
 

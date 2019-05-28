@@ -1,8 +1,11 @@
 package com.example.aurora.moviesineedtowatch.dagger.blocks.app;
 
 import com.example.aurora.moviesineedtowatch.App;
+import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
+import com.example.aurora.moviesineedtowatch.ui.main.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -14,10 +17,12 @@ import dagger.Component;
  * Time: 09:39
  */
 @Singleton
-@Component(modules = AppModule.class)
+@Component(modules = {AppModule.class, SharedPreferencesModule.class})
 public interface AppComponent {
     void inject(App app);
     void inject(WishListImpl wishList);
     void inject(MovieDeserializer movieDeserializer);
+    void inject(MainActivity mainActivity);
+    void inject(ToWatchRecyclerAdapter toWatchRecyclerAdapter);
 }
 

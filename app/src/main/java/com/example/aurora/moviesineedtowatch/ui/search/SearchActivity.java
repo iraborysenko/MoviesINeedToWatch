@@ -79,12 +79,11 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
 
         ButterKnife.bind(this);
 
-        mSwitch.setChecked(sharedPreferencesSettings.getData(SHARED_LANG_KEY));
+        mSwitch.setChecked(sharedPreferencesSettings.getBooleanData(SHARED_LANG_KEY));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search,menu);
-
 
         SearchView searchView;
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -93,7 +92,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(550);
-        searchView.setQueryHint("Enter Movie name..");
+        searchView.setQueryHint("Enter Movie title...");
 
         searchPresenter.getResultsBasedOnQuery(searchView);
 
@@ -102,7 +101,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
 
     @OnClick(R.id.switchToEN)
     void saveSwitchState() {
-        sharedPreferencesSettings.putData(SHARED_LANG_KEY, mSwitch.isChecked());
+        sharedPreferencesSettings.putBooleanData(SHARED_LANG_KEY, mSwitch.isChecked());
     }
 
     @Override

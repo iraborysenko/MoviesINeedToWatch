@@ -14,11 +14,18 @@ import android.view.ViewGroup;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprers.swipe.ItemTouchCallback;
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.DaggerToWatchFragmentScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.ToWatchFragmentScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForToWatchFragment;
 import com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -40,6 +47,9 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
     @Inject
     ToWatchFragmentPresenter mPresenter;
 
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
+
     @BindView(R.id.to_watch_recycler_view)
     RecyclerView mRecyclerView;
 
@@ -48,6 +58,7 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
         super.onCreate(savedInstanceState);
         DaggerToWatchFragmentScreenComponent.builder()
                 .toWatchFragmentScreenModule(new ToWatchFragmentScreenModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build().inject(this);
     }
 
@@ -84,5 +95,22 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         return mAdapter;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventsForToWatchFragment event) {
+        mPresenter.updateList(mRecyclerView);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

@@ -10,20 +10,34 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprers.TabsViewPagerAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForToWatchFragment;
 import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragment;
 import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 import com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.aurora.moviesineedtowatch.tools.Constants.INCREASED_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.REDUCED_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_TO_WATCH_LAYOUT;
+
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
 
     @BindView(R.id.bottom_navigation)
     BottomNavigationView mBottomNavigationView;
@@ -38,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.movies_to_watch);
+
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
 
         ButterKnife.bind(this);
 
@@ -75,8 +91,25 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_movie_layout_button:
-                return true;
-
+                if(!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
+                    sharedPreferencesSettings.putStringData(SHARED_TO_WATCH_LAYOUT, INCREASED_LAYOUT);
+                    item.setIcon(R.drawable.ic_increased_list);
+                } else {
+                    switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
+                        case INCREASED_LAYOUT:
+                            sharedPreferencesSettings.putStringData(SHARED_TO_WATCH_LAYOUT, REDUCED_LAYOUT);
+                            item.setIcon(R.drawable.ic_increased_list);
+                            break;
+                        case REDUCED_LAYOUT:
+                            sharedPreferencesSettings.putStringData(SHARED_TO_WATCH_LAYOUT, INCREASED_LAYOUT);
+                            item.setIcon(R.drawable.ic_reduced_list);
+                            break;
+                        default:
+                            break;
+                    }
+                    EventBus.getDefault().post(new EventsForToWatchFragment());
+                    return true;
+                }
             case R.id.search_button:
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;

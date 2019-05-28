@@ -19,11 +19,35 @@ public class SharedPreferencesSettings {
         this.mSharedPreferences = mSharedPreferences;
     }
 
-    public void putData(String key, Boolean data) {
+    public Boolean contains(String set) {
+        return getPrefs().contains(set);
+    }
+
+    public void putBooleanData(String key, Boolean data) {
         mSharedPreferences.edit().putBoolean(key,data).apply();
     }
 
-    public Boolean getData(String key) {
+    public Boolean getBooleanData(String key) {
         return mSharedPreferences.getBoolean(key,false);
+    }
+
+    public void putStringData(String key, String data) {
+        mSharedPreferences.edit().putString(key,data).apply();
+    }
+
+    public String getStringData(String key) {
+        return mSharedPreferences.getString(key,null);
+    }
+
+    private SharedPreferences getPrefs() {
+        return mSharedPreferences;
+    }
+
+    public void registerPrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        getPrefs().registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void unregisterPrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        getPrefs().unregisterOnSharedPreferenceChangeListener(listener);
     }
 }
