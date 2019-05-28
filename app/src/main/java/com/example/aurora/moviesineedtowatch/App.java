@@ -10,6 +10,10 @@ import com.example.aurora.moviesineedtowatch.dagger.blocks.app.DaggerAppComponen
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -23,6 +27,7 @@ import io.realm.RealmConfiguration;
 public class App extends Application {
 
     private AppComponent mAppComponent;
+    public static final List<String> LANG_VALUES = Arrays.asList("en", "ru", "uk");
 
     @Override
     public void onCreate() {
@@ -38,7 +43,13 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase, "en"));
+        String defaultLang;
+        if (LANG_VALUES.contains(Locale.getDefault().getLanguage())) {
+            defaultLang = Locale.getDefault().getLanguage();
+        } else {
+            defaultLang = "en";
+        }
+        super.attachBaseContext(LocaleHelper.onAttach(newBase, defaultLang));
     }
 
     protected void initRealm() {
