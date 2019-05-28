@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorToWatchTabLight"
+    android:background="?attr/colorToWatchTabBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
     <ScrollView
@@ -40,7 +40,7 @@
 
             <TextView
                 android:id="@+id/original_title"
-                style="@style/TextItalic.MainTextColor.18"
+                style="@style/TextItalic.ToWatchTabText.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -88,7 +88,7 @@
 
             <TextView
                 android:id="@+id/tmdb"
-                style="@style/TextBold.ToWatchTabLight.18"
+                style="@style/TextBold.ToWatchTabBackground.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#0E7C61"
@@ -111,7 +111,7 @@
 
             <TextView
                 android:id="@+id/runtime"
-                style="@style/TextBold.MainTextColor.16"
+                style="@style/TextBold.ToWatchTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -122,7 +122,7 @@
 
             <TextView
                 android:id="@+id/year"
-                style="@style/TextBold.MainTextColor.16"
+                style="@style/TextBold.ToWatchTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -150,7 +150,7 @@
 
             <TextView
                 android:id="@+id/overview"
-                style="@style/TextItalic.MainTextColor.18"
+                style="@style/TextItalic.ToWatchTabText.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/barrier"
@@ -169,7 +169,7 @@
 
             <TextView
                 android:id="@+id/countries"
-                style="@style/TextRegular.MainTextColor.16"
+                style="@style/TextRegular.ToWatchTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/release_date"
@@ -178,7 +178,7 @@
 
             <TextView
                 android:id="@+id/companies"
-                style="@style/TextRegular.MainTextColor.16"
+                style="@style/TextRegular.ToWatchTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_10dp"

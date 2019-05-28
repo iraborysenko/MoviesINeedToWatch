@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.App" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+
+    <style name="Theme.App.Light" parent="Base.Theme.App">
+        <item name="colorPrimary">@color/colorMainApp</item>
+        <item name="colorPrimaryDark">@color/colorMainApp</item>
+        <item name="colorAccent">@color/colorMainApp</item>
+        <item name="android:textViewStyle">@style/mainTextViewStyle</item>
+        <item name="android:windowBackground">@color/colorMainAppBackground</item>
+
+        <item name="colorMainApp">@color/colorMainApp</item>
+        <item name="colorMainAppMiddle">@color/colorMainAppMiddle</item>
+        <item name="colorMainAppBackground">@color/colorMainAppBackground</item>
+        <item name="colorMainAppText">@color/colorMainAppText</item>
+
+        <item name="colorSearchScreen">@color/colorSearchScreen</item>
+        <item name="colorSearchScreenMiddle">@color/colorSearchScreenMiddle</item>
+        <item name="colorSearchScreenBackground">@color/colorSearchScreenBackground</item>
+        <item name="colorSearchScreenText">@color/colorSearchScreenText</item>
+
+        <item name="colorToWatchTab">@color/colorToWatchTab</item>
+        <item name="colorToWatchTabMiddle">@color/colorToWatchTabMiddle</item>
+        <item name="colorToWatchTabBackground">@color/colorToWatchTabBackground</item>
+        <item name="colorToWatchTabText">@color/colorToWatchTabText</item>
+
+        <item name="colorWatchedTab">@color/colorWatchedTab</item>
+        <item name="colorWatchedTabMiddle">@color/colorWatchedTabMiddle</item>
+        <item name="colorWatchedTabBackground">@color/colorWatchedTabBackground</item>
+        <item name="colorWatchedTabText">@color/colorWatchedTabText</item>
+    </style>
+
+    <style name="Theme.App.Dark" parent="Base.Theme.App">
+        <item name="colorPrimary">@color/colorDarkMainApp</item>
+        <item name="colorPrimaryDark">@color/colorDarkMainApp</item>
+        <item name="colorAccent">@color/colorDarkMainApp</item>
+        <item name="android:textViewStyle">@style/mainTextViewStyle</item>
+        <item name="android:windowBackground">@color/colorDarkMainAppBackground</item>
+
+        <item name="colorMainApp">@color/colorDarkMainApp</item>
+        <item name="colorMainAppMiddle">@color/colorDarkMainAppMiddle</item>
+        <item name="colorMainAppBackground">@color/colorDarkMainAppBackground</item>
+        <item name="colorMainAppText">@color/colorDarkMainAppText</item>
+
+        <item name="colorSearchScreen">@color/colorDarkSearchScreen</item>
+        <item name="colorSearchScreenMiddle">@color/colorDarkSearchScreenMiddle</item>
+        <item name="colorSearchScreenBackground">@color/colorDarkSearchScreenBackground</item>
+        <item name="colorSearchScreenText">@color/colorDarkSearchScreenText</item>
+
+        <item name="colorToWatchTab">@color/colorDarkToWatchTab</item>
+        <item name="colorToWatchTabMiddle">@color/colorDarkToWatchTabMiddle</item>
+        <item name="colorToWatchTabBackground">@color/colorDarkToWatchTabBackground</item>
+        <item name="colorToWatchTabText">@color/colorDarkToWatchTabText</item>
+
+        <item name="colorWatchedTab">@color/colorDarkWatchedTab</item>
+        <item name="colorWatchedTabMiddle">@color/colorDarkWatchedTabMiddle</item>
+        <item name="colorWatchedTabBackground">@color/colorDarkWatchedTabBackground</item>
+        <item name="colorWatchedTabText">@color/colorDarkWatchedTabText</item>
+    </style>
+</resources>

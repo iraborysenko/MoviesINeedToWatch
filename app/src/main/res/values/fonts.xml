@@ -20,79 +20,123 @@
     <!---->
     <!--colors for each fonts-->
     <!--regular-->
-    <style name="TextRegular.MainTextColor">
-        <item name="android:textColor">@color/colorDarkGrey</item>
+    <style name="TextRegular.MainAppText">
+        <item name="android:textColor">?attr/colorMainAppText</item>
     </style>
+
+    <style name="TextRegular.SearchScreenText">
+        <item name="android:textColor">?attr/colorSearchScreenText</item>
+    </style>
+
+    <style name="TextRegular.ToWatchTabText">
+        <item name="android:textColor">?attr/colorToWatchTabText</item>
+    </style>
+
+    <style name="TextRegular.WatchedTabText">
+        <item name="android:textColor">?attr/colorWatchedTabText</item>
+    </style>
+
 
     <!--bold-->
     <style name="TextBold.MainApp">
-        <item name="android:textColor">@color/colorMainApp</item>
+        <item name="android:textColor">?attr/colorMainApp</item>
     </style>
 
     <style name="TextBold.MainAppMiddle">
-        <item name="android:textColor">@color/colorMainAppMiddle</item>
+        <item name="android:textColor">?attr/colorMainAppMiddle</item>
     </style>
 
-    <style name="TextBold.MainAppLight">
-        <item name="android:textColor">@color/colorMainAppLight</item>
+    <style name="TextBold.MainAppBackground">
+        <item name="android:textColor">?attr/colorMainAppBackground</item>
     </style>
+
+    <style name="TextBold.MainAppText">
+        <item name="android:textColor">?attr/colorMainAppText</item>
+    </style>
+
 
     <style name="TextBold.SearchScreen">
-        <item name="android:textColor">@color/colorSearchScreen</item>
+        <item name="android:textColor">?attr/colorSearchScreen</item>
     </style>
 
     <style name="TextBold.SearchScreenMiddle">
-        <item name="android:textColor">@color/colorSearchScreenMiddle</item>
+        <item name="android:textColor">?attr/colorSearchScreenMiddle</item>
     </style>
 
+    <style name="TextBold.SearchScreenText">
+        <item name="android:textColor">?attr/colorSearchScreenText</item>
+    </style>
+
+
     <style name="TextBold.ToWatchTab">
-        <item name="android:textColor">@color/colorToWatchTab</item>
+        <item name="android:textColor">?attr/colorToWatchTab</item>
     </style>
 
     <style name="TextBold.ToWatchTabMiddle">
-        <item name="android:textColor">@color/colorToWatchTabMiddle</item>
+        <item name="android:textColor">?attr/colorToWatchTabMiddle</item>
     </style>
 
-    <style name="TextBold.ToWatchTabLight">
-        <item name="android:textColor">@color/colorToWatchTabLight</item>
+    <style name="TextBold.ToWatchTabBackground">
+        <item name="android:textColor">?attr/colorToWatchTabBackground</item>
     </style>
+
+    <style name="TextBold.ToWatchTabText">
+        <item name="android:textColor">?attr/colorToWatchTabText</item>
+    </style>
+
 
     <style name="TextBold.WatchedTab">
-        <item name="android:textColor">@color/colorWatchedTab</item>
+        <item name="android:textColor">?attr/colorWatchedTab</item>
     </style>
 
     <style name="TextBold.WatchedTabMiddle">
-        <item name="android:textColor">@color/colorWatchedTabMiddle</item>
+        <item name="android:textColor">?attr/colorWatchedTabMiddle</item>
     </style>
 
-    <style name="TextBold.WatchedTabLight">
-        <item name="android:textColor">@color/colorToWatchTabLight</item>
+    <style name="TextBold.WatchedTabBackground">
+        <item name="android:textColor">?attr/colorToWatchTabBackground</item>
     </style>
 
-    <style name="TextBold.MainTextColor">
-        <item name="android:textColor">@color/colorDarkGrey</item>
+    <style name="TextBold.WatchedTabText">
+        <item name="android:textColor">?attr/colorToWatchTabText</item>
     </style>
 
     <!--italic-->
-    <style name="TextItalic.MainTextColor">
-        <item name="android:textColor">@color/colorDarkGrey</item>
+    <style name="TextItalic.MainAppText">
+        <item name="android:textColor">?attr/colorMainAppText</item>
+    </style>
+
+    <style name="TextItalic.SearchScreenText">
+        <item name="android:textColor">?attr/colorSearchScreenText</item>
+    </style>
+
+    <style name="TextItalic.ToWatchTabText">
+        <item name="android:textColor">?attr/colorToWatchTabText</item>
     </style>
 
     <style name="TextItalic.WatchedTabMiddle">
-        <item name="android:textColor">@color/colorWatchedTabMiddle</item>
+        <item name="android:textColor">?attr/colorWatchedTabMiddle</item>
+    </style>
+
+    <style name="TextItalic.WatchedTabText">
+        <item name="android:textColor">?attr/colorWatchedTabText</item>
     </style>
 
     <!--bold italic-->
-    <style name="TextBoldItalic.MainTextColor">
-        <item name="android:textColor">@color/colorDarkGrey</item>
+    <style name="TextBoldItalic.MainAppText">
+        <item name="android:textColor">?attr/colorMainAppText</item>
     </style>
 
     <style name="TextBoldItalic.ToWatchTabMiddle">
-        <item name="android:textColor">@color/colorToWatchTabMiddle</item>
+        <item name="android:textColor">?attr/colorToWatchTabMiddle</item>
+    </style>
+
+    <style name="TextBoldItalic.ToWatchTabText">
+        <item name="android:textColor">?attr/colorToWatchTabText</item>
     </style>
 
     <style name="TextBoldItalic.WatchedTabMiddle">
-        <item name="android:textColor">@color/colorWatchedTabMiddle</item>
+        <item name="android:textColor">?attr/colorWatchedTabMiddle</item>
     </style>
 
     <!---->
@@ -102,11 +146,11 @@
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="TextBold.MainAppLight.18">
+    <style name="TextBold.MainAppText.18">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextBold.MainAppLight.14">
+    <style name="TextBold.MainAppText.14">
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -121,6 +165,18 @@
 
     <style name="TextBold.ToWatchTab.16">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBold.ToWatchTabText.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBold.ToWatchTabText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBold.ToWatchTabBackground.14">
+        <item name="android:textSize">14sp</item>
     </style>
 
 
@@ -154,12 +210,20 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-
-    <style name="TextBold.ToWatchTabLight.18">
+    <style name="TextBold.WatchedTabText.18">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextBold.WatchedTabLight.18">
+    <style name="TextBold.WatchedTabText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="TextBold.ToWatchTabBackground.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBold.WatchedTabBackground.18">
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -172,26 +236,41 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-
-    <style name="TextBold.MainTextColor.18">
+    <style name="TextBold.SearchScreenText.18">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextBold.MainTextColor.16">
+    <style name="TextBold.SearchScreenText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBold.MainAppText.16">
         <item name="android:textSize">16sp</item>
     </style>
 
     <!--regular sizes-->
-    <style name="TextRegular.MainTextColor.18">
+    <style name="TextRegular.MainAppText.18">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextRegular.MainTextColor.16">
+    <style name="TextRegular.MainAppText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextRegular.SearchScreenText.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextRegular.ToWatchTabText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextRegular.WatchedTabText.16">
         <item name="android:textSize">16sp</item>
     </style>
 
     <!--bold-italic sizes-->
-    <style name="TextBoldItalic.MainTextColor.16">
+    <style name="TextBoldItalic.MainAppText.16">
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -200,6 +279,10 @@
     </style>
 
     <style name="TextBoldItalic.ToWatchTabMiddle.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBoldItalic.ToWatchTabText.16">
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -212,15 +295,27 @@
     </style>
 
     <!--italic sizes-->
-    <style name="TextItalic.MainTextColor.18">
+    <style name="TextItalic.MainAppText.18">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextItalic.MainTextColor.16">
+    <style name="TextItalic.MainAppText.16">
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TextItalic.SearchScreenText.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextItalic.ToWatchTabText.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="TextItalic.WatchedTabMiddle.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextItalic.WatchedTabText.18">
         <item name="android:textSize">18sp</item>
     </style>
 </resources>

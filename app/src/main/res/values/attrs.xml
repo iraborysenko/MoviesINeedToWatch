@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorMainApp" format="reference"/>
+    <attr name="colorMainAppMiddle" format="reference"/>
+    <attr name="colorMainAppBackground" format="reference" />
+    <attr name="colorMainAppText" format="reference" />
+
+    <attr name="colorSearchScreen" format="reference" />
+    <attr name="colorSearchScreenMiddle" format="reference" />
+    <attr name="colorSearchScreenBackground" format="reference" />
+    <attr name="colorSearchScreenText" format="reference" />
+
+    <attr name="colorToWatchTab" format="reference" />
+    <attr name="colorToWatchTabMiddle" format="reference" />
+    <attr name="colorToWatchTabBackground" format="reference" />
+    <attr name="colorToWatchTabText" format="reference" />
+
+    <attr name="colorWatchedTab" format="reference" />
+    <attr name="colorWatchedTabMiddle" format="reference" />
+    <attr name="colorWatchedTabBackground" format="reference" />
+    <attr name="colorWatchedTabText" format="reference" />
+</resources>

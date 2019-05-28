@@ -5,8 +5,8 @@
     android:dither="true"
     android:useLevel="false">
     <gradient
-        android:startColor="@color/colorSearchScreenLight"
-        android:endColor="@color/colorSearchScreenLight"
+        android:startColor="?attr/colorSearchScreenBackground"
+        android:endColor="?attr/colorSearchScreenBackground"
         android:angle="270"/>
     <corners
         android:radius="15dp"/>

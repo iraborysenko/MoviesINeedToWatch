@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/movie_tagline"
-        style="@style/TextBoldItalic.MainTextColor.16"
+        style="@style/TextBoldItalic.ToWatchTabText.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -75,7 +75,7 @@
 
     <TextView
         android:id="@+id/movie_imdb"
-        style="@style/TextBold.MainAppLight.18"
+        style="@style/TextBold.ToWatchTabBackground.18"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -87,7 +87,7 @@
 
     <TextView
         android:id="@+id/movie_year"
-        style="@style/TextBold.MainTextColor.16"
+        style="@style/TextBold.ToWatchTabText.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/min_height_40dp"

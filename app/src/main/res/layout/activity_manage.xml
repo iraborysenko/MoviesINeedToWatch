@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWatchedTabLight"
+    android:background="?attr/colorWatchedTabBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity">
     <ScrollView
@@ -54,7 +54,7 @@
 
             <TextView
                 android:id="@+id/original_title"
-                style="@style/TextItalic.MainTextColor.18"
+                style="@style/TextItalic.WatchedTabText.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -66,10 +66,10 @@
 
             <TextView
                 android:id="@+id/my_rating"
-                style="@style/TextBold.WatchedTabLight.18"
+                style="@style/TextBold.WatchedTabBackground.18"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/colorWatchedTabMiddle"
+                android:background="?attr/colorWatchedTabMiddle"
                 android:radius="15dp"
                 android:gravity="center"
                 android:text="@string/my_rating"
@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/runtime"
-                style="@style/TextBold.MainTextColor.16"
+                style="@style/TextBold.WatchedTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -125,7 +125,7 @@
 
             <TextView
                 android:id="@+id/year"
-                style="@style/TextBold.MainTextColor.16"
+                style="@style/TextBold.WatchedTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/min_height_40dp"
@@ -213,7 +213,7 @@
 
             <TextView
                 android:id="@+id/overview"
-                style="@style/TextItalic.MainTextColor.18"
+                style="@style/TextItalic.WatchedTabText.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/barrier_edit_text"
@@ -232,7 +232,7 @@
 
             <TextView
                 android:id="@+id/countries"
-                style="@style/TextRegular.MainTextColor.16"
+                style="@style/TextRegular.WatchedTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/release_date"
@@ -241,7 +241,7 @@
 
             <TextView
                 android:id="@+id/companies"
-                style="@style/TextRegular.MainTextColor.16"
+                style="@style/TextRegular.WatchedTabText.16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_10dp"
@@ -258,12 +258,12 @@
 
             <Button
                 android:id="@+id/move_movie_button"
-                style="@style/TextBold.WatchedTabLight.18"
+                style="@style/TextBold.WatchedTabBackground.18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/move_to_watched_button"
-                android:background="@color/colorWatchedTab"
+                android:background="?attr/colorWatchedTab"
                 app:layout_constraintTop_toBottomOf="@id/barrier_move_button"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"/>

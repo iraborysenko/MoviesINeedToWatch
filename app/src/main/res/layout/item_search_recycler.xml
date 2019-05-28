@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/s_movie_original_title"
-        style="@style/TextItalic.MainTextColor.16"
+        style="@style/TextItalic.SearchScreenText.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -64,7 +64,7 @@
 
     <TextView
         android:id="@+id/s_movie_tmdb"
-        style="@style/TextBold.MainTextColor.18"
+        style="@style/TextBold.SearchScreenText.18"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -76,7 +76,7 @@
 
     <TextView
         android:id="@+id/s_movie_year"
-        style="@style/TextBold.MainTextColor.16"
+        style="@style/TextBold.SearchScreenText.16"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"

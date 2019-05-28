@@ -2,24 +2,15 @@
     <style name="mainTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/oswald_light</item>
     </style>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorMainApp</item>
-        <item name="colorPrimaryDark">@color/colorMainApp</item>
-        <item name="colorAccent">@color/colorMainApp</item>
-        <item name="android:textViewStyle">@style/mainTextViewStyle</item>
-        <item name="android:windowBackground">@color/colorMainAppLight</item>
-    </style>
 
     <style name="LangSwitch.text" parent="@android:style/TextAppearance" >
-        <item name="android:textColor">@color/colorSearchScreenLight</item>
+        <item name="android:textColor">?attr/colorSearchScreenBackground</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold|italic</item>
     </style>
 
     <style name="SearchEditTextStyle" parent="android:Widget.EditText">
-        <item name="android:textColor">@color/colorDarkGrey</item>
+        <item name="android:textColor">?attr/colorSearchScreenText</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">10dp</item>
         <item name="android:fontFamily">@font/oswald_light</item>
@@ -27,7 +18,7 @@
         <item name="android:ems">10</item>
         <item name="android:inputType">textPersonName</item>
         <item name="android:text">""</item>
-        <item name="android:textColorLink">@color/colorMainApp</item>
+        <item name="android:textColorLink">?attr/colorMainApp</item>
     </style>
 
     <style name="Divider">
@@ -36,8 +27,8 @@
         <item name="android:background">@color/colorLightGrey</item>
     </style>
 
-    <style name="NumberPickerTheme" parent="AppTheme">
-        <item name="android:textColorPrimary">@color/colorWatchedTab</item>
-        <item name="android:background">@color/colorWatchedTabLight</item>
+    <style name="NumberPickerTheme" parent="Base.Theme.App">
+        <item name="android:textColorPrimary">?attr/colorWatchedTab</item>
+        <item name="android:background">?attr/colorWatchedTabBackground</item>
     </style>
 </resources>

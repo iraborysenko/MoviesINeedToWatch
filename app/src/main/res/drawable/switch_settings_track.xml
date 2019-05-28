@@ -6,7 +6,7 @@
     android:useLevel="false">
 
     <solid
-        android:color="@color/colorMainAppLight"/>
+        android:color="?attr/colorMainAppBackground"/>
     <corners
         android:radius="20dp"/>
     <stroke android:width="1dip" android:color="@color/colorDarkGrey" />

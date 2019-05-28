@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/watched_imdb"
-        style="@style/TextBold.MainAppLight.18"
+        style="@style/TextBold.WatchedTabBackground.18"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -53,7 +53,7 @@
 
     <TextView
         android:id="@+id/watched_my_rating"
-        style="@style/TextBold.MainAppLight.18"
+        style="@style/TextBold.WatchedTabBackground.18"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/watched_comment"
-        style="@style/TextBold.MainTextColor.16"
+        style="@style/TextBold.WatchedTabText.16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"

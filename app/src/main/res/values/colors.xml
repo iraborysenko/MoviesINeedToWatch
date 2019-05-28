@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--main colors-->
+    <!--main light theme colors-->
     <color name="colorMainApp">#1d23d1</color>
     <color name="colorMainAppMiddle">#4F56F5</color>
-    <color name="colorMainAppLight">#e9e9fc</color>
+    <color name="colorMainAppBackground">#e9e9fc</color>
+    <color name="colorMainAppText">#545455</color>
 
     <color name="colorSearchScreen">#1370eb</color>
     <color name="colorSearchScreenMiddle">#71aaf4</color>
-    <color name="colorSearchScreenLight">#e7f1fd</color>
+    <color name="colorSearchScreenBackground">#e7f1fd</color>
+    <color name="colorSearchScreenText">#545455</color>
 
     <color name="colorToWatchTab">#6d17fa</color>
     <color name="colorToWatchTabMiddle">#a169fc</color>
-    <color name="colorToWatchTabLight">#e7f1fd</color>
+    <color name="colorToWatchTabBackground">#e7f1fd</color>
+    <color name="colorToWatchTabText">#545455</color>
 
     <color name="colorWatchedTab">#0d664f</color>
     <color name="colorWatchedTabMiddle">#17b58b</color>
-    <color name="colorWatchedTabLight">#e8fcf7</color>
+    <color name="colorWatchedTabBackground">#e8fcf7</color>
+    <color name="colorWatchedTabText">#545455</color>
+
+
+    <!--main dark theme colors-->
+    <color name="colorDarkMainApp">#1d23d1</color>
+    <color name="colorDarkMainAppMiddle">#4F56F5</color>
+    <color name="colorDarkMainAppBackground">#545455</color>
+    <color name="colorDarkMainAppText">#e9e9fc</color>
+
+    <color name="colorDarkSearchScreen">#1370eb</color>
+    <color name="colorDarkSearchScreenMiddle">#71aaf4</color>
+    <color name="colorDarkSearchScreenBackground">#545455</color>
+    <color name="colorDarkSearchScreenText">#e7f1fd</color>
+
+    <color name="colorDarkToWatchTab">#6d17fa</color>
+    <color name="colorDarkToWatchTabMiddle">#a169fc</color>
+    <color name="colorDarkToWatchTabBackground">#545455</color>
+    <color name="colorDarkToWatchTabText">#e7f1fd</color>
+
+    <color name="colorDarkWatchedTab">#0d664f</color>
+    <color name="colorDarkWatchedTabMiddle">#17b58b</color>
+    <color name="colorDarkWatchedTabBackground">#545455</color>
+    <color name="colorDarkWatchedTabText">#e8fcf7</color>
 
     <!--additional colors-->
     <color name="colorDarkGrey">#545455</color>
