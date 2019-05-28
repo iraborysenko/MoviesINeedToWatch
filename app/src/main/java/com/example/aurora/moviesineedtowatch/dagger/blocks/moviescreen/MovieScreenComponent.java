@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.dagger.blocks.moviescreen;
 
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 
 import javax.inject.Singleton;
@@ -13,7 +14,7 @@ import dagger.Component;
  * Time: 14:57
  */
 @Singleton
-@Component(modules = MovieScreenModule.class)
+@Component(modules = {MovieScreenModule.class, SharedPreferencesModule.class})
 public interface MovieScreenComponent {
     void inject(MovieActivity movieActivity);
 }

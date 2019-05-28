@@ -14,7 +14,9 @@ import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprers.TabsViewPagerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
-import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForToWatchFragment;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForChangeTheme;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForUpdateList;
+import com.example.aurora.moviesineedtowatch.tools.Extensions;
 import com.example.aurora.moviesineedtowatch.ui.main.towatchtab.ToWatchFragment;
 import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
@@ -22,6 +24,8 @@ import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 import com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Objects;
 
@@ -32,6 +36,7 @@ import butterknife.ButterKnife;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.INCREASED_LAYOUT;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.REDUCED_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_CURRENT_THEME;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_TO_WATCH_LAYOUT;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,10 +55,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.movies_to_watch);
 
         ((App) getApplicationContext()).getApplicationComponent().inject(this);
+        if(sharedPreferencesSettings.contains(SHARED_CURRENT_THEME))
+            Extensions.setAppTheme(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME), R.layout.activity_main, this, this);
+        else {
+            sharedPreferencesSettings.putBooleanData(SHARED_CURRENT_THEME, false);
+            Extensions.setAppTheme(false, R.layout.activity_main,this, this);
+        }
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.movies_to_watch);
+
+        EventBus.getDefault().register(this);
 
         ButterKnife.bind(this);
 
@@ -107,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         default:
                             break;
                     }
-                    EventBus.getDefault().post(new EventsForToWatchFragment());
+                    EventBus.getDefault().post(new EventsForUpdateList());
                     return true;
                 }
             case R.id.search_button:
@@ -143,5 +156,16 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(resources.getString(R.string.movies_to_watch));
         mBottomNavigationView.getMenu().findItem(R.id.action_to_watch_tab).setTitle(resources.getString(R.string.to_watch_tab));
         mBottomNavigationView.getMenu().findItem(R.id.action_watched_tab).setTitle(resources.getString(R.string.watched_tab));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventsForChangeTheme event) {
+        recreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.movie;
 
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_CURRENT_THEME;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.lang;
 
@@ -16,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.moviescreen.DaggerMovieScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.moviescreen.MovieScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
@@ -57,19 +60,30 @@ public class MovieActivity extends AppCompatActivity implements MovieScreen.View
     @Inject
     MoviePresenter moviePresenter;
 
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
-        setContentView(R.layout.activity_movie);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorToWatchTab));
-
-        ButterKnife.bind(this);
 
         DaggerMovieScreenComponent.builder()
                 .movieScreenModule(new MovieScreenModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build().inject(this);
+
+        if(sharedPreferencesSettings.contains(SHARED_CURRENT_THEME))
+            Extensions.setAppTheme(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME), R.layout.activity_movie, this, this);
+        else {
+            sharedPreferencesSettings.putBooleanData(SHARED_CURRENT_THEME, false);
+            Extensions.setAppTheme(false, R.layout.activity_movie, this, this);
+        }
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorToWatchTab));
+
+        ButterKnife.bind(this);
 
         String movieId = getIntent().getStringExtra("EXTRA_MOVIE_ID");
 

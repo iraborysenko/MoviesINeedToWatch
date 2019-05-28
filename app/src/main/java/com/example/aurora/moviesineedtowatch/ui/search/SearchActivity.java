@@ -1,5 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_CURRENT_THEME;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_LANG_KEY;
 
 import android.annotation.TargetApi;
@@ -29,6 +30,7 @@ import com.example.aurora.moviesineedtowatch.dagger.module.ContextModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.searchscreen.SearchScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;
+import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
 import java.util.Objects;
 
@@ -61,13 +63,19 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
 
         DaggerSearchScreenComponent.builder()
                 .searchScreenModule(new SearchScreenModule(this))
                 .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .contextModule(new ContextModule(this))
                 .build().inject(this);
+
+        if(sharedPreferencesSettings.contains(SHARED_CURRENT_THEME))
+            Extensions.setAppTheme(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME), R.layout.activity_search, this, this);
+        else {
+            sharedPreferencesSettings.putBooleanData(SHARED_CURRENT_THEME, false);
+            Extensions.setAppTheme(false, R.layout.activity_search, this, this);
+        }
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorSearchScreen));
 

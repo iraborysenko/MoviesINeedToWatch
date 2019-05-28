@@ -6,7 +6,5 @@ package com.example.aurora.moviesineedtowatch.tmdb.eventbus;
  * Date: 28/05/19
  * Time: 11:57
  */
-public class EventsForToWatchFragment {
-    public void EventsForToWatchFragment() {
-    }
+public class EventsForUpdateList {
 }

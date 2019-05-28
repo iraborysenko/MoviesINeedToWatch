@@ -29,6 +29,7 @@ public class Constants {
     public final static String SHARED_TO_WATCH_LAYOUT = "lang_to_watch_layout";
     public final static String REDUCED_LAYOUT = "reduced_layout";
     public final static String INCREASED_LAYOUT = "increased_layout";
+    public final static String SHARED_CURRENT_THEME = "current_theme";
 
     public final static String MESSAGE_NO_CONNECTION = "No internet connection available";
     public final static String MESSAGE_ERROR_GETTING_DATA = "Error receiving data by your request";

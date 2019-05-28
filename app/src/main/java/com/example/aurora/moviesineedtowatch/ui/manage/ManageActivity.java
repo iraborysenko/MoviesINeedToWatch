@@ -18,8 +18,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aurora.moviesineedtowatch.R;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.managescreen.DaggerManageScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.managescreen.ManageScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
@@ -36,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_CURRENT_THEME;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.genres;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.lang;
 
@@ -69,6 +72,9 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     @Inject
     ManagePresenter mPresenter;
 
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
+
     final String[] values= {"0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     String movieId;
 
@@ -77,14 +83,22 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
-        setContentView(R.layout.activity_manage);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorWatchedTab));
-
-        ButterKnife.bind(this);
 
         DaggerManageScreenComponent.builder()
                 .manageScreenModule(new ManageScreenModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build().inject(this);
+
+        if(sharedPreferencesSettings.contains(SHARED_CURRENT_THEME))
+            Extensions.setAppTheme(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME), R.layout.activity_manage, this, this);
+        else {
+            sharedPreferencesSettings.putBooleanData(SHARED_CURRENT_THEME, false);
+            Extensions.setAppTheme(false, R.layout.activity_manage, this, this);
+        }
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorWatchedTab));
+
+        ButterKnife.bind(this);
 
         setupRatingPicker();
 

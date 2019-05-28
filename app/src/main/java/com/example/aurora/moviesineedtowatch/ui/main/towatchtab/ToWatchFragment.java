@@ -19,7 +19,7 @@ import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfrag
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.towatchfragment.ToWatchFragmentScreenModule;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
-import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForToWatchFragment;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForUpdateList;
 import com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity;
 import com.example.aurora.moviesineedtowatch.ui.movie.MovieActivity;
 
@@ -98,7 +98,7 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(EventsForToWatchFragment event) {
+    public void onMessageEvent(EventsForUpdateList event) {
         mPresenter.updateList(mRecyclerView);
     }
 

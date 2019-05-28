@@ -103,4 +103,10 @@ public class Extensions {
 
         return true;
     }
+
+    public static void setAppTheme(Boolean currTheme, int activityLayout, Context context, Activity activity) {
+        if (currTheme) context.setTheme(R.style.Theme_App_Dark);
+        else context.setTheme(R.style.Theme_App_Light);
+        activity.setContentView(activityLayout);
+    }
 }
