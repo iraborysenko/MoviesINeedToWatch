@@ -1,8 +1,9 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.widget.SearchView;
 
 import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
@@ -73,14 +74,14 @@ public class SearchPresenter implements SearchScreen.Presenter {
     public void getResultsBasedOnQuery(SearchView searchView) {
         DisposableObserver<SearchResult> searchResultDisposableObserver =
                 getObservableQuery(searchView)
-                .filter((Predicate<? super String>) s -> !s.equals(""))
-                .debounce(2, TimeUnit.SECONDS)
-                .distinctUntilChanged()
-                .switchMap((Function<String, ObservableSource<SearchResult>>) s ->
-                        apiInterface.getSearchResult((mView.getSwitchValue() ? EN : RU), TMDB_KEY, s))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(getObserver());
+                        .filter((Predicate<? super String>) s -> !s.equals(""))
+                        .debounce(2, TimeUnit.SECONDS)
+                        .distinctUntilChanged()
+                        .switchMap((Function<String, ObservableSource<SearchResult>>) s ->
+                                apiInterface.getSearchResult((mView.getSwitchValue() ? EN : RU), TMDB_KEY, s))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(getObserver());
     }
 
     private Observable<String> getObservableQuery(SearchView searchView){

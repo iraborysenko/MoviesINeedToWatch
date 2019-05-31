@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -61,37 +62,13 @@
         android:track="@drawable/switch_settings_track"/>
 
     <TextView
-        android:id="@+id/base_list_layout"
-        style="@style/TextRegular.SearchScreenText.18"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_30dp"
-        app:layout_constraintStart_toStartOf="@+id/save_via_wifi"
-        app:layout_constraintTop_toBottomOf="@+id/dark_theme"
-        android:text="@string/base_movies_layout"/>
-
-    <Switch
-        android:id="@+id/layout_switcher"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginEnd="@dimen/margin_10dp"
-        app:layout_constraintStart_toEndOf="@+id/base_list_layout"
-        app:layout_constraintTop_toTopOf="@+id/base_list_layout"
-        app:layout_constraintBottom_toBottomOf="@+id/base_list_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:checked="false"
-        android:thumb="@drawable/switch_settings_thumb"
-        android:track="@drawable/switch_settings_track"/>
-
-    <TextView
         android:id="@+id/app_language"
         style="@style/TextRegular.SearchScreenText.18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_30dp"
         app:layout_constraintStart_toStartOf="@+id/save_via_wifi"
-        app:layout_constraintTop_toBottomOf="@+id/base_list_layout"
+        app:layout_constraintTop_toBottomOf="@+id/dark_theme"
         android:text="@string/app_language"/>
 
     <Spinner

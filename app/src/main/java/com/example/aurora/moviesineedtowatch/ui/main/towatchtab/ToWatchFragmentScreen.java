@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.main.towatchtab;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;

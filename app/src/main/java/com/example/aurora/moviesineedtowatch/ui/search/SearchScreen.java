@@ -1,6 +1,6 @@
 package com.example.aurora.moviesineedtowatch.ui.search;
 
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.aurora.moviesineedtowatch.adaprers.SearchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.FoundMovie;

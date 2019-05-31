@@ -3,12 +3,12 @@ package com.example.aurora.moviesineedtowatch.ui.main;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
@@ -22,6 +22,7 @@ import com.example.aurora.moviesineedtowatch.ui.main.watchedtab.WatchedFragment;
 import com.example.aurora.moviesineedtowatch.ui.search.SearchActivity;
 import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
 import com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,7 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.main.towatchtab;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.RealmImpl;
@@ -35,7 +35,6 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
     ToWatchFragmentPresenter(ToWatchFragmentScreen.View mView) {
         this.mView = mView;
     }
-
 
     @Override
     public void loadToWatchMovies(){

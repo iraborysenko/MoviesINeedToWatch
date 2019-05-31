@@ -1,15 +1,16 @@
 package com.example.aurora.moviesineedtowatch.adaprers;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -128,13 +129,17 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
-            case REDUCED_LAYOUT:
-                fillReducedList(viewHolder, i);
-                break;
-            case INCREASED_LAYOUT:
-                fillIncreasedList(viewHolder, i);
-                break;
+        if (!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
+            fillIncreasedList(viewHolder, i);
+        } else {
+            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
+                case REDUCED_LAYOUT:
+                    fillReducedList(viewHolder, i);
+                    break;
+                case INCREASED_LAYOUT:
+                    fillIncreasedList(viewHolder, i);
+                    break;
+            }
         }
     }
 
@@ -224,7 +229,7 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 //        //add-edit button click listener
         increasedViewHolder.mAddEditButton.setOnClickListener(view ->
-            clickListener.onAddEditButtonClick(movie.getId())
+                clickListener.onAddEditButtonClick(movie.getId())
         );
     }
 

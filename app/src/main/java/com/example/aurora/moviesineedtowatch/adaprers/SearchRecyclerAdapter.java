@@ -1,14 +1,15 @@
 package com.example.aurora.moviesineedtowatch.adaprers;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -110,7 +111,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                         .append(Objects.requireNonNull(genres.get(genreId))[mSwitch.isChecked() ? 0 : 1]).append("\n");
             }
         }
-        movieViewHolder.mGenres.setText(String.valueOf(genresString.toString()));
+        movieViewHolder.mGenres.setText(genresString.toString());
 
         //get the remaining items
         movieViewHolder.mTitle.setText(movie.getTitle());

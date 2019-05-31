@@ -3,12 +3,13 @@ package com.example.aurora.moviesineedtowatch.ui.settings;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
@@ -44,7 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @BindView(R.id.save_via_wifi) TextView mSaveViaWifi;
     @BindView(R.id.theme_switcher) Switch mDarkTheme;
-    @BindView(R.id.base_list_layout) TextView mBaseListLayout;
     @BindView(R.id.app_language) TextView mAppLanguage;
     @BindView(R.id.export_movies) TextView mExportMovies;
     @BindView(R.id.language_spinner) Spinner mSpinner;
@@ -120,7 +120,6 @@ public class SettingsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(resources.getString(R.string.settings));
         mSaveViaWifi.setText(resources.getString(R.string.save_via_wifi));
         mDarkTheme.setText(resources.getString(R.string.apply_dark_theme));
-        mBaseListLayout.setText(resources.getString(R.string.base_movies_layout));
         mAppLanguage.setText(resources.getString(R.string.app_language));
         mExportMovies.setText(resources.getString(R.string.export_my_movies_list));
     }
