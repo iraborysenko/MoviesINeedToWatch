@@ -18,7 +18,12 @@ import com.example.aurora.moviesineedtowatch.adaprers.swipe.ItemTouchCallback;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.watchedfragment.DaggerWatchedFragmentScreenComponent;
 import com.example.aurora.moviesineedtowatch.dagger.blocks.mainsreen.watchedfragment.WatchedFragmentScreenModule;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
+import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForUpdateList;
 import com.example.aurora.moviesineedtowatch.ui.manage.ManageActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -77,5 +82,22 @@ public class WatchedFragment extends Fragment implements WatchedFragmentScreen.V
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         return mAdapter;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventsForUpdateList event) {
+        mPresenter.updateList(mRecyclerView);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

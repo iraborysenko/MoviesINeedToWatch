@@ -27,9 +27,13 @@ public class Constants {
     public final static String SHARED_LANG_KEY = "lang_key";
     final static String SHARED_SELECTED_LANGUAGE = "lang_selected";
     public final static String SHARED_TO_WATCH_LAYOUT = "lang_to_watch_layout";
+    public final static String SHARED_WATCHED_LAYOUT = "lang_watched_layout";
     public final static String REDUCED_LAYOUT = "reduced_layout";
     public final static String INCREASED_LAYOUT = "increased_layout";
     public final static String SHARED_CURRENT_THEME = "current_theme";
+
+    public final static int TO_WATCH_TAB = 0;
+    public final static int WATCHED_TAB = 1;
 
     public final static String MESSAGE_NO_CONNECTION = "No internet connection available";
     public final static String MESSAGE_ERROR_GETTING_DATA = "Error receiving data by your request";

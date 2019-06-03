@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.main.watchedtab;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
@@ -23,6 +25,8 @@ public interface WatchedFragmentScreen {
     interface Presenter {
 
         void loadWatchedMovies();
+
+        void updateList(RecyclerView mRecyclerView);
 
     }
 }

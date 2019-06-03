@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 
 import static com.example.aurora.moviesineedtowatch.tools.Constants.INCREASED_LAYOUT;
 import static com.example.aurora.moviesineedtowatch.tools.Constants.REDUCED_LAYOUT;
-import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_TO_WATCH_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_WATCHED_LAYOUT;
 import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
@@ -105,43 +105,31 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                      int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        if(!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
-            itemView = inflater.inflate(R.layout.item_to_watch_recycler, parent, false);
-            return new WatchedRecyclerAdapter.IncreasedViewHolder(itemView);
-        } else {
-            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
-                case REDUCED_LAYOUT:
-                    itemView = inflater.inflate(R.layout.item_watched_recycler_reduced, parent, false);
-                    return new WatchedRecyclerAdapter.ReducedViewHolder(itemView);
-                case INCREASED_LAYOUT:
-                    itemView = inflater.inflate(R.layout.item_watched_recycler, parent, false);
-                    return new WatchedRecyclerAdapter.IncreasedViewHolder(itemView);
-                default:
-                    return null;
-            }
+        switch (sharedPreferencesSettings.getStringData(SHARED_WATCHED_LAYOUT, INCREASED_LAYOUT)) {
+            case REDUCED_LAYOUT:
+                itemView = inflater.inflate(R.layout.item_watched_recycler_reduced, parent, false);
+                return new WatchedRecyclerAdapter.ReducedViewHolder(itemView);
+            case INCREASED_LAYOUT:
+                itemView = inflater.inflate(R.layout.item_watched_recycler, parent, false);
+                return new WatchedRecyclerAdapter.IncreasedViewHolder(itemView);
+            default:
+                return null;
         }
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        if (!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
-            fillIncreasedList(viewHolder, i);
-        } else {
-            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
-                case REDUCED_LAYOUT:
-                    fillReducedList(viewHolder, i);
-                    break;
-                case INCREASED_LAYOUT:
-                    fillIncreasedList(viewHolder, i);
-                    break;
-            }
+        switch (sharedPreferencesSettings.getStringData(SHARED_WATCHED_LAYOUT, INCREASED_LAYOUT)) {
+            case REDUCED_LAYOUT:
+                fillReducedList(viewHolder, i);
+                break;
+            case INCREASED_LAYOUT:
+                fillIncreasedList(viewHolder, i);
+                break;
         }
     }
 
@@ -223,7 +211,6 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             reducedViewHolder.mMyRating.setBackgroundColor(mContext.getResources()
                     .getColor(Extensions.chooseColor(String.valueOf(movie.getMyRating()))));
         }
-
     }
 
     @Override

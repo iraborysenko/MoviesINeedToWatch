@@ -35,8 +35,8 @@ public class SharedPreferencesSettings {
         mSharedPreferences.edit().putString(key,data).apply();
     }
 
-    public String getStringData(String key) {
-        return mSharedPreferences.getString(key,null);
+    public String getStringData(String key, String defaultValue) {
+        return mSharedPreferences.getString(key, defaultValue);
     }
 
     private SharedPreferences getPrefs() {

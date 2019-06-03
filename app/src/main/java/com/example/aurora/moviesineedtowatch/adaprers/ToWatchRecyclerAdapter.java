@@ -110,36 +110,27 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View itemView;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
-            itemView = inflater.inflate(R.layout.item_to_watch_recycler, parent, false);
-            return new IncreasedViewHolder(itemView);
-        } else {
-            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
-                case REDUCED_LAYOUT:
-                    itemView = inflater.inflate(R.layout.item_to_watch_recycler_reduced, parent, false);
-                    return new ReducedViewHolder(itemView);
-                case INCREASED_LAYOUT:
-                    itemView = inflater.inflate(R.layout.item_to_watch_recycler, parent, false);
-                    return new IncreasedViewHolder(itemView);
-                default:
-                    return null;
-            }
+        switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT, INCREASED_LAYOUT)) {
+            case REDUCED_LAYOUT:
+                itemView = inflater.inflate(R.layout.item_to_watch_recycler_reduced, parent, false);
+                return new ReducedViewHolder(itemView);
+            case INCREASED_LAYOUT:
+                itemView = inflater.inflate(R.layout.item_to_watch_recycler, parent, false);
+                return new IncreasedViewHolder(itemView);
+            default:
+                return null;
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        if (!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
-            fillIncreasedList(viewHolder, i);
-        } else {
-            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
-                case REDUCED_LAYOUT:
-                    fillReducedList(viewHolder, i);
-                    break;
-                case INCREASED_LAYOUT:
-                    fillIncreasedList(viewHolder, i);
-                    break;
-            }
+        switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT, INCREASED_LAYOUT)) {
+            case REDUCED_LAYOUT:
+                fillReducedList(viewHolder, i);
+                break;
+            case INCREASED_LAYOUT:
+                fillIncreasedList(viewHolder, i);
+                break;
         }
     }
 
@@ -179,7 +170,6 @@ public class ToWatchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private void fillIncreasedList(RecyclerView.ViewHolder viewHolder, int i) {
 
         IncreasedViewHolder increasedViewHolder = (IncreasedViewHolder) viewHolder;
-
 
         Movie movie = mMovies.get(i);
         assert movie != null;
