@@ -14,16 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.adaprers.swipe.ItemTouchAdapter;
+import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.aurora.moviesineedtowatch.tools.Constants.INCREASED_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.REDUCED_LAYOUT;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_TO_WATCH_LAYOUT;
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * Created by Android Studio.
@@ -31,14 +40,18 @@ import butterknife.ButterKnife;
  * Date: 16/05/19
  * Time: 16:46
  */
-public class WatchedRecyclerAdapter extends RecyclerView.Adapter<WatchedRecyclerAdapter.ViewHolder>
+public class WatchedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchAdapter {
+
+    @Inject
+    SharedPreferencesSettings sharedPreferencesSettings;
 
     private static ClickListener clickListener;
     private static List<Movie> mMovies;
     private Context mContext;
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class IncreasedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         @BindView(R.id.watched_poster) ImageView mPoster;
         @BindView(R.id.watched_title) TextView mTitle;
         @BindView(R.id.watched_imdb) TextView mImdb;
@@ -47,7 +60,30 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<WatchedRecycler
         String movieId;
         String dataLang;
 
-        ViewHolder(View v) {
+        IncreasedViewHolder(View v) {
+            super(v);
+            v.setOnClickListener(this);
+            ButterKnife.bind(this, v);
+        }
+
+        @Override
+        public void onClick(View v) {
+            movieId = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getId();
+            dataLang = Objects.requireNonNull(mMovies.get(getAdapterPosition())).getSavedLang();
+            clickListener.onItemClick(movieId);
+        }
+    }
+
+    static class ReducedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.watched_poster) ImageView mPoster;
+        @BindView(R.id.watched_title) TextView mTitle;
+        @BindView(R.id.watched_my_rating) TextView mMyRating;
+        @BindView(R.id.watched_imdb) TextView mImdb;
+        String movieId;
+        String dataLang;
+
+        ReducedViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             ButterKnife.bind(this, v);
@@ -62,27 +98,61 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<WatchedRecycler
     }
 
     public WatchedRecyclerAdapter(List<Movie> movies, Context context) {
+        ((App) getApplicationContext()).getApplicationComponent().inject(this);
         mMovies = movies;
         mContext = context;
     }
 
     @NonNull
     @Override
-    public WatchedRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_watched_recycler, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                      int viewType) {
 
-        return new ViewHolder(v);
+        View itemView;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        if(!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
+            itemView = inflater.inflate(R.layout.item_to_watch_recycler, parent, false);
+            return new WatchedRecyclerAdapter.IncreasedViewHolder(itemView);
+        } else {
+            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
+                case REDUCED_LAYOUT:
+                    itemView = inflater.inflate(R.layout.item_watched_recycler_reduced, parent, false);
+                    return new WatchedRecyclerAdapter.ReducedViewHolder(itemView);
+                case INCREASED_LAYOUT:
+                    itemView = inflater.inflate(R.layout.item_watched_recycler, parent, false);
+                    return new WatchedRecyclerAdapter.IncreasedViewHolder(itemView);
+                default:
+                    return null;
+            }
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder movieViewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        if (!sharedPreferencesSettings.contains(SHARED_TO_WATCH_LAYOUT)) {
+            fillIncreasedList(viewHolder, i);
+        } else {
+            switch (sharedPreferencesSettings.getStringData(SHARED_TO_WATCH_LAYOUT)) {
+                case REDUCED_LAYOUT:
+                    fillReducedList(viewHolder, i);
+                    break;
+                case INCREASED_LAYOUT:
+                    fillIncreasedList(viewHolder, i);
+                    break;
+            }
+        }
+    }
+
+    private void fillIncreasedList(RecyclerView.ViewHolder viewHolder, int i) {
+
+        IncreasedViewHolder increasedViewHolder = (IncreasedViewHolder) viewHolder;
 
         Movie movie = mMovies.get(i);
         assert movie != null;
 
-        movieViewHolder.mTitle.setText(movie.getTitle());
+        increasedViewHolder.mTitle.setText(movie.getTitle());
 
         // get poster
         RequestOptions options = new RequestOptions()
@@ -94,26 +164,66 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<WatchedRecycler
                 .asBitmap()
                 .load(Extensions.stringToBitmap(movie.getPosterBitmap()))
                 .apply(options)
-                .into(movieViewHolder.mPoster);
+                .into(increasedViewHolder.mPoster);
 
 
         //get imdb rating and according color
-        movieViewHolder.mImdb.setText(movie.getImdb());
-        movieViewHolder.mImdb.setBackgroundColor(mContext.getResources()
+        increasedViewHolder.mImdb.setText(movie.getImdb());
+        increasedViewHolder.mImdb.setBackgroundColor(mContext.getResources()
                 .getColor(Extensions.chooseColor(movie.getImdb())));
 
         //get my rating and according color
         if (movie.getMyRating()==null) {
-            movieViewHolder.mMyRating.setVisibility(View.GONE);
+            increasedViewHolder.mMyRating.setVisibility(View.GONE);
         } else {
-            movieViewHolder.mMyRating.setVisibility(View.VISIBLE);
-            movieViewHolder.mMyRating.setText(movie.getMyRating());
-            movieViewHolder.mMyRating.setBackgroundColor(mContext.getResources()
+            increasedViewHolder.mMyRating.setVisibility(View.VISIBLE);
+            increasedViewHolder.mMyRating.setText(movie.getMyRating());
+            increasedViewHolder.mMyRating.setBackgroundColor(mContext.getResources()
                     .getColor(Extensions.chooseColor(String.valueOf(movie.getMyRating()))));
         }
 
         // get comment
-        movieViewHolder.mComment.setText(movie.getComment());
+        increasedViewHolder.mComment.setText(movie.getComment());
+    }
+
+    private void fillReducedList(RecyclerView.ViewHolder viewHolder, int i) {
+
+        ReducedViewHolder reducedViewHolder = (ReducedViewHolder) viewHolder;
+
+        Movie movie = mMovies.get(i);
+        assert movie != null;
+
+        reducedViewHolder.mTitle.setText(movie.getTitle());
+
+
+        // get poster
+        RequestOptions options = new RequestOptions()
+                .error(R.drawable.noposter)
+                .skipMemoryCache(true)
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(Extensions.stringToBitmap(movie.getPosterBitmap()))
+                .apply(options)
+                .into(reducedViewHolder.mPoster);
+
+
+        //get imdb rating and according color
+        reducedViewHolder.mImdb.setText(movie.getImdb());
+        reducedViewHolder.mImdb.setBackgroundColor(mContext.getResources()
+                .getColor(Extensions.chooseColor(movie.getImdb())));
+
+        //get my rating and according color
+        if (movie.getMyRating()==null) {
+            reducedViewHolder.mMyRating.setVisibility(View.GONE);
+        } else {
+            reducedViewHolder.mMyRating.setVisibility(View.VISIBLE);
+            reducedViewHolder.mMyRating.setText(movie.getMyRating());
+            reducedViewHolder.mMyRating.setBackgroundColor(mContext.getResources()
+                    .getColor(Extensions.chooseColor(String.valueOf(movie.getMyRating()))));
+        }
+
     }
 
     @Override

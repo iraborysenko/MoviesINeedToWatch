@@ -94,11 +94,11 @@
     </style>
 
     <style name="TextBold.WatchedTabBackground">
-        <item name="android:textColor">?attr/colorToWatchTabBackground</item>
+        <item name="android:textColor">?attr/colorWatchedTabBackground</item>
     </style>
 
     <style name="TextBold.WatchedTabText">
-        <item name="android:textColor">?attr/colorToWatchTabText</item>
+        <item name="android:textColor">?attr/colorWatchedTabText</item>
     </style>
 
     <!--italic-->
@@ -225,6 +225,10 @@
 
     <style name="TextBold.WatchedTabBackground.18">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBold.WatchedTabBackground.14">
+        <item name="android:textSize">14sp</item>
     </style>
 
 

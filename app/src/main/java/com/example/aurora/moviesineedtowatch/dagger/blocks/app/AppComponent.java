@@ -2,6 +2,7 @@ package com.example.aurora.moviesineedtowatch.dagger.blocks.app;
 
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
+import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
@@ -25,6 +26,7 @@ public interface AppComponent {
     void inject(MovieDeserializer movieDeserializer);
     void inject(MainActivity mainActivity);
     void inject(ToWatchRecyclerAdapter toWatchRecyclerAdapter);
+    void inject(WatchedRecyclerAdapter watchedRecyclerAdapter);
     void inject(SettingsActivity settingsActivity);
 }
 
