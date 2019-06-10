@@ -58,4 +58,9 @@ public class WishListImpl implements WishList {
     public void saveUserData(String movieId, String commentStr, String myRatingStr) {
         realmImpl.moveWithData(movieId, commentStr, myRatingStr);
     }
+
+    @Override
+    public void exportDataBase() {
+        realmImpl.exportDataBase();
+    }
 }

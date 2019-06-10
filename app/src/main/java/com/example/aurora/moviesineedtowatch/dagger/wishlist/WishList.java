@@ -25,4 +25,6 @@ public interface WishList {
     void moveToOtherTab(String movieId, Boolean watchedFlag);
 
     void saveUserData(String movieId, String commentStr, String myRatingStr);
+
+    void exportDataBase();
 }

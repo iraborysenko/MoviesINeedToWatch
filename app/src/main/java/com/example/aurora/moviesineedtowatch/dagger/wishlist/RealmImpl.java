@@ -1,9 +1,12 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
+import android.os.Environment;
+
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +14,7 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import io.realm.internal.IOException;
 
 /**
  * Created by Android Studio.
@@ -96,5 +100,18 @@ public class RealmImpl {
             movie.setMyRating(myRatingStr);
         }
         mRealm.commitTransaction();
+    }
+
+    void exportDataBase() {
+        try {
+            final File file = new File(Environment.getExternalStorageDirectory().getPath().concat("/MoviesINeedToWatch.realm"));
+            if (file.exists()) {
+                file.delete();
+            }
+            mRealm.writeCopyTo(file);
+        } catch (IOException e) {
+            mRealm.close();
+            e.printStackTrace();
+        }
     }
 }

@@ -79,19 +79,27 @@
         app:layout_constraintTop_toTopOf="@+id/app_language"
         app:layout_constraintBottom_toBottomOf="@+id/app_language"
         app:layout_constraintEnd_toEndOf="parent"
-        android:entries="@array/language_list">
-    </Spinner>
+        android:entries="@array/language_list" />
 
-    <TextView
-        android:id="@+id/export_movies"
-        style="@style/TextRegular.SearchScreenText.18"
+    <Button
+        android:id="@+id/export_db_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:text="@string/export_button"
         android:layout_marginTop="@dimen/margin_30dp"
-        app:layout_constraintStart_toStartOf="@+id/save_via_wifi"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintTop_toBottomOf="@+id/app_language"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/export_my_movies_list"/>
+        app:layout_constraintStart_toStartOf="@+id/save_via_wifi" />
 
+    <Button
+        android:id="@+id/import_db_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/import_button"
+        android:layout_marginTop="@dimen/margin_30dp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@+id/app_language"
+        app:layout_constraintEnd_toEndOf="@+id/language_spinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

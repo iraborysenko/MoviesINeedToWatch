@@ -5,15 +5,18 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.R;
 import com.example.aurora.moviesineedtowatch.dagger.SharedPreferencesSettings;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.settingsscreen.DaggerSettingsScreenComponent;
+import com.example.aurora.moviesineedtowatch.dagger.blocks.settingsscreen.SettingsScreenModule;
+import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModule;
 import com.example.aurora.moviesineedtowatch.tmdb.eventbus.EventsForChangeTheme;
 import com.example.aurora.moviesineedtowatch.tools.Extensions;
 import com.example.aurora.moviesineedtowatch.tools.LocaleHelper;
@@ -36,24 +39,32 @@ import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_CURRE
  * Date: 11/05/19
  * Time: 14:05
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsScreen.View {
 
     @Inject
     SharedPreferencesSettings sharedPreferencesSettings;
 
+    @Inject
+    SettingsPresenter mPresenter;
+
     private boolean userIsInteracting;
 
     @BindView(R.id.save_via_wifi) TextView mSaveViaWifi;
-    @BindView(R.id.theme_switcher) Switch mDarkTheme;
+    @BindView(R.id.dark_theme) TextView mDarkTheme;
+    @BindView(R.id.theme_switcher) Switch mDarkThemeSwitcher;
     @BindView(R.id.app_language) TextView mAppLanguage;
-    @BindView(R.id.export_movies) TextView mExportMovies;
+    @BindView(R.id.export_db_button) Button mExportDbButton;
+    @BindView(R.id.import_db_button) Button mImportDbButton;
     @BindView(R.id.language_spinner) Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((App) getApplicationContext()).getApplicationComponent().inject(this);
+        DaggerSettingsScreenComponent.builder()
+                .settingsScreenModule(new SettingsScreenModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build().inject(this);
 
         if(sharedPreferencesSettings.contains(SHARED_CURRENT_THEME))
             Extensions.setAppTheme(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME), R.layout.activity_settings, this, this);
@@ -66,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.settings);
 
-        mDarkTheme.setChecked(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME));
+        mDarkThemeSwitcher.setChecked(sharedPreferencesSettings.getBooleanData(SHARED_CURRENT_THEME));
         switch (LocaleHelper.getLanguage(SettingsActivity.this)) {
             case "ru": mSpinner.setSelection(1);
                 break;
@@ -96,9 +107,14 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.export_db_button)
+    void exportButton() {
+        mPresenter.exportDb();
+    }
+
     @OnClick(R.id.theme_switcher)
     void saveChangedTheme() {
-        if (mDarkTheme.isChecked()) {
+        if (mDarkThemeSwitcher.isChecked()) {
             sharedPreferencesSettings.putBooleanData(SHARED_CURRENT_THEME, true);
             EventBus.getDefault().post(new EventsForChangeTheme());
             recreate();
@@ -108,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
             recreate();
         }
     }
+
 
     @Override
     public void onUserInteraction() {
@@ -121,6 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
         mSaveViaWifi.setText(resources.getString(R.string.save_via_wifi));
         mDarkTheme.setText(resources.getString(R.string.apply_dark_theme));
         mAppLanguage.setText(resources.getString(R.string.app_language));
-        mExportMovies.setText(resources.getString(R.string.export_my_movies_list));
+        mExportDbButton.setText(resources.getString(R.string.export_button));
+        mImportDbButton.setText(resources.getString(R.string.import_button));
     }
 }

@@ -7,7 +7,6 @@ import com.example.aurora.moviesineedtowatch.dagger.module.SharedPreferencesModu
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishListImpl;
 import com.example.aurora.moviesineedtowatch.gson.MovieDeserializer;
 import com.example.aurora.moviesineedtowatch.ui.main.MainActivity;
-import com.example.aurora.moviesineedtowatch.ui.settings.SettingsActivity;
 
 import javax.inject.Singleton;
 
@@ -27,6 +26,5 @@ public interface AppComponent {
     void inject(MainActivity mainActivity);
     void inject(ToWatchRecyclerAdapter toWatchRecyclerAdapter);
     void inject(WatchedRecyclerAdapter watchedRecyclerAdapter);
-    void inject(SettingsActivity settingsActivity);
 }
 

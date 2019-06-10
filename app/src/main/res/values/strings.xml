@@ -18,6 +18,8 @@
     <string name="my_rating">My Rating</string>
     <string name="type_comment">Type comment here…</string>
     <string name="move_to_watched_button">Move to Watched</string>
+    <string name="export_button">Export movies</string>
+    <string name="import_button">Import movies</string>
 
     <string-array name="language_list">
         <item>EN</item>

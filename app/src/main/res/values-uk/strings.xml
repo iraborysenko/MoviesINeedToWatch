@@ -19,5 +19,7 @@
     <string name="my_rating">Мій рейтинг</string>
     <string name="type_comment">Введіть свій коментар…</string>
     <string name="move_to_watched_button">Додати до Переглянутих</string>
+    <string name="export_button">Експортувати фільми</string>
+    <string name="import_button">Імпортувати фільми</string>
 
 </resources>
