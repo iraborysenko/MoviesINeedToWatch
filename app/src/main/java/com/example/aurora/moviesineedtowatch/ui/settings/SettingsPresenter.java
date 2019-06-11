@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.settings;
 
+import android.app.Activity;
+
 import com.example.aurora.moviesineedtowatch.dagger.wishlist.WishList;
 
 import javax.inject.Inject;
@@ -24,5 +26,10 @@ public class SettingsPresenter implements SettingsScreen.Presenter {
     @Override
     public void exportDb() {
         wishList.exportDataBase();
+    }
+
+    @Override
+    public void importDb(Activity activity) {
+        wishList.importDataBase(activity);
     }
 }

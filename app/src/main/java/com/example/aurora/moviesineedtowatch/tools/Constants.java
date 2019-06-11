@@ -1,7 +1,10 @@
 package com.example.aurora.moviesineedtowatch.tools;
 
+import android.os.Environment;
+
 import com.example.aurora.moviesineedtowatch.BuildConfig;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -31,6 +34,10 @@ public class Constants {
     public final static String REDUCED_LAYOUT = "reduced_layout";
     public final static String INCREASED_LAYOUT = "increased_layout";
     public final static String SHARED_CURRENT_THEME = "current_theme";
+
+    public final static File EXPORT_REALM_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+    public final static String EXPORT_REALM_FILE_NAME = "MoviesToWatch.realm";
+    public final static String IMPORT_REALM_FILE_NAME = "default.realm";
 
     public final static int TO_WATCH_TAB = 0;
     public final static int WATCHED_TAB = 1;

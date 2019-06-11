@@ -1,12 +1,15 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
-import android.os.Environment;
+import android.app.Activity;
 
 import com.example.aurora.moviesineedtowatch.adaprers.ToWatchRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.adaprers.WatchedRecyclerAdapter;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +18,10 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
+
+import static com.example.aurora.moviesineedtowatch.tools.Constants.EXPORT_REALM_FILE_NAME;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.EXPORT_REALM_PATH;
+import static com.example.aurora.moviesineedtowatch.tools.Constants.IMPORT_REALM_FILE_NAME;
 
 /**
  * Created by Android Studio.
@@ -103,14 +110,44 @@ public class RealmImpl {
     }
 
     void exportDataBase() {
+        File exportRealmFile;
         try {
-            final File file = new File(Environment.getExternalStorageDirectory().getPath().concat("/MoviesINeedToWatch.realm"));
-            if (file.exists()) {
-                file.delete();
-            }
-            mRealm.writeCopyTo(file);
+            EXPORT_REALM_PATH.mkdirs();
+            exportRealmFile = new File(EXPORT_REALM_PATH, EXPORT_REALM_FILE_NAME);
+            exportRealmFile.delete();
+            mRealm.writeCopyTo(exportRealmFile);
+
         } catch (IOException e) {
-            mRealm.close();
+            e.printStackTrace();
+        }
+        close();
+    }
+
+    void importDataBase(Activity activity) {
+        String restoreFilePath = EXPORT_REALM_PATH + "/" + EXPORT_REALM_FILE_NAME;
+        copyBundledRealmFile(activity, restoreFilePath, IMPORT_REALM_FILE_NAME);
+    }
+
+    private void copyBundledRealmFile(Activity activity, String oldFilePath, String outFileName) {
+        try {
+            File file = new File(activity.getApplicationContext().getFilesDir(), outFileName);
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            FileInputStream inputStream = new FileInputStream(new File(oldFilePath));
+
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }

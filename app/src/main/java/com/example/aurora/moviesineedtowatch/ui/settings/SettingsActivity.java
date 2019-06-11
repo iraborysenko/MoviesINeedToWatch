@@ -112,6 +112,11 @@ public class SettingsActivity extends AppCompatActivity implements SettingsScree
         mPresenter.exportDb();
     }
 
+    @OnClick(R.id.import_db_button)
+    void importButton() {
+        mPresenter.importDb(this);
+    }
+
     @OnClick(R.id.theme_switcher)
     void saveChangedTheme() {
         if (mDarkThemeSwitcher.isChecked()) {

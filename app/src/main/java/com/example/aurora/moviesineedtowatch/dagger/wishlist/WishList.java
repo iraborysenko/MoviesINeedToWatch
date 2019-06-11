@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
+import android.app.Activity;
+
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
 import java.util.List;
@@ -27,4 +29,6 @@ public interface WishList {
     void saveUserData(String movieId, String commentStr, String myRatingStr);
 
     void exportDataBase();
+
+    void importDataBase(Activity activity);
 }

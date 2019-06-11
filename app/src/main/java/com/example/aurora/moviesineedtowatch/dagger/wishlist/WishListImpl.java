@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.dagger.wishlist;
 
+import android.app.Activity;
+
 import com.example.aurora.moviesineedtowatch.App;
 import com.example.aurora.moviesineedtowatch.tmdb.Movie;
 
@@ -62,5 +64,10 @@ public class WishListImpl implements WishList {
     @Override
     public void exportDataBase() {
         realmImpl.exportDataBase();
+    }
+
+    @Override
+    public void importDataBase(Activity activity) {
+        realmImpl.importDataBase(activity);
     }
 }

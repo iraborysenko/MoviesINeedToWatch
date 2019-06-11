@@ -1,5 +1,7 @@
 package com.example.aurora.moviesineedtowatch.ui.settings;
 
+import android.app.Activity;
+
 /**
  * Created by Android Studio.
  * User: Iryna
@@ -16,6 +18,7 @@ public interface SettingsScreen {
 
         void exportDb();
 
+        void importDb(Activity activity);
     }
 
 }
