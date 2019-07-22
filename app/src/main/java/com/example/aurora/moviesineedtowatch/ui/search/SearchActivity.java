@@ -6,6 +6,7 @@ import static com.example.aurora.moviesineedtowatch.tools.Constants.SHARED_LANG_
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -100,7 +101,7 @@ public class SearchActivity extends AppCompatActivity implements SearchScreen.Vi
                 .getActionView();
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(550);
+        searchView.setMaxWidth(Resources.getSystem().getDisplayMetrics().widthPixels - mSwitch.getWidth() - 40);
         searchView.setQueryHint("Enter Movie title...");
 
         searchPresenter.getResultsBasedOnQuery(searchView);
