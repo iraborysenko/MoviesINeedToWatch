@@ -193,8 +193,8 @@ public class ManageActivity extends AppCompatActivity implements ManageScreen.Vi
         //get poster
         RequestOptions options = new RequestOptions()
                 .error(R.drawable.noposter)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE);
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(this)
                 .asBitmap()
                 .load(Extensions.stringToBitmap(curMovie.getPosterBitmap()))

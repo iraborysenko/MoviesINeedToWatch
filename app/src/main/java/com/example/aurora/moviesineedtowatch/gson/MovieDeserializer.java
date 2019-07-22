@@ -134,8 +134,8 @@ public class MovieDeserializer implements JsonDeserializer<Movie> {
                 posterPath = posterPathElement.getAsString();
                 String urlDisplay = IMAGE_PATH + IMAGE_SIZE[3] + posterPath;
                 RequestOptions options = new RequestOptions()
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE);
+                        .skipMemoryCache(false)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL);
 
                 img = Glide
                         .with(mContext)

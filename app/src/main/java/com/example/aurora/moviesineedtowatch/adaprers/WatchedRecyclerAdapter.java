@@ -145,9 +145,9 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         // get poster
         RequestOptions options = new RequestOptions()
                 .error(R.drawable.noposter)
-                .skipMemoryCache(true)
+                .skipMemoryCache(false)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE);
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(mContext)
                 .asBitmap()
                 .load(Extensions.stringToBitmap(movie.getPosterBitmap()))
@@ -187,9 +187,9 @@ public class WatchedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         // get poster
         RequestOptions options = new RequestOptions()
                 .error(R.drawable.noposter)
-                .skipMemoryCache(true)
+                .skipMemoryCache(false)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE);
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(mContext)
                 .asBitmap()
                 .load(Extensions.stringToBitmap(movie.getPosterBitmap()))
