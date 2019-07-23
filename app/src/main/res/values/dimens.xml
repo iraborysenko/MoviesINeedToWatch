@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--padding-->
+    <dimen name="padding_48dp">48dp</dimen>
     <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
     <!--margin    -->
     <dimen name="margin_30dp">30dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
@@ -11,4 +13,6 @@
     <!--min height-->
     <dimen name="min_height_50dp">50dp</dimen>
     <dimen name="min_height_40dp">40dp</dimen>
+    <!--text size-->
+    <dimen name="text_size_16sp">16sp</dimen>
 </resources>

@@ -10,6 +10,7 @@
     <string name="export_my_movies_list">Експортувати перелік фільмів</string>
     <string name="to_watch_tab">На перегляд</string>
     <string name="watched_tab">Переглянуті</string>
+    <string name="find_movie">Шукати фільм…</string>
 
     <string name="app_name">MoviesToWatch</string>
     <string name="ru">RU</string>

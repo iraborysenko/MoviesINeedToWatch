@@ -20,6 +20,7 @@
     <string name="move_to_watched_button">Move to Watched</string>
     <string name="export_button">Export movies</string>
     <string name="import_button">Import movies</string>
+    <string name="find_movie">Look for a movie…</string>
 
     <string-array name="language_list">
         <item>EN</item>
