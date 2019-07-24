@@ -30,5 +30,6 @@ public interface ToWatchFragmentScreen {
 
         void updateList(RecyclerView mRecyclerView);
 
+        void getFilteredMovies(String filter);
     }
 }

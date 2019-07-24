@@ -62,6 +62,11 @@ public class WishListImpl implements WishList {
     }
 
     @Override
+    public List<Movie> filterMovies(String filter, boolean isWatchedFlag) {
+        return realmImpl.filterMovies(filter, isWatchedFlag);
+    }
+
+    @Override
     public void exportDataBase() {
         realmImpl.exportDataBase();
     }

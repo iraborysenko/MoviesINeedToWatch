@@ -28,6 +28,8 @@ public interface WishList {
 
     void saveUserData(String movieId, String commentStr, String myRatingStr);
 
+    List<Movie> filterMovies(String filter, boolean isWatchedFlag);
+
     void exportDataBase();
 
     void importDataBase(Activity activity);

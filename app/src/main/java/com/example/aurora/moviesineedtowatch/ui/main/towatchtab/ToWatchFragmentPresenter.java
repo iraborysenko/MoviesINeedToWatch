@@ -53,6 +53,12 @@ public class ToWatchFragmentPresenter implements ToWatchFragmentScreen.Presenter
         }
     }
 
+    @Override
+    public void getFilteredMovies(String filter) {
+        List<Movie> filteredMovies = wishList.filterMovies(filter, false);
+        realmImpl.addRealmDataChangeListener(filteredMovies, recyclerViewListener(filteredMovies));
+    }
+
     private List<Movie> getWishList() {
         return wishList.findAllToWatch();
     }

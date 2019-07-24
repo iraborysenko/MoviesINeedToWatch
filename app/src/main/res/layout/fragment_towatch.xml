@@ -38,7 +38,7 @@
             android:layout_margin="@dimen/margin_5dp"
             android:background="@drawable/bg_round_corners"
             android:hint="@string/find_movie"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingStart="@dimen/padding_48dp"
             android:paddingEnd="@dimen/padding_10dp"

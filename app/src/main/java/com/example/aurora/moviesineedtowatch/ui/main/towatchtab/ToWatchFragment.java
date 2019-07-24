@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnEditorAction;
 
 import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
@@ -65,6 +67,15 @@ public class ToWatchFragment extends Fragment implements ToWatchFragmentScreen.V
                 .toWatchFragmentScreenModule(new ToWatchFragmentScreenModule(this))
                 .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build().inject(this);
+    }
+
+    @OnEditorAction(R.id.find_movie_edit_text)
+    boolean onEditorAction(int actionId) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            String filter = mFindText.getText().toString();
+            mPresenter.getFilteredMovies(filter);
+        }
+        return true;
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -107,6 +108,13 @@ public class RealmImpl {
             movie.setMyRating(myRatingStr);
         }
         mRealm.commitTransaction();
+    }
+
+    List<Movie> filterMovies(String filter, boolean isWatchedFlag) {
+        return mRealm.where(Movie.class)
+                .equalTo("isWatched", isWatchedFlag)
+                .contains("title", filter, Case.INSENSITIVE)
+                .findAll();
     }
 
     void exportDataBase() {
