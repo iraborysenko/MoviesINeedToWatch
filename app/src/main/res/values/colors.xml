@@ -47,6 +47,7 @@
     <color name="colorDarkGrey">#545455</color>
     <color name="colorLightGrey">#AFAFB6</color>
     <color name="colorImdb">#FFE135</color>
+    <color name="colorIcons">#F5FFFA</color>
 
     <!--imdb rating colors-->
     <color name="VeryBad">#992600</color>
